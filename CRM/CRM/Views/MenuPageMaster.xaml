@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CRM.Views.MenuPageMaster"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Master">
+    <StackLayout Padding="0" Spacing="0">
+        <ListView
+            x:Name="MenuItemsListView"
+            HasUnevenRows="true"
+            ItemsSource="{Binding MenuItems}"
+            SeparatorVisibility="Default">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout
+                            Padding="5,0,0,0"
+                            Orientation="Horizontal"
+                            Spacing="0">
+                            <Image
+                                HeightRequest="48"
+                                Source="{Binding ImageSource}"
+                                VerticalOptions="Center"
+                                WidthRequest="48" />
+                            <StackLayout Padding="5,0,0,0" Spacing="0,0,0,0">
+                                <Label
+                                    Margin="4,5,0,0"
+                                    FontSize="Large"
+                                    Text="{Binding Title}" />
+                                <Label
+                                    Margin="4,0,0,5"
+                                    FontSize="Small"
+                                    Text="{Binding Description}" />
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
