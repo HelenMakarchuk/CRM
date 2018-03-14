@@ -4,11 +4,15 @@
     [Number] NVARCHAR(10) NOT NULL, 
     [CreatedOn] DATETIME NOT NULL, 
     [Status] VARCHAR(20) NOT NULL, 
-    [Owner] VARCHAR(50) NOT NULL, 
-    [DeliveryDriver] VARCHAR(50) NULL, 
+    [OwnerId] INT NOT NULL, 
+    [DeliveryDriverId] INT NULL, 
     [DeliveryAddress] TEXT NULL, 
-    [Receiver] VARCHAR(50) NULL, 
+    [ReceiverId] INT NULL, 
     [Comment] TEXT NULL, 
     [DeliveryDate] DATETIME NULL, 
-    [PaymentStatus] VARCHAR(6) NULL
+    [PaymentId] INT NULL, 
+    CONSTRAINT [FK_Orders_Owners] FOREIGN KEY ([OwnerId]) REFERENCES [Users]([Id]), 
+    CONSTRAINT [FK_Orders_DeliveryDrivers] FOREIGN KEY ([DeliveryDriverId]) REFERENCES [Users]([Id]), 
+    CONSTRAINT [FK_Orders_Customers] FOREIGN KEY ([ReceiverId]) REFERENCES [Customers]([Id]), 
+    CONSTRAINT [FK_Orders_Payments] FOREIGN KEY ([PaymentId]) REFERENCES [Payments]([Id])
 )
