@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e0a3791d16324ec680feefd5985aa106" Name="Diagram1">
+        <EntityTypeShape EntityType="CRM_DBModel.Customers" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.Departments" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.Orders" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.Payments" Width="1.5" PointX="3.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.Users" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="CRM_DBModel.FK_Orders_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Departments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Users_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Orders_DeliveryDrivers" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Orders_Owners" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Orders_Payments" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
