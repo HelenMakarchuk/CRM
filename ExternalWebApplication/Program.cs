@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
-namespace WebAPI
+namespace ExternalWebApplication
 {
     public class Program
     {
@@ -14,10 +20,6 @@ namespace WebAPI
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((context, configBuilder) =>
-                {
-                    configBuilder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json");
-                })
                 .Build();
     }
 }

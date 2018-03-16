@@ -56,13 +56,6 @@ namespace CRM.Views
                     },
                     new MenuPageMenuItem {
                         Id = 3,
-                        Title = "Addresses",
-                        Description = "Delivery addresses",
-                        ImageSource = "map_location.png",
-                        TargetType = typeof(Addresses)
-                    },
-                    new MenuPageMenuItem {
-                        Id = 5,
                         Title = "Users",
                         Description = "Employees",
                         ImageSource = "employee.png",
