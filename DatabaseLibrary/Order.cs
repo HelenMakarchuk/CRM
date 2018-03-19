@@ -7,12 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DatabaseLibrary
+namespace ORM
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Orders
+    public partial class Order
     {
         public int Id { get; set; }
         public string Number { get; set; }
@@ -24,11 +24,10 @@ namespace DatabaseLibrary
         public Nullable<int> ReceiverId { get; set; }
         public string Comment { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
-        public Nullable<int> PaymentId { get; set; }
     
-        public virtual Customers Customers { get; set; }
-        public virtual Users DeliveryDrivers { get; set; }
-        public virtual Users Owners { get; set; }
-        public virtual Payments Payments { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual User DeliveryDriver { get; set; }
+        public virtual User Owner { get; set; }
+        public virtual Payment Payment { get; set; }
     }
 }

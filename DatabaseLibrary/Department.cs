@@ -7,25 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DatabaseLibrary
+namespace ORM
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Payments
+    public partial class Department
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Payments()
+        public Department()
         {
-            this.Orders = new HashSet<Orders>();
+            this.Employees = new HashSet<User>();
         }
     
         public int Id { get; set; }
-        public string Status { get; set; }
-        public Nullable<decimal> Sum { get; set; }
-        public string Method { get; set; }
+        public string Name { get; set; }
+        public int HeadId { get; set; }
     
+        public virtual User Head { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<User> Employees { get; set; }
     }
 }

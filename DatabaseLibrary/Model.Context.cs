@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DatabaseLibrary
+namespace ORM
 {
     using System;
     using System.Data.Entity;
@@ -25,10 +25,10 @@ namespace DatabaseLibrary
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Customers> Customers { get; set; }
-        public virtual DbSet<Departments> Departments { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<Payments> Payments { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Payment> Payment { get; set; }
+        public virtual DbSet<User> User { get; set; }
     }
 }

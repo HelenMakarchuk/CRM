@@ -12,19 +12,21 @@ using CRM.Models;
 namespace CRM.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Users : ContentPage
+    public partial class Payments : ContentPage
     {
-        public Users()
+        public ObservableCollection<string> Items { get; set; }
+
+        public Payments()
         {
             InitializeComponent();
-            SetUsersListView(); //Xamarin doesn't support generic classes
+            SetPaymentsListView(); //Xamarin doesn't support generic classes
         }
 
-        protected async void SetUsersListView()
+        protected async void SetPaymentsListView()
         {
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}"),
+                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}"),
                 Method = HttpMethod.Get,
                 Headers = { { "Accept", "application/json" } }
             };
@@ -39,12 +41,12 @@ namespace CRM.Views
 
                 try
                 {
-                    List<User> users = JsonConvert.DeserializeObject<List<User>>(json);
-                    UsersListView.ItemsSource = users.Select(order => order.FullName).ToList();
+                    List<Payment> payments = JsonConvert.DeserializeObject<List<Payment>>(json);
+                    PaymentsListView.ItemsSource = payments.Select(payment => payment.Status).ToList();
                 }
                 catch (Exception ex)
                 {
-                    UsersListView.ItemsSource = new List<string>();
+                    PaymentsListView.ItemsSource = new List<string>();
                 }
             }
         }

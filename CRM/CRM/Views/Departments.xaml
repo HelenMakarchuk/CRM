@@ -1,33 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CRM.Views.Departments">
-  <ListView x:Name="MyListView"
-            ItemsSource="{Binding Items}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
-            
-    <!--Built in Cells-->
-    <ListView.ItemTemplate>
-        <DataTemplate>
-            <TextCell Text="{Binding .}" />
-        </DataTemplate>
-    </ListView.ItemTemplate>
-    
-    <!--Custom View Cells-->
-    <!--
+<ContentPage
+    x:Class="CRM.Views.Departments"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ListView
+        x:Name="DepartmentsListView"
+        CachingStrategy="RecycleElement"
+        ItemTapped="Handle_ItemTapped"
+        ItemsSource="{Binding Items}">
+
+        <!--  Built in Cells  -->
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding .}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+        <!--  Custom View Cells  -->
+        <!--
     <ListView.ItemTemplate>
       <DataTemplate>
         <ViewCell>
           <StackLayout>
-            <Label Text="{Binding Text}" 
+            <Label Text="{Binding Text}"
                    Style="{DynamicResource ListItemTextStyle}" />
-            <Label Text="{Binding Detail}" 
+            <Label Text="{Binding Detail}"
                    Style="{DynamicResource ListItemDetailTextStyle}"/>
           </StackLayout>
         </ViewCell>
       </DataTemplate>
     </ListView.ItemTemplate>
-    -->
-  </ListView>
+        -->
+    </ListView>
 </ContentPage>

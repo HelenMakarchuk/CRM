@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Users]
+﻿CREATE TABLE [dbo].[User]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [FullName] VARCHAR(50) NULL, 
@@ -8,5 +8,5 @@
     [Phone] NVARCHAR(20) NULL, 
     [BirthDate] DATE NULL, 
     [Gender] CHAR(1) NULL, 
-    CONSTRAINT [FK_Users_Departments] FOREIGN KEY ([DepartmentId]) REFERENCES [Departments]([Id])
+    CONSTRAINT [FK_Users_Departments] FOREIGN KEY ([DepartmentId]) REFERENCES [Department]([Id])
 )

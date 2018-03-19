@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace CRM.Models
+namespace UnitTests
 {
-    public partial class Order
+    public class Order
     {
-        public static string PluralDbTableName { get { return "Orders"; } }
-
         public int Id { get; set; }
         public string Number { get; set; }
         public System.DateTime CreatedOn { get; set; }
@@ -16,10 +14,11 @@ namespace CRM.Models
         public Nullable<int> ReceiverId { get; set; }
         public string Comment { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public Nullable<int> PaymentId { get; set; }
 
-        public virtual Customer Customer { get; set; }
-        public virtual User DeliveryDriver { get; set; }
-        public virtual User Owner { get; set; }
-        public virtual Payment Payment { get; set; }
+        public virtual Customer Customers { get; set; }
+        public virtual User DeliveryDrivers { get; set; }
+        public virtual User Owners { get; set; }
+        public virtual Payment Payments { get; set; }
     }
 }

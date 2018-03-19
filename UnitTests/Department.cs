@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CRM.Models
+namespace UnitTests
 {
     public class Department
     {
@@ -10,14 +10,12 @@ namespace CRM.Models
             this.Employees = new HashSet<User>();
         }
 
-        public static string PluralDbTableName { get { return "Departments"; } }
-
         public int Id { get; set; }
         public string Name { get; set; }
-        public int HeadId { get; set; }
+        public Nullable<int> HeadId { get; set; }
 
-        public virtual User Head { get; set; }
-
+        public virtual User Heads { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Employees { get; set; }
     }
 }

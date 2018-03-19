@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using DatabaseLibrary;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using WebAPI.Models;
 
 namespace WebAPI
 {
@@ -16,7 +17,6 @@ namespace WebAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            log.Write($"Logging:LogLevel:Microsoft: {configuration["Logging:LogLevel:Microsoft"]}");
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +27,21 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<CustomersContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("CustomersContext")));
+
+            services.AddDbContext<DepartmentsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DepartmentsContext")));
+
+            services.AddDbContext<OrdersContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("OrdersContext")));
+
+            services.AddDbContext<PaymentsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("PaymentsContext")));
+
+            services.AddDbContext<UsersContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("UsersContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DatabaseLibrary
+namespace ORM
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public User()
         {
-            this.HeadedDepartments = new HashSet<Departments>();
-            this.OrdersForDelivery = new HashSet<Orders>();
-            this.CreatedOrders = new HashSet<Orders>();
+            this.HeadedDepartments = new HashSet<Department>();
+            this.OrdersForDelivery = new HashSet<Order>();
+            this.CreatedOrders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -32,11 +32,11 @@ namespace DatabaseLibrary
         public string Gender { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Departments> HeadedDepartments { get; set; }
-        public virtual Departments WorkplaceDepartments { get; set; }
+        public virtual ICollection<Department> HeadedDepartments { get; set; }
+        public virtual Department WorkplaceDepartment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> OrdersForDelivery { get; set; }
+        public virtual ICollection<Order> OrdersForDelivery { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> CreatedOrders { get; set; }
+        public virtual ICollection<Order> CreatedOrders { get; set; }
     }
 }
