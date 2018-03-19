@@ -70,14 +70,14 @@ namespace CRM.Views
                         Id = 4,
                         Title = "Customers",
                         Description = "Customers",
-                        ImageSource = "employee.png",
+                        ImageSource = "customer.png",
                         TargetType = typeof(Customers)
                     },
                      new MenuPageMenuItem {
                         Id = 5,
                         Title = "Payments",
                         Description = "Payments",
-                        ImageSource = "employee.png",
+                        ImageSource = "payment.png",
                         TargetType = typeof(Payments)
                     },
                 });
