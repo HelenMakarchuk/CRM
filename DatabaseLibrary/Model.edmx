@@ -58,6 +58,8 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="20" />
           <Property Name="BirthDate" Type="date" />
           <Property Name="Gender" Type="char" MaxLength="1" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Departments_Users">
           <End Role="User" Type="Self.User" Multiplicity="1" />
@@ -171,11 +173,15 @@
           <EntitySet Name="Department" EntityType="CRM_DBModel.Department" />
           <EntitySet Name="Order" EntityType="CRM_DBModel.Order" />
           <EntitySet Name="Payment" EntityType="CRM_DBModel.Payment" />
-          <EntitySet Name="User" EntityType="CRM_DBModel.User" />
           <AssociationSet Name="FK_Order_Customer" Association="CRM_DBModel.FK_Order_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
+          <AssociationSet Name="FK_Payments_Orders" Association="CRM_DBModel.FK_Payments_Orders">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <EntitySet Name="User" EntityType="CRM_DBModel.User" />
           <AssociationSet Name="FK_Departments_Users" Association="CRM_DBModel.FK_Departments_Users">
             <End Role="User" EntitySet="User" />
             <End Role="Department" EntitySet="Department" />
@@ -191,10 +197,6 @@
           <AssociationSet Name="FK_Order_Owner" Association="CRM_DBModel.FK_Order_Owner">
             <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Payments_Orders" Association="CRM_DBModel.FK_Payments_Orders">
-            <End Role="Order" EntitySet="Order" />
-            <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Customer">
@@ -216,7 +218,7 @@
           <Property Name="HeadId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Head" Relationship="CRM_DBModel.FK_Departments_Users" FromRole="Department" ToRole="User" />
           <NavigationProperty Name="Employees" Relationship="CRM_DBModel.FK_Users_Departments" FromRole="Department" ToRole="User" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Id" />
@@ -232,9 +234,9 @@
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Customer" Relationship="CRM_DBModel.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="Payment" Relationship="CRM_DBModel.FK_Payments_Orders" FromRole="Order" ToRole="Payment" />
           <NavigationProperty Name="DeliveryDriver" Relationship="CRM_DBModel.FK_Order_DeliveryDriver" FromRole="Order" ToRole="User" />
           <NavigationProperty Name="Owner" Relationship="CRM_DBModel.FK_Order_Owner" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="Payment" Relationship="CRM_DBModel.FK_Payments_Orders" FromRole="Order" ToRole="Payment" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -245,23 +247,6 @@
           <Property Name="Sum" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Method" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Order" Relationship="CRM_DBModel.FK_Payments_Orders" FromRole="Payment" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="Email" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="BirthDate" Type="DateTime" Precision="0" />
-          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="HeadedDepartments" Relationship="CRM_DBModel.FK_Departments_Users" FromRole="User" ToRole="Department" />
-          <NavigationProperty Name="WorkplaceDepartment" Relationship="CRM_DBModel.FK_Users_Departments" FromRole="User" ToRole="Department" />
-          <NavigationProperty Name="OrdersForDelivery" Relationship="CRM_DBModel.FK_Order_DeliveryDriver" FromRole="User" ToRole="Order" />
-          <NavigationProperty Name="CreatedOrders" Relationship="CRM_DBModel.FK_Order_Owner" FromRole="User" ToRole="Order" />
         </EntityType>
         <Association Name="FK_Order_Customer">
           <End Type="CRM_DBModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -275,6 +260,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Payments_Orders">
+          <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="CRM_DBModel.Payment" Role="Payment" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HeadedDepartments" Relationship="CRM_DBModel.FK_Departments_Users" FromRole="User" ToRole="Department" />
+          <NavigationProperty Name="WorkplaceDepartment" Relationship="CRM_DBModel.FK_Users_Departments" FromRole="User" ToRole="Department" />
+          <NavigationProperty Name="OrdersForDelivery" Relationship="CRM_DBModel.FK_Order_DeliveryDriver" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="CreatedOrders" Relationship="CRM_DBModel.FK_Order_Owner" FromRole="User" ToRole="Order" />
+        </EntityType>
         <Association Name="FK_Departments_Users">
           <End Type="CRM_DBModel.User" Role="User" Multiplicity="1" />
           <End Type="CRM_DBModel.Department" Role="Department" Multiplicity="*" />
@@ -320,18 +336,6 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="OwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Payments_Orders">
-          <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="1" />
-          <End Type="CRM_DBModel.Payment" Role="Payment" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Payment">
-              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -389,6 +393,8 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="CRM_DBModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

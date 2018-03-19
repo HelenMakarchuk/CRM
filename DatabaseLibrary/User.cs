@@ -30,6 +30,8 @@ namespace ORM
         public string Phone { get; set; }
         public Nullable<System.DateTime> BirthDate { get; set; }
         public string Gender { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Department> HeadedDepartments { get; set; }

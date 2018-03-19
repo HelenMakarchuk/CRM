@@ -22,6 +22,8 @@ namespace CRM.Models
         public string Phone { get; set; }
         public Nullable<System.DateTime> BirthDate { get; set; }
         public string Gender { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
 
         public virtual ICollection<Department> HeadedDepartments { get; set; }
         public virtual Department WorkplaceDepartment { get; set; }
