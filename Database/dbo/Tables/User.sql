@@ -8,5 +8,7 @@
     [Phone] NVARCHAR(20) NULL, 
     [BirthDate] DATE NULL, 
     [Gender] CHAR(1) NULL, 
+    [Login] NVARCHAR(50) NULL, 
+    [Password] NVARCHAR(50) NULL, 
     CONSTRAINT [FK_Users_Departments] FOREIGN KEY ([DepartmentId]) REFERENCES [Department]([Id])
 )
