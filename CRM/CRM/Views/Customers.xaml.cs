@@ -17,7 +17,17 @@ namespace CRM.Views
         public Customers()
         {
             InitializeComponent();
-            SetCustomersListView(); //Xamarin doesn't support generic classes
+
+            if (App.IsUserLoggedIn)
+            {
+                messageLabel.IsVisible = false;
+                SetCustomersListView(); //Xamarin doesn't support generic classes
+            }
+            else
+            {
+                messageLabel.IsVisible = true;
+                CustomersListView.ItemsSource = new List<string>();
+            }
         }
 
         protected async void SetCustomersListView()
@@ -41,7 +51,7 @@ namespace CRM.Views
                     List<Customer> customers = JsonConvert.DeserializeObject<List<Customer>>(json);
                     CustomersListView.ItemsSource = customers.Select(customer => customer.Name).ToList();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     CustomersListView.ItemsSource = new List<string>();
                 }

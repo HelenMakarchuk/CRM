@@ -4,36 +4,28 @@ using Xamarin.Forms;
 namespace CRM
 {
     public partial class App : Application
-	{
-    public App()
-    {
-        InitializeComponent();
-
-        if (!IsUserLoggedIn)
+	  {
+        public App()
         {
-            MainPage = new NavigationPage(new LoginPage());
+            InitializeComponent();
+            MainPage = new MenuPage();
         }
-        else
+
+        public static bool IsUserLoggedIn = false;
+
+        protected override void OnStart ()
         {
-            MainPage = new NavigationPage(new MenuPage());
+            // Handle when your app starts
         }
-    }
 
-    public static bool IsUserLoggedIn = false;
+        protected override void OnSleep ()
+        {
+            // Handle when your app sleeps
+        }
 
-    protected override void OnStart ()
-    {
-        // Handle when your app starts
-    }
-
-    protected override void OnSleep ()
-    {
-        // Handle when your app sleeps
-    }
-
-    protected override void OnResume ()
-    {
-        // Handle when your app resumes
-    }
-	}
+        protected override void OnResume ()
+        {
+            // Handle when your app resumes
+        }
+	  }
 }

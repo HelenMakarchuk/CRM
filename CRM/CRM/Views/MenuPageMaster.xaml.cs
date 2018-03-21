@@ -40,46 +40,53 @@ namespace CRM.Views
                 {
                     new MenuPageMenuItem {
                         Id = 0,
+                        Title = "Sign in",
+                        Description = "Sign in to CRM",
+                        ImageSource = "login_door.png",
+                        TargetType = typeof(LoginPage)
+                    },
+                    new MenuPageMenuItem {
+                        Id = 1,
                         Title = "Website",
                         Description = "Company website",
                         ImageSource = "picture.png",
                         TargetType = typeof(Website)
                     },
                     new MenuPageMenuItem {
-                        Id = 1,
+                        Id = 2,
                         Title = "Departments",
                         Description = "Company departments",
                         ImageSource = "user_group.png",
                         TargetType = typeof(Departments)
                     },
                     new MenuPageMenuItem {
-                        Id = 2,
+                        Id = 3,
                         Title = "Orders",
                         Description = "Customer orders",
                         ImageSource = "sales_order.png",
                         TargetType = typeof(Orders)
                     },
                     new MenuPageMenuItem {
-                        Id = 3,
+                        Id = 4,
                         Title = "Users",
                         Description = "Employees",
                         ImageSource = "employee.png",
                         TargetType = typeof(Users)
                     },
                     new MenuPageMenuItem {
-                        Id = 4,
+                        Id = 5,
                         Title = "Customers",
                         Description = "Customers",
                         ImageSource = "customer.png",
                         TargetType = typeof(Customers)
                     },
                      new MenuPageMenuItem {
-                        Id = 5,
+                        Id = 6,
                         Title = "Payments",
                         Description = "Payments",
                         ImageSource = "payment.png",
                         TargetType = typeof(Payments)
-                    },
+                    }
                 });
             }
 

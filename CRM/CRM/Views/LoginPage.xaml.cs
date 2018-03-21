@@ -19,11 +19,19 @@ namespace CRM.Views
 		    public LoginPage ()
 		    {
 			      InitializeComponent ();
-        }
 
-        async void OnSignUpButtonClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new MenuPage());
+            if (App.IsUserLoggedIn)
+            {
+                this.Title = "Dashboard";
+                signInStackLayout.IsVisible = false;
+                dashboardStackLayout.IsVisible = true;
+            }
+            else
+            {
+                this.Title = "Sign in";
+                dashboardStackLayout.IsVisible = false;
+                signInStackLayout.IsVisible = true;
+            }
         }
 
         public async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -49,14 +57,21 @@ namespace CRM.Views
 
                     if (Int32.TryParse(Id, out var i))
                     {
+                        App.IsUserLoggedIn = true;
                         messageLabel.Text = "";
                         messageStackLayout.IsVisible = false;
                         App.IsUserLoggedIn = true;
-                        Navigation.InsertPageBefore(new MenuPage(), this);
-                        await Navigation.PopAsync();
+
+                        this.Title = "Dashboard";
+                        signInStackLayout.IsVisible = false;
+                        dashboardStackLayout.IsVisible = true;
+
+                        //Navigation.InsertPageBefore(new MenuPage(), this);
+                        //await Navigation.PopAsync();
                     }
                     else
                     {
+                        App.IsUserLoggedIn = false;
                         messageLabel.Text = "Login failed";
                         messageStackLayout.IsVisible = true;
                         passwordEntry.Text = string.Empty;
@@ -64,6 +79,7 @@ namespace CRM.Views
                 }
                 catch (Exception ex)
                 {
+                    App.IsUserLoggedIn = false;
                     messageLabel.Text = $"Login failed. {ex.Message}";
                     messageStackLayout.IsVisible = true;
                     passwordEntry.Text = string.Empty;

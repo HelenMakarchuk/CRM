@@ -17,7 +17,17 @@ namespace CRM.Views
         public Departments()
         {
             InitializeComponent();
-            SetDepartmentsListView(); //Xamarin doesn't support generic classes
+
+            if (App.IsUserLoggedIn)
+            {
+                messageLabel.IsVisible = false;
+                SetDepartmentsListView(); //Xamarin doesn't support generic classes
+            }
+            else
+            {
+                messageLabel.IsVisible = true;
+                DepartmentsListView.ItemsSource = new List<string>();
+            }
         }
 
         protected async void SetDepartmentsListView()
@@ -42,7 +52,7 @@ namespace CRM.Views
                     List<Department> departments = JsonConvert.DeserializeObject<List<Department>>(json);
                     DepartmentsListView.ItemsSource = departments.Select(department => department.Name).ToList();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     DepartmentsListView.ItemsSource = new List<string>();
                 }

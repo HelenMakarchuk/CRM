@@ -24,7 +24,7 @@ namespace UnitTests
             List<Customer> customers = httpClientBase.GetListItems<Customer>().Result;
             var customersNames = customers.Select(customer => customer.Name).ToList();
 
-            int i = 0;
+           //int i = 0;
 
 
             #region UnitTest

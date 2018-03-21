@@ -10,7 +10,7 @@
     <MasterDetailPage.Detail>
         <NavigationPage>
             <x:Arguments>
-                <pages:MenuPageDetail />
+                <pages:LoginPage />
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Detail>

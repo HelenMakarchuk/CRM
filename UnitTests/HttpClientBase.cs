@@ -57,7 +57,7 @@ namespace UnitTests
 
             var json = JsonConvert.DeserializeObject<List<String>>(contentString);
 
-            int y = 1;
+            //int y = 1;
 
             return json;
 

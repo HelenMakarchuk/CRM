@@ -19,7 +19,17 @@ namespace CRM.Views
         public Payments()
         {
             InitializeComponent();
-            SetPaymentsListView(); //Xamarin doesn't support generic classes
+
+            if (App.IsUserLoggedIn)
+            {
+                messageLabel.IsVisible = false;
+                SetPaymentsListView(); //Xamarin doesn't support generic classes
+            }
+            else
+            {
+                messageLabel.IsVisible = true;
+                PaymentsListView.ItemsSource = new List<string>();
+            }
         }
 
         protected async void SetPaymentsListView()
@@ -44,7 +54,7 @@ namespace CRM.Views
                     List<Payment> payments = JsonConvert.DeserializeObject<List<Payment>>(json);
                     PaymentsListView.ItemsSource = payments.Select(payment => payment.Status).ToList();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     PaymentsListView.ItemsSource = new List<string>();
                 }
