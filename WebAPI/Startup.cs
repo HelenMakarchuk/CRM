@@ -29,19 +29,19 @@ namespace WebAPI
             services.AddMvc();
 
             services.AddDbContext<CustomersContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("CustomersContext")));
+                    options.UseSqlServer(Constants.DBConnectionString));
 
             services.AddDbContext<DepartmentsContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DepartmentsContext")));
+                    options.UseSqlServer(Constants.DBConnectionString));
 
             services.AddDbContext<OrdersContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OrdersContext")));
+                    options.UseSqlServer(Constants.DBConnectionString));
 
             services.AddDbContext<PaymentsContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("PaymentsContext")));
+                    options.UseSqlServer(Constants.DBConnectionString));
 
             services.AddDbContext<UsersContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("UsersContext")));
+                    options.UseSqlServer(Constants.DBConnectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

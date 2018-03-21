@@ -28,6 +28,25 @@ namespace WebAPI.Controllers
             return _context.User;
         }
 
+        // GET: api/Users/login/password
+        [HttpGet("{login}/{password}")]
+        public async Task<IActionResult> GetUser([FromRoute] string login, [FromRoute] string password)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _context.User.Where(u => u.Login == login).Where(u => u.Password == password).SingleOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user.Id);
+        }
+
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)

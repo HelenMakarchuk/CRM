@@ -1,16 +1,22 @@
-﻿using System;
-
-using CRM.Views;
+﻿using CRM.Views;
 using Xamarin.Forms;
 
 namespace CRM
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
-    public App ()
+    public App()
     {
         InitializeComponent();
-        MainPage = new LoginPage();
+
+        if (!IsUserLoggedIn)
+        {
+            MainPage = new NavigationPage(new LoginPage());
+        }
+        else
+        {
+            MainPage = new NavigationPage(new MenuPage());
+        }
     }
 
     public static bool IsUserLoggedIn = false;

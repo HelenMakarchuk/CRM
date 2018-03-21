@@ -1,7 +1,10 @@
 ﻿using CRM.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,45 +18,57 @@ namespace CRM.Views
 	{
 		    public LoginPage ()
 		    {
-			    InitializeComponent ();
-		    }
-
-        //async void OnSignUpButtonClicked(object sender, EventArgs e)
-        //{
-        //    await Navigation.PushAsync(new SignUpPage());
-        //}
-
-        async void OnLoginButtonClicked(object sender, EventArgs e)
-        {
-            var user = new User
-            {
-                Login = loginEntry.Text,
-                Password = passwordEntry.Text
-            };
-
-            var isValid = AreCredentialsCorrect(user);
-            if (isValid)
-            {
-                App.IsUserLoggedIn = true;
-                await Navigation.PushAsync(new Customers()); //MenuPage
-
-                //Navigation.InsertPageBefore(new MenuPage(), this);
-                //await Navigation.PopAsync();
-            }
-            else
-            {
-                //messageLabel.Text = "Login failed";
-                //passwordEntry.Text = string.Empty;
-            }
+			      InitializeComponent ();
         }
 
-        bool AreCredentialsCorrect(User user)
+        async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
-            //search with linq users.where Login eq user.Login and Password eq user.Password
+            await Navigation.PushAsync(new MenuPage());
+        }
 
-            //return user.Username == Constants.Username && user.Password == Constants.Password;
+        public async void OnLoginButtonClicked(object sender, EventArgs e)
+        {
+            var request = new HttpRequestMessage
+            {
+                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/{loginEntry.Text}/{passwordEntry.Text}"),
+                Method = HttpMethod.Get,
+                Headers = { { "Accept", "application/json" } }
+            };
 
-            return true;
+            var client = new HttpClient();
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                HttpContent content = response.Content;
+                string json = await content.ReadAsStringAsync();
+
+                try
+                {
+                    string Id = JsonConvert.DeserializeObject<string>(json);
+
+                    if (Int32.TryParse(Id, out var i))
+                    {
+                        messageLabel.Text = "";
+                        messageStackLayout.IsVisible = false;
+                        App.IsUserLoggedIn = true;
+                        Navigation.InsertPageBefore(new MenuPage(), this);
+                        await Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        messageLabel.Text = "Login failed";
+                        messageStackLayout.IsVisible = true;
+                        passwordEntry.Text = string.Empty;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    messageLabel.Text = $"Login failed. {ex.Message}";
+                    messageStackLayout.IsVisible = true;
+                    passwordEntry.Text = string.Empty;
+                }
+            }
         }
     }
 }
