@@ -26,6 +26,9 @@
     <Compile Update="Views\MenuPageMenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\NewUserPage.xaml.cs">
+      <DependentUpon>NewUserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\NewItemPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

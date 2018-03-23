@@ -8,6 +8,8 @@ using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 
 using CRM.Models;
+using System.Threading.Tasks;
+using CRM.ViewModels;
 
 namespace CRM.Views
 {
@@ -20,42 +22,19 @@ namespace CRM.Views
 
             if (App.IsUserLoggedIn)
             {
-                messageLabel.IsVisible = false;
-                SetUsersListView(); //Xamarin doesn't support generic classes
+                UserList.IsPullToRefreshEnabled = true;
+                MessageStackLayout.IsVisible = false;
+                RefreshStackLayout.IsVisible = true;
+
+                var userViewModel = new UserListViewModel();
+                BindingContext = userViewModel;
             }
             else
             {
-                messageLabel.IsVisible = true;
-                UsersListView.ItemsSource = new List<string>();
-            }
-        }
-
-        protected async void SetUsersListView()
-        {
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}"),
-                Method = HttpMethod.Get,
-                Headers = { { "Accept", "application/json" } }
-            };
-
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                HttpContent content = response.Content;
-                string json = await content.ReadAsStringAsync();
-
-                try
-                {
-                    List<User> users = JsonConvert.DeserializeObject<List<User>>(json);
-                    UsersListView.ItemsSource = users.Select(order => order.FullName).ToList();
-                }
-                catch (Exception)
-                {
-                    UsersListView.ItemsSource = new List<string>();
-                }
+                UserList.IsPullToRefreshEnabled = false;
+                MessageStackLayout.IsVisible = true;
+                RefreshStackLayout.IsVisible = false;
+                
             }
         }
 
@@ -68,6 +47,14 @@ namespace CRM.Views
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+
+        async void Add_Clicked(object sender, EventArgs e)
+        {
+            if (App.IsUserLoggedIn)
+            {
+                await Navigation.PushModalAsync(new NavigationPage(new NewUserPage()));
+            }
         }
     }
 }

@@ -3,27 +3,58 @@
     x:Class="CRM.Views.Users"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <ListView
-        x:Name="UsersListView"
-        CachingStrategy="RecycleElement"
-        ItemTapped="Handle_ItemTapped"
-        ItemsSource="{Binding Items}">
-        <ListView.Header>
-            <StackLayout Padding="10,5,0,5">
-                <Label
-                    x:Name="messageLabel"
-                    FontSize="14"
-                    HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"
-                    Text="You must to sign in before viewing this page"
-                    VerticalTextAlignment="Center" />
-            </StackLayout>
-        </ListView.Header>
-        <!--  Built in Cells  -->
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <TextCell Text="{Binding .}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="AddToolbarItem"
+            Clicked="Add_Clicked"
+            Icon="add_new.png"
+            Order="Primary"
+            Priority="0" />
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <StackLayout x:Name="MessageStackLayout" Padding="10,5,0,5">
+            <Label
+                x:Name="MessageLabel"
+                FontSize="14"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="You must to sign in before viewing this page"
+                VerticalTextAlignment="Center" />
+        </StackLayout>
+        <StackLayout x:Name="RefreshStackLayout">
+            <ActivityIndicator
+                x:Name="RefreshActivityIndicator"
+                Margin="4"
+                HeightRequest="25"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                WidthRequest="25" />
+        </StackLayout>
+        <ListView
+            x:Name="UserList"
+            IsRefreshing="{Binding IsRefreshing}"
+            ItemsSource="{Binding UserList}"
+            RefreshCommand="{Binding RefreshCommand}"
+            RowHeight="49">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout
+                            Margin="0"
+                            Padding="0"
+                            Spacing="0">
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Medium"
+                                Text="{Binding FullName}" />
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Small"
+                                Text="{Binding Position}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>

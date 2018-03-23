@@ -14,7 +14,7 @@
                 <StackLayout x:Name="photoStackLayout">
                     <Image
                         x:Name="userPhoto"
-                        Margin="0,20,0,20"
+                        Margin="0,20,0,10"
                         HeightRequest="110"
                         Source="user_login.png"
                         VerticalOptions="StartAndExpand" />
@@ -36,10 +36,10 @@
                         PlaceholderColor="#bababa" />
                     <Button
                         x:Name="loginButton"
-                        Margin="10,10,10,0"
+                        Margin="10,2,10,0"
                         BackgroundColor="#3897f0"
                         Clicked="OnLoginButtonClicked"
-                        HeightRequest="50"
+                        HeightRequest="46"
                         Text="LogIn"
                         TextColor="White" />
                 </StackLayout>

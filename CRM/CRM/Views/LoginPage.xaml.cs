@@ -60,7 +60,6 @@ namespace CRM.Views
                         App.IsUserLoggedIn = true;
                         messageLabel.Text = "";
                         messageStackLayout.IsVisible = false;
-                        App.IsUserLoggedIn = true;
 
                         this.Title = "Dashboard";
                         signInStackLayout.IsVisible = false;
@@ -72,7 +71,7 @@ namespace CRM.Views
                     else
                     {
                         App.IsUserLoggedIn = false;
-                        messageLabel.Text = "Login failed";
+                        messageLabel.Text = "Login failed. Incorrect Id format";
                         messageStackLayout.IsVisible = true;
                         passwordEntry.Text = string.Empty;
                     }
@@ -84,6 +83,13 @@ namespace CRM.Views
                     messageStackLayout.IsVisible = true;
                     passwordEntry.Text = string.Empty;
                 }
+            }
+            else
+            {
+                App.IsUserLoggedIn = false;
+                messageLabel.Text = $"Login failed. Response status: {response.StatusCode}";
+                messageStackLayout.IsVisible = true;
+                passwordEntry.Text = string.Empty;
             }
         }
     }
