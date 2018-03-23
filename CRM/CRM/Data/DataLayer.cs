@@ -12,13 +12,16 @@ namespace CRM.Data
     {
         public static DataLayer Instance { get; } = new DataLayer();
 
-        public async Task<List<User>> GetUsersAsync()
+        public async Task<List<T>> GetDataAsync<T>()
         {
-            var userList = new List<User>();
+            var list = new List<T>();
+
+            //every dbTableClass contains static property named PluralDbTableName (Class "Customer" => "Customers")
+            var pluralDbTableName = typeof(T).GetProperty("PluralDbTableName").GetValue(null);
 
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}"),
+                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{pluralDbTableName}"),
                 Method = HttpMethod.Get,
                 Headers = { { "Accept", "application/json" } }
             };
@@ -33,19 +36,15 @@ namespace CRM.Data
 
                 try
                 {
-                    userList = JsonConvert.DeserializeObject<List<User>>(json);
-
-                    //UsersListView.ItemsSource = users.Select(u => u.FullName).ToList();
+                    list = JsonConvert.DeserializeObject<List<T>>(json);
                 }
                 catch (Exception)
                 {
-                    return userList;
-
-                    //UsersListView.ItemsSource = new List<string>();
+                    return list;
                 }
             }
 
-            return userList;
+            return list;
         }
     }
 }

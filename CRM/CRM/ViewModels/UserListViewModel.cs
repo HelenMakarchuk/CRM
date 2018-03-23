@@ -68,7 +68,7 @@ namespace CRM.ViewModels
 
         async Task<List<User>> PopulateList()
         {
-            _userList = await DataLayer.Instance.GetUsersAsync().ConfigureAwait(false);
+            _userList = await DataLayer.Instance.GetDataAsync<User>().ConfigureAwait(false);
             return _userList;
         }
 

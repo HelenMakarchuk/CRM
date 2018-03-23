@@ -34,7 +34,6 @@ namespace CRM.Views
                 UserList.IsPullToRefreshEnabled = false;
                 MessageStackLayout.IsVisible = true;
                 RefreshStackLayout.IsVisible = false;
-                
             }
         }
 
