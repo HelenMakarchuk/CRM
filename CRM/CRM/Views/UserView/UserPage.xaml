@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CRM.Views.UserPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="EditToolbarItem"
+            Clicked="Edit_Clicked"
+            Order="Primary"
+            Priority="2" />
+        <ToolbarItem
+            x:Name="DeleteToolbarItem"
+            Clicked="Delete_Clicked"
+            Order="Primary"
+            Priority="1" />
+        <ToolbarItem
+            x:Name="CloseToolbarItem"
+            Clicked="Close_Clicked"
+            Order="Primary"
+            Priority="0" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout
+                x:Name="MessageStackLayout"
+                Padding="10,5,0,5"
+                IsVisible="False">
+                <Label
+                    x:Name="MessageLabel"
+                    FontSize="14"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text=""
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
+            <StackLayout x:Name="DataStackLayout">
+                <Entry
+                    x:Name="fullNameEntry"
+                    Margin="10,20,10,0"
+                    FontSize="16"
+                    Placeholder="FullName"
+                    PlaceholderColor="#bababa" />
+                <Entry
+                    x:Name="emailEntry"
+                    Margin="10,10,10,0"
+                    FontSize="16"
+                    Placeholder="Email"
+                    PlaceholderColor="#bababa" />
+                <Entry
+                    x:Name="phoneEntry"
+                    Margin="10,10,10,0"
+                    FontSize="16"
+                    Placeholder="Phone"
+                    PlaceholderColor="#bababa" />
+                <Entry
+                    x:Name="positionEntry"
+                    Margin="10,10,10,0"
+                    FontSize="16"
+                    Placeholder="Position"
+                    PlaceholderColor="#bababa" />
+                <Entry
+                    x:Name="loginEntry"
+                    Margin="10,10,10,0"
+                    FontSize="16"
+                    Placeholder="Login"
+                    PlaceholderColor="#bababa" />
+                <Entry
+                    x:Name="passwordEntry"
+                    Margin="10,10,10,0"
+                    FontSize="16"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    PlaceholderColor="#bababa" />
+                <Picker
+                    x:Name="genderPicker"
+                    Title="Gender"
+                    Margin="10,10,10,0" />
+                <Picker
+                    x:Name="departmentPicker"
+                    Title="Department"
+                    Margin="10,10,10,0"
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding DepartmentList}" />
+                <DatePicker
+                    x:Name="birthDatePicker"
+                    Margin="10,10,10,0"
+                    TextColor="Black" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

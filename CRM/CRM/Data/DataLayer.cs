@@ -16,7 +16,7 @@ namespace CRM.Data
         {
             var list = new List<T>();
 
-            //every dbTableClass contains static property named PluralDbTableName (Class "Customer" => "Customers")
+            //every db table class contains static property named PluralDbTableName (Example: "Customer" => "Customers")
             var pluralDbTableName = typeof(T).GetProperty("PluralDbTableName").GetValue(null);
 
             var request = new HttpRequestMessage

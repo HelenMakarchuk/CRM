@@ -5,7 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="New user">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Clicked="Save_Clicked" Text="Save" />
+        <ToolbarItem
+            x:Name="SaveToolbarItem"
+            Clicked="Save_Clicked"
+            Order="Primary"
+            Priority="1" />
+        <ToolbarItem
+            x:Name="CloseToolbarItem"
+            Clicked="Close_Clicked"
+            Order="Primary"
+            Priority="0" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
@@ -49,12 +58,7 @@
             <Picker
                 x:Name="genderPicker"
                 Title="Gender"
-                Margin="10,10,10,0">
-                <Picker.Items>
-                    <x:String>Male</x:String>
-                    <x:String>Female</x:String>
-                </Picker.Items>
-            </Picker>
+                Margin="10,10,10,0" />
             <Picker
                 x:Name="departmentPicker"
                 Title="Department"

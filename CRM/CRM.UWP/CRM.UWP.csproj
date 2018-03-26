@@ -104,6 +104,22 @@
     <None Include="CRM.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Assets\add_new.png" />
+    <AndroidResource Include="Assets\close.png" />
+    <AndroidResource Include="Assets\customer.png" />
+    <AndroidResource Include="Assets\data_edit.png" />
+    <AndroidResource Include="Assets\employee.png" />
+    <AndroidResource Include="Assets\garbage_closed.png" />
+    <AndroidResource Include="Assets\icon.png" />
+    <AndroidResource Include="Assets\map_location.png" />
+    <AndroidResource Include="Assets\payment.png" />
+    <AndroidResource Include="Assets\picture.png" />
+    <AndroidResource Include="Assets\sales_order.png" />
+    <AndroidResource Include="Assets\save.png" />
+    <AndroidResource Include="Assets\user_group.png" />
+    <AndroidResource Include="Assets\user_login.png" />
+    <AndroidResource Include="Assets\xamarin_logo.png" />
+    <Content Include="Assets\login_door.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Formatting;
+using CRM.Data;
 
 namespace CRM.Views
 {
@@ -19,6 +20,11 @@ namespace CRM.Views
         public NewUserPage()
         {
             InitializeComponent();
+
+            SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
+            CloseToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/close.png" : "close.png";
+
+            genderPicker.ItemsSource = PickerData.Genders.Values.ToList();
             GetDepartments();
             BindingContext = this;
         }
@@ -91,7 +97,7 @@ namespace CRM.Views
                     //var newUserUri = response.Headers.Location;
                     
                     await DisplayAlert("Create operation", $"User \"{fullNameEntry.Text}\" was created.", "OK");
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopAsync();
                 }
                 else
                 {
@@ -102,6 +108,11 @@ namespace CRM.Views
             {
                 await DisplayAlert("Create operation", $"An error occured while creating user \"{fullNameEntry.Text}\". {ex.Message}", "OK");
             }
+        }
+
+        async void Close_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
     }
 }

@@ -26,7 +26,7 @@
     <Compile Update="Views\MenuPageMenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\NewUserPage.xaml.cs">
+    <Compile Update="Views\UserView\NewUserPage.xaml.cs">
       <DependentUpon>NewUserPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\NewItemPage.xaml.cs">
@@ -38,7 +38,7 @@
     <EmbeddedResource Update="Views\Customers.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Departments.xaml">
+    <EmbeddedResource Update="Views\DepartmentView\Departments.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
@@ -59,7 +59,10 @@
     <EmbeddedResource Update="Views\Payments.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Users.xaml">
+    <EmbeddedResource Update="Views\UserView\UserPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\UserView\Users.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Website.xaml">

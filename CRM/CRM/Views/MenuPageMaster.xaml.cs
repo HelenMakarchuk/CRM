@@ -42,49 +42,49 @@ namespace CRM.Views
                         Id = 0,
                         Title = "Sign in",
                         Description = "Sign in to CRM",
-                        ImageSource = "login_door.png",
+                        ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/login_door.png" : "login_door.png",
                         TargetType = typeof(LoginPage)
                     },
                     new MenuPageMenuItem {
                         Id = 1,
                         Title = "Website",
                         Description = "Company website",
-                        ImageSource = "picture.png",
+                        ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/picture.png" : "picture.png",
                         TargetType = typeof(Website)
                     },
                     new MenuPageMenuItem {
                         Id = 2,
                         Title = "Departments",
                         Description = "Company departments",
-                        ImageSource = "user_group.png",
+                        ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/user_group.png" : "user_group.png",
                         TargetType = typeof(Departments)
                     },
                     new MenuPageMenuItem {
                         Id = 3,
                         Title = "Orders",
                         Description = "Customer orders",
-                        ImageSource = "sales_order.png",
+                        ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/sales_order.png" : "sales_order.png",
                         TargetType = typeof(Orders)
                     },
                     new MenuPageMenuItem {
                         Id = 4,
                         Title = "Users",
                         Description = "Employees",
-                        ImageSource = "employee.png",
+                        ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/employee.png" : "employee.png",
                         TargetType = typeof(Users)
                     },
                     new MenuPageMenuItem {
                         Id = 5,
                         Title = "Customers",
                         Description = "Customers",
-                        ImageSource = "customer.png",
+                        ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/customer.png" : "customer.png",
                         TargetType = typeof(Customers)
                     },
                      new MenuPageMenuItem {
                         Id = 6,
                         Title = "Payments",
                         Description = "Payments",
-                        ImageSource = "payment.png",
+                        ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/payment.png" : "payment.png",
                         TargetType = typeof(Payments)
                     }
                 });
