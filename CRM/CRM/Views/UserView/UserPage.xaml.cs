@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserPage : ContentPage
     {
+        User currentUser { get; set; }
+
         public UserPage()
         {
             InitializeComponent();
@@ -25,6 +28,8 @@ namespace CRM.Views
         public UserPage(User user)
         {
             InitializeComponent();
+
+            currentUser = user;
 
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
             DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
@@ -82,11 +87,47 @@ namespace CRM.Views
 
         async void Edit_Clicked(object sender, EventArgs e)
         {
-            //save record - put request (id, user)
+            try
+            {
+                var userResponse = await DisplayAlert("Are you sure?", "An item will be updated", "Yes", "No");
 
-            await DisplayAlert("Edit operation", "Department was updated", "OK");
+                if (userResponse)
+                {
+                    User updUser = new User();
+                    updUser.Id = currentUser.Id;
+                    updUser.FullName = fullNameEntry.Text;
+                    updUser.Login = loginEntry.Text;
+                    updUser.Password = passwordEntry.Text;
+                    updUser.Phone = phoneEntry.Text;
+                    updUser.Position = positionEntry.Text;
+                    updUser.BirthDate = birthDatePicker.Date;
+                    updUser.Email = emailEntry.Text;
+                    updUser.DepartmentId = (departmentPicker.SelectedItem as Department).Id;
+                    updUser.Gender = genderPicker.SelectedItem?.ToString().First().ToString();
 
-            await Navigation.PopAsync();
+                    var json = JsonConvert.SerializeObject(updUser);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var uri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/{currentUser.Id}");
+                    var client = new HttpClient();
+
+                    HttpResponseMessage response = await client.PutAsync(uri, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await DisplayAlert("Update operation", "User was updated", "OK");
+                        await Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Update operation", $"User wasn't updated. Response status: {response.StatusCode}", "OK");
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlert("Update operation", $"User wasn't updated. {ex.Message}", "OK");
+            }
         }
 
         async void Delete_Clicked(object sender, EventArgs e)
@@ -95,11 +136,20 @@ namespace CRM.Views
 
             if (userResponse)
             {
-                //delete request (id)
+                var uri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/{currentUser.Id}");
 
-                await DisplayAlert("Delete operation", "Department was deleted", "OK");
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.DeleteAsync(uri);
 
-                await Navigation.PopAsync();
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    await DisplayAlert("Delete operation", "User was deleted", "OK");
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Delete operation", $"User wasn't deleted. Response status: {response.StatusCode}", "OK");
+                }
             }
         }
     }
