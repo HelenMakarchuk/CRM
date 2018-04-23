@@ -13,10 +13,10 @@ namespace ORM
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class CRM_DBEntities1 : DbContext
+    public partial class CRM_DBEntities : DbContext
     {
-        public CRM_DBEntities1()
-            : base("name=CRM_DBEntities1")
+        public CRM_DBEntities()
+            : base("name=CRM_DBEntities")
         {
         }
     

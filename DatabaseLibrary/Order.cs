@@ -14,10 +14,16 @@ namespace ORM
     
     public partial class Order
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Order()
+        {
+            this.Payments = new HashSet<Payment>();
+        }
+    
         public int Id { get; set; }
         public string Number { get; set; }
         public System.DateTime CreatedOn { get; set; }
-        public string Status { get; set; }
+        public byte Status { get; set; }
         public int OwnerId { get; set; }
         public Nullable<int> DeliveryDriverId { get; set; }
         public string DeliveryAddress { get; set; }
@@ -28,6 +34,7 @@ namespace ORM
         public virtual Customer Customer { get; set; }
         public virtual User DeliveryDriver { get; set; }
         public virtual User Owner { get; set; }
-        public virtual Payment Payment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

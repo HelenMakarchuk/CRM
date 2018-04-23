@@ -1,8 +1,9 @@
 ﻿CREATE TABLE [dbo].[Payment]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Status] VARCHAR(6) NULL, 
+    [Status] TINYINT NULL, 
     [Sum] MONEY NULL, 
-    [Method] VARCHAR(10) NULL, 
-	CONSTRAINT [FK_Payments_Orders] FOREIGN KEY ([Id]) REFERENCES [Order]([Id])
+    [Method] TINYINT NULL, 
+    [OrderId] INT NULL, 
+    CONSTRAINT [FK_Payment_ToOrder] FOREIGN KEY ([OrderId]) REFERENCES [Order]([Id])
 )

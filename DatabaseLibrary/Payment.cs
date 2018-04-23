@@ -15,9 +15,10 @@ namespace ORM
     public partial class Payment
     {
         public int Id { get; set; }
-        public string Status { get; set; }
+        public Nullable<byte> Status { get; set; }
         public Nullable<decimal> Sum { get; set; }
-        public string Method { get; set; }
+        public Nullable<byte> Method { get; set; }
+        public Nullable<int> OrderId { get; set; }
     
         public virtual Order Order { get; set; }
     }

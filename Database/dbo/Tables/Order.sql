@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[Order]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Number] NVARCHAR(10) NOT NULL, 
+    [Number] NVARCHAR(10) NULL, 
     [CreatedOn] DATETIME NOT NULL, 
-    [Status] VARCHAR(20) NOT NULL, 
+    [Status] TINYINT NOT NULL, 
     [OwnerId] INT NOT NULL, 
     [DeliveryDriverId] INT NULL, 
     [DeliveryAddress] TEXT NULL, 
