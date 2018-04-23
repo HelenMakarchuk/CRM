@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CRM.Views.OrderView.EditableOrderPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="SaveToolbarItem"
+            Clicked="Save_Clicked"
+            Order="Primary"
+            Priority="1" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry
+                x:Name="StatusEntry"
+                Margin="10,10,10,0"
+                FontSize="16"
+                Placeholder="Status"
+                PlaceholderColor="#bababa" />
+            <Entry
+                x:Name="DeliveryAddressEntry"
+                Margin="10,10,10,0"
+                FontSize="16"
+                Placeholder="DeliveryAddress"
+                PlaceholderColor="#bababa" />
+            <Entry
+                x:Name="CommentEntry"
+                Margin="10,10,10,0"
+                FontSize="16"
+                Placeholder="Comment"
+                PlaceholderColor="#bababa" />
+            <DatePicker
+                x:Name="DeliveryDatePicker"
+                Margin="10,10,10,0"
+                TextColor="Black" />
+            <Picker
+                x:Name="OwnerPicker"
+                Title="Owner"
+                Margin="10,10,10,0"
+                ItemDisplayBinding="{Binding FullName}" />
+            <Picker
+                x:Name="DeliveryDriverPicker"
+                Title="DeliveryDriver"
+                Margin="10,10,10,0"
+                ItemDisplayBinding="{Binding FullName}" />
+            <Picker
+                x:Name="ReceiverPicker"
+                Title="Receiver"
+                Margin="10,10,10,0"
+                ItemDisplayBinding="{Binding Name}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

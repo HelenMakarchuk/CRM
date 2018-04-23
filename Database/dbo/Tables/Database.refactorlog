@@ -126,4 +126,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[FK_Order_Customer]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="438b2f7e-db10-4d3f-8524-6d6b5676f851" ChangeDateTime="04/18/2018 19:41:33">
+    <Property Name="ElementName" Value="[dbo].[FK_Department1_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Department1]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_Department1_ToHead]" />
+  </Operation>
 </Operations>

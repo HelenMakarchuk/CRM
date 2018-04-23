@@ -1,16 +1,13 @@
-﻿using System;
+﻿using CRM.Data;
+using CRM.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
-using CRM.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http.Formatting;
-using CRM.Data;
 
 namespace CRM.Views
 {
@@ -22,14 +19,14 @@ namespace CRM.Views
             InitializeComponent();
 
             SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
-            CloseToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/close.png" : "close.png";
 
-            genderPicker.ItemsSource = PickerData.Genders.Values.ToList();
-            GetDepartments();
+            GenderPicker.ItemsSource = PickerData.genders.Values.ToList();
+            FillDepartmentPicker();
+
             BindingContext = this;
         }
 
-        protected async void GetDepartments()
+        protected async void FillDepartmentPicker()
         {
             var request = new HttpRequestMessage
             {
@@ -49,11 +46,16 @@ namespace CRM.Views
                 try
                 {
                     List<Department> departments = JsonConvert.DeserializeObject<List<Department>>(json);
-                    departmentPicker.ItemsSource = departments.Select(d => d.Name).ToList();
+                    departments = departments.Select(d => { d.Name = (d.Name ?? ""); return d; }).ToList();
+
+                    //Add empty value opportunity
+                    departments.Insert(0, new Department() { Name = "Empty value" });
+
+                    DepartmentPicker.ItemsSource = departments;
                 }
                 catch (Exception)
                 {
-                    departmentPicker.ItemsSource = new List<string>();
+                    DepartmentPicker.ItemsSource = new List<Department>();
                 }
             }
         }
@@ -62,27 +64,42 @@ namespace CRM.Views
         {
             try
             {
-                #region User assembling
+                #region New user assembling
+
                 User user = new User();
 
-                if (fullNameEntry.Text != string.Empty)
-                    user.FullName = fullNameEntry.Text;
+                if (FullNameEntry.Text != string.Empty)
+                    user.FullName = FullNameEntry.Text;
 
-                if (emailEntry.Text != string.Empty)
-                    user.Email = emailEntry.Text;
+                if (EmailEntry.Text != string.Empty)
+                    user.Email = EmailEntry.Text;
 
-                if (positionEntry.Text != string.Empty)
-                    user.Position = positionEntry.Text;
+                if (PositionEntry.Text != string.Empty)
+                    user.Position = PositionEntry.Text;
 
-                if (phoneEntry.Text != string.Empty)
-                    user.Phone = phoneEntry.Text;
+                if (PhoneEntry.Text != string.Empty)
+                    user.Phone = PhoneEntry.Text;
 
-                if (loginEntry.Text != string.Empty)
-                    user.Login = loginEntry.Text;
+                if (LoginEntry.Text != string.Empty)
+                    user.Login = LoginEntry.Text;
 
-                if (passwordEntry.Text != string.Empty)
-                    user.Password = passwordEntry.Text;
+                if (PasswordEntry.Text != string.Empty)
+                    user.Password = PasswordEntry.Text;
 
+                user.BirthDate = BirthDatePicker.Date;
+
+                var selectedGender = GenderPicker.SelectedItem?.ToString() ?? "";
+                if (PickerData.genders.ContainsValue(selectedGender))
+                {
+                    user.Gender = PickerData.genders.FirstOrDefault(x => x.Value == selectedGender).Key;
+                }
+
+                //if (DepartmentPicker.SelectedIndex == 0) { user want to leave department empty (null) } 
+                if (DepartmentPicker.SelectedIndex != 0 && DepartmentPicker.SelectedItem is Department selectedDepartment)
+                {
+                    user.DepartmentId = selectedDepartment.Id;
+                }
+            
                 #endregion
 
                 string json = JsonConvert.SerializeObject(user);
@@ -90,29 +107,25 @@ namespace CRM.Views
 
                 var client = new HttpClient();
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
                 var response = await client.PostAsync($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}", content);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     //var newUserUri = response.Headers.Location;
-                    
-                    await DisplayAlert("Create operation", $"User \"{fullNameEntry.Text}\" was created.", "OK");
+
+                    await DisplayAlert("Create operation", $"User \"{FullNameEntry.Text}\" was created.", "OK");
                     await Navigation.PopAsync();
                 }
                 else
                 {
-                    await DisplayAlert("Create operation", $"User \"{fullNameEntry.Text}\" wasn't created. Response status: {response.StatusCode}", "OK");
+                    await DisplayAlert("Create operation", $"User \"{FullNameEntry.Text}\" wasn't created. Response status: {response.StatusCode}", "OK");
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Create operation", $"An error occured while creating user \"{fullNameEntry.Text}\". {ex.Message}", "OK");
+                await DisplayAlert("Create operation", $"An error occured while creating user \"{FullNameEntry.Text}\". {ex.Message}", "OK");
             }
-        }
-
-        async void Close_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PopAsync();
         }
     }
 }

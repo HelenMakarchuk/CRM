@@ -72,7 +72,7 @@ namespace CRM.ViewModels
             return _userList;
         }
 
-        async Task RefreshList()
+        public async Task RefreshList()
         {
             IsRefreshing = true;
             UserList = await PopulateList();
@@ -88,10 +88,7 @@ namespace CRM.ViewModels
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

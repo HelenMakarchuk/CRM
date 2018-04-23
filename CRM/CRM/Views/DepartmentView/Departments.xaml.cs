@@ -1,36 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
+﻿using CRM.Models;
+using CRM.ViewModels;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Newtonsoft.Json;
-
-using CRM.Models;
-using CRM.ViewModels;
 
 namespace CRM.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Departments : ContentPage
     {
+        protected DepartmentListViewModel viewModel;
+
         public Departments()
         {
             InitializeComponent();
 
             if (App.IsUserLoggedIn)
             {
-                if (Device.RuntimePlatform == Device.Android)
-                {
-                    DepartmentList.IsPullToRefreshEnabled = true;
-                }
+                AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
 
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
 
-                var departmentViewModel = new DepartmentListViewModel();
-                BindingContext = departmentViewModel;
+                viewModel = new DepartmentListViewModel();
+                BindingContext = viewModel;
+
+                if (Device.RuntimePlatform == Device.Android)
+                {
+                    DepartmentList.IsPullToRefreshEnabled = true;
+                    DepartmentList.RefreshCommand = viewModel.RefreshCommand;
+                    DepartmentList.SetBinding(ListView.IsRefreshingProperty, nameof(viewModel.IsRefreshing));
+                }
+                else if (Device.RuntimePlatform == Device.UWP)
+                {
+                    DepartmentList.RowHeight = DepartmentList.RowHeight * 2;
+                }
             }
             else
             {
@@ -44,13 +48,24 @@ namespace CRM.Views
             }
 
             DepartmentList.ItemSelected += (sender, e) => {
-                Navigation.PushAsync(new UserPage());
+                Navigation.PushAsync(new DepartmentPage(((ListView)sender).SelectedItem as Department));
             };
         }
 
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        async void Add_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new UserPage());
+            if (App.IsUserLoggedIn)
+            {
+                await Navigation.PushAsync(new NewDepartmentPage());
+            }
+        }
+
+        async protected override void OnAppearing()
+        {
+            if (App.IsUserLoggedIn)
+                await viewModel.RefreshList();
+
+            base.OnAppearing();
         }
     }
 }

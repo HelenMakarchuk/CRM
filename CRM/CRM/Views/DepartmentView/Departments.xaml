@@ -3,6 +3,13 @@
     x:Class="CRM.Views.Departments"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="AddToolbarItem"
+            Clicked="Add_Clicked"
+            Order="Primary"
+            Priority="0" />
+    </ContentPage.ToolbarItems>
     <StackLayout>
         <StackLayout x:Name="MessageStackLayout" Padding="10,5,0,5">
             <Label
@@ -28,7 +35,21 @@
             RowHeight="49">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" />
+                    <ViewCell>
+                        <StackLayout
+                            Margin="0"
+                            Padding="0"
+                            Spacing="0">
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Medium"
+                                Text="{Binding Name}" />
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Small"
+                                Text="{Binding Phone}" />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

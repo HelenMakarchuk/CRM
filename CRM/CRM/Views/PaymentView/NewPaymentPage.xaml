@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="CRM.Views.NewPaymentPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="New user">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="SaveToolbarItem"
+            Clicked="Save_Clicked"
+            Order="Primary"
+            Priority="1" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry
+                x:Name="SumEntry"
+                Margin="10,20,10,0"
+                FontSize="16"
+                Placeholder="Sum"
+                PlaceholderColor="#bababa" />
+            <Entry
+                x:Name="StatusEntry"
+                Margin="10,10,10,0"
+                FontSize="16"
+                Placeholder="Status"
+                PlaceholderColor="#bababa" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

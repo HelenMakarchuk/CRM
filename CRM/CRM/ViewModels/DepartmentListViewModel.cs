@@ -1,9 +1,11 @@
-﻿using System;
+﻿using CRM.Data;
+using CRM.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using CRM.Data;
-using CRM.Models;
 using Xamarin.Forms;
 
 namespace CRM.ViewModels
@@ -72,7 +74,7 @@ namespace CRM.ViewModels
             return _departmentList;
         }
 
-        async Task RefreshList()
+        public async Task RefreshList()
         {
             IsRefreshing = true;
             DepartmentList = await PopulateList();
@@ -88,10 +90,7 @@ namespace CRM.ViewModels
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

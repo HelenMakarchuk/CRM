@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
+﻿using CRM.Models;
+using CRM.ViewModels;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Newtonsoft.Json;
-
-using CRM.Models;
-using System.Threading.Tasks;
-using CRM.ViewModels;
 
 namespace CRM.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Users : ContentPage
     {
+        protected UserListViewModel viewModel;
+
         public Users()
         {
             InitializeComponent();
@@ -27,14 +22,14 @@ namespace CRM.Views
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
 
-                var userViewModel = new UserListViewModel();
-                BindingContext = userViewModel;
+                viewModel = new UserListViewModel();
+                BindingContext = viewModel;
 
                 if (Device.RuntimePlatform == Device.Android)
                 {
                     UserList.IsPullToRefreshEnabled = true;
-                    UserList.RefreshCommand = userViewModel.RefreshCommand;
-                    UserList.SetBinding(ListView.IsRefreshingProperty, nameof(userViewModel.IsRefreshing));
+                    UserList.RefreshCommand = viewModel.RefreshCommand;
+                    UserList.SetBinding(ListView.IsRefreshingProperty, nameof(viewModel.IsRefreshing));
                 }
                 else if (Device.RuntimePlatform == Device.UWP)
                 {
@@ -62,9 +57,15 @@ namespace CRM.Views
             if (App.IsUserLoggedIn)
             {
                 await Navigation.PushAsync(new NewUserPage());
-
-                //await Navigation.PushModalAsync(new NavigationPage(new NewUserPage()));
             }
+        }
+
+        async protected override void OnAppearing()
+        {
+            if (App.IsUserLoggedIn)
+                await viewModel.RefreshList();
+
+            base.OnAppearing();
         }
     }
 }

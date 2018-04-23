@@ -44,9 +44,8 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(user.Id);
+            return Ok(user);
         }
-
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)

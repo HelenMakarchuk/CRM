@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CRM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CRM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -19,8 +19,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
-          <Property Name="HeadId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="HeadId" Type="int" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -61,8 +62,8 @@
           <Property Name="Login" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_Departments_Users">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
+        <Association Name="FK_Department_ToHead">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Department" Type="Self.Department" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -139,7 +140,7 @@
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Departments_Users" Association="Self.FK_Departments_Users">
+          <AssociationSet Name="FK_Department_ToHead" Association="Self.FK_Department_ToHead">
             <End Role="User" EntitySet="User" />
             <End Role="Department" EntitySet="Department" />
           </AssociationSet>
@@ -164,41 +165,11 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CRM_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="CRM_DBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Customer" EntityType="CRM_DBModel.Customer" />
-          <EntitySet Name="Department" EntityType="CRM_DBModel.Department" />
-          <EntitySet Name="Order" EntityType="CRM_DBModel.Order" />
-          <EntitySet Name="Payment" EntityType="CRM_DBModel.Payment" />
-          <AssociationSet Name="FK_Order_Customer" Association="CRM_DBModel.FK_Order_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Payments_Orders" Association="CRM_DBModel.FK_Payments_Orders">
-            <End Role="Order" EntitySet="Order" />
-            <End Role="Payment" EntitySet="Payment" />
-          </AssociationSet>
-          <EntitySet Name="User" EntityType="CRM_DBModel.User" />
-          <AssociationSet Name="FK_Departments_Users" Association="CRM_DBModel.FK_Departments_Users">
-            <End Role="User" EntitySet="User" />
-            <End Role="Department" EntitySet="Department" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Departments" Association="CRM_DBModel.FK_Users_Departments">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_DeliveryDriver" Association="CRM_DBModel.FK_Order_DeliveryDriver">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Owner" Association="CRM_DBModel.FK_Order_Owner">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -207,36 +178,37 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="CRM_DBModel.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="HeadId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Head" Relationship="CRM_DBModel.FK_Departments_Users" FromRole="Department" ToRole="User" />
-          <NavigationProperty Name="Employees" Relationship="CRM_DBModel.FK_Users_Departments" FromRole="Department" ToRole="User" />
-          </EntityType>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HeadId" Type="Int32" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Head" Relationship="Self.FK_Department_ToHead" FromRole="Department" ToRole="User" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Users_Departments" FromRole="Department" ToRole="User" />
+        </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Number" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="OwnerId" Type="Int32" Nullable="false" />
           <Property Name="DeliveryDriverId" Type="Int32" />
           <Property Name="DeliveryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ReceiverId" Type="Int32" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Customer" Relationship="CRM_DBModel.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
-          <NavigationProperty Name="Payment" Relationship="CRM_DBModel.FK_Payments_Orders" FromRole="Order" ToRole="Payment" />
-          <NavigationProperty Name="DeliveryDriver" Relationship="CRM_DBModel.FK_Order_DeliveryDriver" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="Owner" Relationship="CRM_DBModel.FK_Order_Owner" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="DeliveryDriver" Relationship="Self.FK_Order_DeliveryDriver" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="Owner" Relationship="Self.FK_Order_Owner" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="Payment" Relationship="Self.FK_Payments_Orders" FromRole="Order" ToRole="Payment" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -246,32 +218,8 @@
           <Property Name="Status" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
           <Property Name="Sum" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Method" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Order" Relationship="CRM_DBModel.FK_Payments_Orders" FromRole="Payment" ToRole="Order" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Payments_Orders" FromRole="Payment" ToRole="Order" />
         </EntityType>
-        <Association Name="FK_Order_Customer">
-          <End Type="CRM_DBModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ReceiverId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Payments_Orders">
-          <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="1" />
-          <End Type="CRM_DBModel.Payment" Role="Payment" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Payment">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -286,14 +234,26 @@
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="HeadedDepartments" Relationship="CRM_DBModel.FK_Departments_Users" FromRole="User" ToRole="Department" />
-          <NavigationProperty Name="WorkplaceDepartment" Relationship="CRM_DBModel.FK_Users_Departments" FromRole="User" ToRole="Department" />
-          <NavigationProperty Name="OrdersForDelivery" Relationship="CRM_DBModel.FK_Order_DeliveryDriver" FromRole="User" ToRole="Order" />
-          <NavigationProperty Name="CreatedOrders" Relationship="CRM_DBModel.FK_Order_Owner" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="HeadedDepartments" Relationship="Self.FK_Department_ToHead" FromRole="User" ToRole="Department" />
+          <NavigationProperty Name="WorkplaceDepartment" Relationship="Self.FK_Users_Departments" FromRole="User" ToRole="Department" />
+          <NavigationProperty Name="OrdersForDelivery" Relationship="Self.FK_Order_DeliveryDriver" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="CreatedOrders" Relationship="Self.FK_Order_Owner" FromRole="User" ToRole="Order" />
         </EntityType>
-        <Association Name="FK_Departments_Users">
-          <End Type="CRM_DBModel.User" Role="User" Multiplicity="1" />
-          <End Type="CRM_DBModel.Department" Role="Department" Multiplicity="*" />
+        <Association Name="FK_Order_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ReceiverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Department_ToHead">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -304,8 +264,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Departments">
-          <End Type="CRM_DBModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="CRM_DBModel.User" Role="User" Multiplicity="*" />
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="Id" />
@@ -316,8 +276,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Order_DeliveryDriver">
-          <End Type="CRM_DBModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -328,8 +288,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Order_Owner">
-          <End Type="CRM_DBModel.User" Role="User" Multiplicity="1" />
-          <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
@@ -339,70 +299,114 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Payments_Orders">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CRM_DBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Department_ToHead" Association="Self.FK_Department_ToHead">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Department" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Departments" Association="Self.FK_Users_Departments">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_DeliveryDriver" Association="Self.FK_Order_DeliveryDriver">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Owner" Association="Self.FK_Order_Owner">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Orders" Association="Self.FK_Payments_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="CRM_DBModelStoreContainer" CdmEntityContainer="CRM_DBEntities">
-          <EntitySetMapping Name="Customer">
+        <EntityContainerMapping StorageEntityContainer="CRM_DBModelStoreContainer" CdmEntityContainer="CRM_DBEntities1">
+          <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="CRM_DBModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Department">
+          <EntitySetMapping Name="Departments">
             <EntityTypeMapping TypeName="CRM_DBModel.Department">
               <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="HeadId" ColumnName="HeadId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="HeadId" ColumnName="HeadId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Order">
+          <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="CRM_DBModel.Order">
               <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
-                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
-                <ScalarProperty Name="DeliveryDriverId" ColumnName="DeliveryDriverId" />
-                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="DeliveryDriverId" ColumnName="DeliveryDriverId" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Payment">
+          <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="CRM_DBModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
-                <ScalarProperty Name="Method" ColumnName="Method" />
-                <ScalarProperty Name="Sum" ColumnName="Sum" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="User">
+          <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CRM_DBModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -420,7 +424,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

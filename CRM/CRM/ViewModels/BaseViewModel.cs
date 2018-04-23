@@ -1,22 +1,18 @@
-﻿using System;
+﻿using CRM.Models;
+using CRM.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-using Xamarin.Forms;
-
-using CRM.Models;
-using CRM.Services;
 
 namespace CRM.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        public IDataStore<Item> DataStore;
 
         bool isBusy = false;
-        public bool IsBusy
-        {
+        public bool IsBusy {
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }

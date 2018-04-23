@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CRM.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Sign in"
+    BackgroundColor="White">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="LoggedInUserToolbarItem" Text="" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="DashboardStackLayout" Padding="10">
+                <Label Text="Reports and announcements will be here." />
+            </StackLayout>
+            <StackLayout x:Name="SignInStackLayout">
+                <StackLayout x:Name="photoStackLayout">
+                    <Image
+                        x:Name="UserPhoto"
+                        Margin="0,20,0,10"
+                        VerticalOptions="StartAndExpand" />
+                </StackLayout>
+                <StackLayout x:Name="loginStackLayout">
+                    <Entry
+                        x:Name="LoginEntry"
+                        Margin="10,20,10,0"
+                        FontSize="16"
+                        Placeholder="Login"
+                        PlaceholderColor="#bababa"
+                        VerticalOptions="CenterAndExpand" />
+                    <Entry
+                        x:Name="PasswordEntry"
+                        Margin="10,10,10,0"
+                        FontSize="16"
+                        IsPassword="True"
+                        Placeholder="Password"
+                        PlaceholderColor="#bababa" />
+                    <Button
+                        x:Name="LoginButton"
+                        Margin="10,2,10,0"
+                        BackgroundColor="#3897f0"
+                        Clicked="OnLoginButtonClicked"
+                        HeightRequest="46"
+                        Text="Sign in"
+                        TextColor="White" />
+                </StackLayout>
+                <StackLayout
+                    x:Name="MessageStackLayout"
+                    Margin="14,10,14,0"
+                    Padding="2,2,2,2"
+                    BackgroundColor="#FFFFCC"
+                    IsVisible="False">
+                    <Label
+                        x:Name="MessageLabel"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text=""
+                        TextColor="Black"
+                        VerticalTextAlignment="Center" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

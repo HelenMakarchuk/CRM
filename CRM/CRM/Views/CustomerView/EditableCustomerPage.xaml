@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CRM.Views.CustomerView.EditableCustomerPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="SaveToolbarItem"
+            Clicked="Save_Clicked"
+            Order="Primary"
+            Priority="1" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry
+                x:Name="NameEntry"
+                Margin="10,20,10,0"
+                FontSize="16"
+                Placeholder="Name"
+                PlaceholderColor="#bababa" />
+            <Entry
+                x:Name="PhoneEntry"
+                Margin="10,10,10,0"
+                FontSize="16"
+                Placeholder="Phone"
+                PlaceholderColor="#bababa" />
+            <Entry
+                x:Name="EmailEntry"
+                Margin="10,10,10,0"
+                FontSize="16"
+                Placeholder="Email"
+                PlaceholderColor="#bababa" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

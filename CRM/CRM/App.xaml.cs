@@ -1,4 +1,6 @@
-﻿using CRM.Views;
+﻿using CRM.Models;
+using CRM.Views;
+using CRM.ViewModels;
 using Xamarin.Forms;
 
 namespace CRM

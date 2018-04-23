@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="69f34833949e49aa8b02da312b835bcb" Name="Diagram1" ZoomLevel="100">
-        <EntityTypeShape EntityType="CRM_DBModel.Customer" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="CRM_DBModel.Department" Width="1.5" PointX="3" PointY="9.25" />
-        <EntityTypeShape EntityType="CRM_DBModel.Order" Width="1.5" PointX="3" PointY="3.875" />
-        <EntityTypeShape EntityType="CRM_DBModel.Payment" Width="1.5" PointX="5.25" PointY="4.75" />
-        <AssociationConnector Association="CRM_DBModel.FK_Order_Customer" />
-        <AssociationConnector Association="CRM_DBModel.FK_Payments_Orders" />
-        <EntityTypeShape EntityType="CRM_DBModel.User" Width="1.5" PointX="0.75" PointY="5.75" />
-        <AssociationConnector Association="CRM_DBModel.FK_Departments_Users" />
-        <AssociationConnector Association="CRM_DBModel.FK_Users_Departments" />
-        <AssociationConnector Association="CRM_DBModel.FK_Order_DeliveryDriver" />
-        <AssociationConnector Association="CRM_DBModel.FK_Order_Owner" />
+      <Diagram DiagramId="2e45ff049a044a1cb316ed318eb96ef6" Name="Diagram1">
+        <EntityTypeShape EntityType="CRM_DBModel.Customer" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.Department" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.Order" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.Payment" Width="1.5" PointX="8.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_DBModel.User" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <AssociationConnector Association="CRM_DBModel.FK_Order_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Department_ToHead" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Users_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Order_DeliveryDriver" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Order_Owner" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_DBModel.FK_Payments_Orders" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

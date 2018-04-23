@@ -11,52 +11,70 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\AboutPage.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Views\CustomerView\NewCustomerPage.xaml.cs">
+      <DependentUpon>NewCustomerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ItemDetailPage.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Views\CustomerView\CustomerPage.xaml.cs">
+      <DependentUpon>CustomerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ItemsPage.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Views\CustomerView\Customers.xaml.cs">
+      <DependentUpon>Customers.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\MainPage.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Views\DepartmentView\EditableDepartmentPage.xaml.cs">
+      <DependentUpon>EditableDepartmentPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\MenuPageMenuItem.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Views\DepartmentView\NewDepartmentPage.xaml.cs">
+      <DependentUpon>NewDepartmentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DepartmentView\DepartmentPage.xaml.cs">
+      <DependentUpon>DepartmentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DepartmentView\Departments.xaml.cs">
+      <DependentUpon>Departments.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\OrderView\NewOrderPage.xaml.cs">
+      <DependentUpon>NewOrderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\OrderView\OrderPage.xaml.cs">
+      <DependentUpon>OrderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\OrderView\Orders.xaml.cs">
+      <DependentUpon>Orders.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PaymentView\NewPaymentPage.xaml.cs">
+      <DependentUpon>NewPaymentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PaymentView\PaymentPage.xaml.cs">
+      <DependentUpon>PaymentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PaymentView\Payments.xaml.cs">
+      <DependentUpon>Payments.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\UserView\NewUserPage.xaml.cs">
       <DependentUpon>NewUserPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\NewItemPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\Customers.xaml">
+    <EmbeddedResource Update="Views\CustomerView\EditableCustomerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DepartmentView\Departments.xaml">
+    <EmbeddedResource Update="Views\OrderView\EditableOrderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\LoginPage.xaml">
+    <EmbeddedResource Update="Views\PaymentView\EditablePaymentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MenuPage.xaml">
+    <EmbeddedResource Update="Views\Sign in\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MenuPageDetail.xaml">
+    <EmbeddedResource Update="Views\Menu\MenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MenuPageMaster.xaml">
+    <EmbeddedResource Update="Views\Menu\MenuPageMaster.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Orders.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Payments.xaml">
+    <EmbeddedResource Update="Views\UserView\EditableUserPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\UserView\UserPage.xaml">
@@ -65,7 +83,7 @@
     <EmbeddedResource Update="Views\UserView\Users.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Website.xaml">
+    <EmbeddedResource Update="Views\WebsiteView\Website.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

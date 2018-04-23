@@ -14,7 +14,8 @@ namespace CRM.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int HeadId { get; set; }
+        public Nullable<int> HeadId { get; set; }
+        public string Phone { get; set; }
 
         public virtual User Head { get; set; }
 

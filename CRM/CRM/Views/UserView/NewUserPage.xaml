@@ -10,61 +10,56 @@
             Clicked="Save_Clicked"
             Order="Primary"
             Priority="1" />
-        <ToolbarItem
-            x:Name="CloseToolbarItem"
-            Clicked="Close_Clicked"
-            Order="Primary"
-            Priority="0" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Entry
-                x:Name="fullNameEntry"
+                x:Name="FullNameEntry"
                 Margin="10,20,10,0"
                 FontSize="16"
                 Placeholder="FullName"
                 PlaceholderColor="#bababa" />
             <Entry
-                x:Name="emailEntry"
+                x:Name="EmailEntry"
                 Margin="10,10,10,0"
                 FontSize="16"
                 Placeholder="Email"
                 PlaceholderColor="#bababa" />
             <Entry
-                x:Name="phoneEntry"
+                x:Name="PhoneEntry"
                 Margin="10,10,10,0"
                 FontSize="16"
                 Placeholder="Phone"
                 PlaceholderColor="#bababa" />
             <Entry
-                x:Name="positionEntry"
+                x:Name="PositionEntry"
                 Margin="10,10,10,0"
                 FontSize="16"
                 Placeholder="Position"
                 PlaceholderColor="#bababa" />
             <Entry
-                x:Name="loginEntry"
+                x:Name="LoginEntry"
                 Margin="10,10,10,0"
                 FontSize="16"
                 Placeholder="Login"
                 PlaceholderColor="#bababa" />
             <Entry
-                x:Name="passwordEntry"
+                x:Name="PasswordEntry"
                 Margin="10,10,10,0"
                 FontSize="16"
                 IsPassword="True"
                 Placeholder="Password"
                 PlaceholderColor="#bababa" />
             <Picker
-                x:Name="genderPicker"
+                x:Name="GenderPicker"
                 Title="Gender"
                 Margin="10,10,10,0" />
             <Picker
-                x:Name="departmentPicker"
+                x:Name="DepartmentPicker"
                 Title="Department"
                 Margin="10,10,10,0" />
             <DatePicker
-                x:Name="birthDatePicker"
+                x:Name="BirthDatePicker"
                 Margin="10,10,10,0"
                 TextColor="Black" />
         </StackLayout>

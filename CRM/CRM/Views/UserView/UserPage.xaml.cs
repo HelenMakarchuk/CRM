@@ -1,14 +1,11 @@
 ﻿using CRM.Data;
 using CRM.Models;
-using CRM.ViewModels;
+using CRM.Views.UserView;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,7 +15,7 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserPage : ContentPage
     {
-        User currentUser { get; set; }
+        User CurrentUser { get; set; }
 
         public UserPage()
         {
@@ -29,104 +26,77 @@ namespace CRM.Views
         {
             InitializeComponent();
 
-            currentUser = user;
+            CurrentUser = user;
 
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
             DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
-            CloseToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/close.png" : "close.png";
 
-            fullNameEntry.Text = user.FullName;
-            phoneEntry.Text = user.Phone;
-            emailEntry.Text = user.Email;
-            positionEntry.Text = user.Position;
-            loginEntry.Text = user.Login;
-            passwordEntry.Text = user.Password;
-            
-            genderPicker.ItemsSource = PickerData.Genders.Values.ToList();
-            genderPicker.SelectedItem = PickerData.Genders.ContainsKey(user.Gender ?? "") ? PickerData.Genders[user.Gender] : null;
+            FullNameEntry.Text = CurrentUser.FullName;
+            EmailEntry.Text = CurrentUser.Email;
+            PhoneEntry.Text = CurrentUser.Phone;
+            PositionEntry.Text = CurrentUser.Position;
+            LoginEntry.Text = CurrentUser.Login;
+            PasswordEntry.Text = CurrentUser.Password;
 
-            SetUserDepartment(user);
+            GenderPicker.ItemsSource = PickerData.genders.Values.ToList();
+            GenderPicker.SelectedItem = PickerData.genders.ContainsKey(user.Gender ?? "") ? PickerData.genders[user.Gender] : null;
 
-            birthDatePicker.Date = user.BirthDate ?? DateTime.MinValue;
+            BirthDatePicker.Date = user.BirthDate ?? DateTime.MinValue;
+
+            SetUserDepartment();
         }
 
-        protected async void SetUserDepartment(User user)
+        protected async void SetUserDepartment()
         {
-            var request = new HttpRequestMessage
+            if (CurrentUser.DepartmentId != null)
             {
-                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Department.PluralDbTableName}"),
-                Method = HttpMethod.Get,
-                Headers = { { "Accept", "application/json" } }
-            };
-
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                HttpContent content = response.Content;
-                string json = await content.ReadAsStringAsync();
-
-                try
+                var request = new HttpRequestMessage
                 {
-                    List<Department> departments = JsonConvert.DeserializeObject<List<Department>>(json);
-                    departmentPicker.ItemsSource = departments;
-                    departmentPicker.SelectedItem = departments.Where(d => d.Id == user.DepartmentId).FirstOrDefault();
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Department.PluralDbTableName}/{CurrentUser.DepartmentId}"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
+
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
+
+                    try
+                    {
+                        Department department = JsonConvert.DeserializeObject<Department>(json);
+                        DepartmentPicker.ItemsSource = new List<Department>() { department };
+                        DepartmentPicker.SelectedItem = department;
+
+                        if (department.Name == String.Empty || department.Name == null)
+                            DepartmentPicker.Title = "";
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("Error", ex.Message, "OK");
+                        DepartmentPicker.ItemsSource = new List<Department>();
+                    }
                 }
-                catch (Exception)
+                else
                 {
-                    departmentPicker.ItemsSource = new List<string>();
+                    await DisplayAlert("response.StatusCode", response.StatusCode.ToString(), "OK");
+                    DepartmentPicker.ItemsSource = new List<Department>();
                 }
             }
         }
 
-        async void Close_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PopAsync();
-        }
-
-        async void Edit_Clicked(object sender, EventArgs e)
+        void Edit_Clicked(object sender, EventArgs e)
         {
             try
             {
-                var userResponse = await DisplayAlert("Are you sure?", "An item will be updated", "Yes", "No");
-
-                if (userResponse)
-                {
-                    User updUser = new User();
-                    updUser.Id = currentUser.Id;
-                    updUser.FullName = fullNameEntry.Text;
-                    updUser.Login = loginEntry.Text;
-                    updUser.Password = passwordEntry.Text;
-                    updUser.Phone = phoneEntry.Text;
-                    updUser.Position = positionEntry.Text;
-                    updUser.BirthDate = birthDatePicker.Date;
-                    updUser.Email = emailEntry.Text;
-                    updUser.DepartmentId = (departmentPicker.SelectedItem as Department).Id;
-                    updUser.Gender = genderPicker.SelectedItem?.ToString().First().ToString();
-
-                    var json = JsonConvert.SerializeObject(updUser);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                    var uri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/{currentUser.Id}");
-                    var client = new HttpClient();
-
-                    HttpResponseMessage response = await client.PutAsync(uri, content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        await DisplayAlert("Update operation", "User was updated", "OK");
-                        await Navigation.PopAsync();
-                    }
-                    else
-                    {
-                        await DisplayAlert("Update operation", $"User wasn't updated. Response status: {response.StatusCode}", "OK");
-                    }
-                }
+                Navigation.PushAsync(new EditableUserPage(CurrentUser));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                await DisplayAlert("Update operation", $"User wasn't updated. {ex.Message}", "OK");
+                DisplayAlert("Update operation", $"User wasn't updated. {ex.Message}", "OK");
             }
         }
 
@@ -136,7 +106,7 @@ namespace CRM.Views
 
             if (userResponse)
             {
-                var uri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/{currentUser.Id}");
+                var uri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/{CurrentUser.Id}");
 
                 var client = new HttpClient();
                 HttpResponseMessage response = await client.DeleteAsync(uri);

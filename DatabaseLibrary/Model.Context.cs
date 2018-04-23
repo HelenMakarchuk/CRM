@@ -13,10 +13,10 @@ namespace ORM
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class CRM_DBEntities : DbContext
+    public partial class CRM_DBEntities1 : DbContext
     {
-        public CRM_DBEntities()
-            : base("name=CRM_DBEntities")
+        public CRM_DBEntities1()
+            : base("name=CRM_DBEntities1")
         {
         }
     
@@ -25,10 +25,10 @@ namespace ORM
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Department> Department { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
-        public virtual DbSet<Payment> Payment { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }
