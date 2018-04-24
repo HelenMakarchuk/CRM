@@ -75,42 +75,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ReceiverId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_DeliveryDriver">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="DeliveryDriverId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Owner">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="OwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Payment_ToOrder">
           <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
           <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
@@ -145,18 +109,6 @@
             <End Role="User" EntitySet="User" />
             <End Role="Department" EntitySet="Department" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_DeliveryDriver" Association="Self.FK_Order_DeliveryDriver">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Owner" Association="Self.FK_Order_Owner">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
           <AssociationSet Name="FK_Payment_ToOrder" Association="Self.FK_Payment_ToOrder">
             <End Role="Order" EntitySet="Order" />
             <End Role="Payment" EntitySet="Payment" />
@@ -179,7 +131,6 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -206,9 +157,6 @@
           <Property Name="ReceiverId" Type="Int32" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
-          <NavigationProperty Name="DeliveryDriver" Relationship="Self.FK_Order_DeliveryDriver" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="Owner" Relationship="Self.FK_Order_Owner" FromRole="Order" ToRole="User" />
           <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_ToOrder" FromRole="Order" ToRole="Payment" />
         </EntityType>
         <EntityType Name="Payment">
@@ -238,21 +186,7 @@
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="HeadedDepartments" Relationship="Self.FK_Department_ToHead" FromRole="User" ToRole="Department" />
           <NavigationProperty Name="WorkplaceDepartment" Relationship="Self.FK_Users_Departments" FromRole="User" ToRole="Department" />
-          <NavigationProperty Name="OrdersForDelivery" Relationship="Self.FK_Order_DeliveryDriver" FromRole="User" ToRole="Order" />
-          <NavigationProperty Name="CreatedOrders" Relationship="Self.FK_Order_Owner" FromRole="User" ToRole="Order" />
         </EntityType>
-        <Association Name="FK_Order_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ReceiverId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Department_ToHead">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Department" Type="Self.Department" Multiplicity="*" />
@@ -277,30 +211,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_DeliveryDriver">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="DeliveryDriverId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Owner">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="OwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Payment_ToOrder">
           <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
           <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
@@ -319,10 +229,6 @@
           <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="Payments" EntityType="Self.Payment" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_Department_ToHead" Association="Self.FK_Department_ToHead">
             <End Role="User" EntitySet="Users" />
             <End Role="Department" EntitySet="Departments" />
@@ -330,14 +236,6 @@
           <AssociationSet Name="FK_Users_Departments" Association="Self.FK_Users_Departments">
             <End Role="Department" EntitySet="Departments" />
             <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_DeliveryDriver" Association="Self.FK_Order_DeliveryDriver">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Owner" Association="Self.FK_Order_Owner">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Payment_ToOrder" Association="Self.FK_Payment_ToOrder">
             <End Role="Order" EntitySet="Orders" />

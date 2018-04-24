@@ -9,8 +9,5 @@
     [DeliveryAddress] TEXT NULL, 
     [ReceiverId] INT NULL, 
     [Comment] TEXT NULL, 
-    [DeliveryDate] DATETIME NULL, 
-    CONSTRAINT [FK_Order_Owner] FOREIGN KEY ([OwnerId]) REFERENCES [User]([Id]), 
-    CONSTRAINT [FK_Order_DeliveryDriver] FOREIGN KEY ([DeliveryDriverId]) REFERENCES [User]([Id]), 
-    CONSTRAINT [FK_Order_Customer] FOREIGN KEY ([ReceiverId]) REFERENCES [Customer]([Id]) 
+    [DeliveryDate] DATETIME NULL
 )

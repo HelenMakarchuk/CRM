@@ -18,8 +18,6 @@ namespace ORM
         public User()
         {
             this.HeadedDepartments = new HashSet<Department>();
-            this.OrdersForDelivery = new HashSet<Order>();
-            this.CreatedOrders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -36,9 +34,5 @@ namespace ORM
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Department> HeadedDepartments { get; set; }
         public virtual Department WorkplaceDepartment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> OrdersForDelivery { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> CreatedOrders { get; set; }
     }
 }
