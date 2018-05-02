@@ -3,8 +3,7 @@ using CRM.Models;
 using CRM.Views.UserView;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Net.Http;
 
 using Xamarin.Forms;
@@ -31,17 +30,53 @@ namespace CRM.Views
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
             DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
 
-            FullNameEntry.Text = CurrentUser.FullName;
-            EmailEntry.Text = CurrentUser.Email;
-            PhoneEntry.Text = CurrentUser.Phone;
-            PositionEntry.Text = CurrentUser.Position;
-            LoginEntry.Text = CurrentUser.Login;
-            PasswordEntry.Text = CurrentUser.Password;
+            if (CurrentUser.FullName != String.Empty && CurrentUser.FullName != null)
+            {
+                FullNameLabel.Text += CurrentUser.FullName;
+                FullNameLabel.IsVisible = true;
+            }
 
-            GenderPicker.ItemsSource = PickerData.genders.Values.ToList();
-            GenderPicker.SelectedItem = PickerData.genders.ContainsKey(user.Gender ?? "") ? PickerData.genders[user.Gender] : null;
+            if (CurrentUser.Email != String.Empty && CurrentUser.Email != null)
+            {
+                EmailLabel.Text += CurrentUser.Email;
+                EmailLabel.IsVisible = true;
+            }
 
-            BirthDatePicker.Date = user.BirthDate ?? DateTime.MinValue;
+            if (CurrentUser.Phone != String.Empty && CurrentUser.Phone != null)
+            {
+                PhoneLabel.Text += CurrentUser.Phone;
+                PhoneLabel.IsVisible = true;
+            }
+
+            if (CurrentUser.Position != String.Empty && CurrentUser.Position != null)
+            {
+                PositionLabel.Text += CurrentUser.Position;
+                PositionLabel.IsVisible = true;
+            }
+
+            if (CurrentUser.Login != String.Empty && CurrentUser.Login != null)
+            {
+                LoginLabel.Text += CurrentUser.Login;
+                LoginLabel.IsVisible = true;
+            }
+
+            if (CurrentUser.Password != String.Empty && CurrentUser.Password != null)
+            {
+                PasswordLabel.Text += CurrentUser.Password;
+                PasswordLabel.IsVisible = true;
+            }
+
+            if (PickerData.genders.ContainsKey(user.Gender ?? ""))
+            {
+                GenderLabel.Text += PickerData.genders[user.Gender];
+                GenderLabel.IsVisible = true;
+            }
+
+            if (user.BirthDate != null)
+            {
+                BirthDateLabel.Text += ((DateTime)user.BirthDate).ToString("d MMMM yyyy", new CultureInfo("en-US"));
+                BirthDateLabel.IsVisible = true;
+            }
 
             SetUserDepartment();
         }
@@ -68,22 +103,21 @@ namespace CRM.Views
                     try
                     {
                         Department department = JsonConvert.DeserializeObject<Department>(json);
-                        DepartmentPicker.ItemsSource = new List<Department>() { department };
-                        DepartmentPicker.SelectedItem = department;
 
-                        if (department.Name == String.Empty || department.Name == null)
-                            DepartmentPicker.Title = "";
+                        if (department.Name != String.Empty && department.Name != null)
+                        {
+                            DepartmentLabel.Text += department.Name;
+                            DepartmentLabel.IsVisible = true;
+                        }
                     }
                     catch (Exception ex)
                     {
                         await DisplayAlert("Error", ex.Message, "OK");
-                        DepartmentPicker.ItemsSource = new List<Department>();
                     }
                 }
                 else
                 {
                     await DisplayAlert("response.StatusCode", response.StatusCode.ToString(), "OK");
-                    DepartmentPicker.ItemsSource = new List<Department>();
                 }
             }
         }

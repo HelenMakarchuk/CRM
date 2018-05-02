@@ -12,4 +12,14 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\CrmMenuItemPage.css" />
+    <None Include="wwwroot\js\CrmMenuItemPage.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CRM\CRM\CRM.csproj" />
+    <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
+  </ItemGroup>
+
 </Project>

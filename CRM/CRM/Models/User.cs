@@ -8,8 +8,6 @@ namespace CRM.Models
         public User()
         {
             this.HeadedDepartments = new HashSet<Department>();
-            this.OrdersForDelivery = new HashSet<Order>();
-            this.CreatedOrders = new HashSet<Order>();
         }
 
         public static string PluralDbTableName { get { return "Users"; } }
@@ -27,7 +25,5 @@ namespace CRM.Models
 
         public virtual ICollection<Department> HeadedDepartments { get; set; }
         public virtual Department WorkplaceDepartment { get; set; }
-        public virtual ICollection<Order> OrdersForDelivery { get; set; }
-        public virtual ICollection<Order> CreatedOrders { get; set; }
     }
 }

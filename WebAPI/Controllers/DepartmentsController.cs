@@ -47,6 +47,13 @@ namespace WebAPI.Controllers
             return Ok(department);
         }
 
+        // GET: api/Departments/$count
+        [HttpGet("$count")]
+        public long GetDepartmentsAmount()
+        {
+            return _context.Department.Count();
+        }
+
         // PUT: api/Departments/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDepartment([FromRoute] int id, [FromBody] Department department)

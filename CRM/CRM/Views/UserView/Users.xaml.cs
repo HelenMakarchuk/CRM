@@ -9,7 +9,7 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Users : ContentPage
     {
-        protected UserListViewModel viewModel;
+        protected UserListViewModel _vm = new UserListViewModel();
 
         public Users()
         {
@@ -22,14 +22,13 @@ namespace CRM.Views
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
 
-                viewModel = new UserListViewModel();
-                BindingContext = viewModel;
+                BindingContext = _vm;
 
                 if (Device.RuntimePlatform == Device.Android)
                 {
                     UserList.IsPullToRefreshEnabled = true;
-                    UserList.RefreshCommand = viewModel.RefreshCommand;
-                    UserList.SetBinding(ListView.IsRefreshingProperty, nameof(viewModel.IsRefreshing));
+                    UserList.RefreshCommand = _vm.RefreshCommand;
+                    UserList.SetBinding(ListView.IsRefreshingProperty, nameof(_vm.IsRefreshing));
                 }
                 else if (Device.RuntimePlatform == Device.UWP)
                 {
@@ -63,7 +62,7 @@ namespace CRM.Views
         async protected override void OnAppearing()
         {
             if (App.IsUserLoggedIn)
-                await viewModel.RefreshList();
+                await _vm.RefreshList();
 
             base.OnAppearing();
         }

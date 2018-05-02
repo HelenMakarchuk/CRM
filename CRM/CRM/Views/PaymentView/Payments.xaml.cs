@@ -1,4 +1,5 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
 using CRM.ViewModels;
 using System;
 using Xamarin.Forms;
@@ -9,7 +10,7 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Payments : ContentPage
     {
-        protected PaymentListViewModel viewModel;
+        protected PaymentListViewModel _vm = new PaymentListViewModel();
 
         public Payments()
         {
@@ -22,14 +23,13 @@ namespace CRM.Views
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
 
-                viewModel = new PaymentListViewModel();
-                BindingContext = viewModel;
+                BindingContext = _vm;
 
                 if (Device.RuntimePlatform == Device.Android)
                 {
                     PaymentList.IsPullToRefreshEnabled = true;
-                    PaymentList.RefreshCommand = viewModel.RefreshCommand;
-                    PaymentList.SetBinding(ListView.IsRefreshingProperty, nameof(viewModel.IsRefreshing));
+                    PaymentList.RefreshCommand = _vm.RefreshCommand;
+                    PaymentList.SetBinding(ListView.IsRefreshingProperty, nameof(_vm.IsRefreshing));
                 }
                 else if (Device.RuntimePlatform == Device.UWP)
                 {
@@ -63,7 +63,7 @@ namespace CRM.Views
         async protected override void OnAppearing()
         {
             if (App.IsUserLoggedIn)
-                await viewModel.RefreshList();
+                await _vm.RefreshList();
 
             base.OnAppearing();
         }

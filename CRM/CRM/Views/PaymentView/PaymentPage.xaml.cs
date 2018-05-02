@@ -2,9 +2,11 @@
 using CRM.Views.PaymentView;
 using System;
 using System.Net.Http;
-
+using CRM.Models.Converters;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static CRM.Data.PickerData;
+using Newtonsoft.Json;
 
 namespace CRM.Views
 {
@@ -12,6 +14,7 @@ namespace CRM.Views
     public partial class PaymentPage : ContentPage
     {
         Payment CurrentPayment { get; set; }
+        PaymentStatusConverter paymentStatusConverter = new PaymentStatusConverter();
 
         public PaymentPage()
         {
@@ -27,9 +30,62 @@ namespace CRM.Views
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
             DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
 
-            SumEntry.Text = CurrentPayment.Sum.ToString();
-            StatusEntry.Text = CurrentPayment.Status;
-            MethodEntry.Text = CurrentPayment.Method;
+            if (CurrentPayment.Sum != null)
+            {
+                SumLabel.Text += CurrentPayment.Sum.ToString();
+                SumLabel.IsVisible = true;
+            }
+
+            if (CurrentPayment.Status != null)
+            {
+                StatusLabel.Text += paymentStatusConverter.Convert((byte)CurrentPayment.Status);
+                StatusLabel.IsVisible = true;
+            }
+
+            if (CurrentPayment.Method != null)
+            {
+                MethodLabel.Text += ((PaymentMethods)CurrentPayment.Method).ToString();
+                MethodLabel.IsVisible = true;
+            }
+
+            SetOrderNumber();
+        }
+
+        protected async void SetOrderNumber()
+        {
+            if (CurrentPayment.OrderId != null)
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}/{CurrentPayment.OrderId}"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
+
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
+
+                    try
+                    {
+                        Order order = JsonConvert.DeserializeObject<Order>(json);
+                        OrderNumberLabel.Text += order.Number;
+                        OrderNumberLabel.IsVisible = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        OrderNumberLabel.Text += ex.Message;
+                    }
+                }
+                else
+                {
+                    OrderNumberLabel.Text += response.StatusCode.ToString();
+                }
+            }
         }
 
         void Edit_Clicked(object sender, EventArgs e)

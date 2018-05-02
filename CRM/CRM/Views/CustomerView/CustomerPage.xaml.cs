@@ -27,9 +27,23 @@ namespace CRM.Views
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
             DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
 
-            NameEntry.Text = CurrentCustomer.Name;
-            PhoneEntry.Text = CurrentCustomer.Phone;
-            EmailEntry.Text = CurrentCustomer.Email;
+            if (CurrentCustomer.Name != String.Empty && CurrentCustomer.Name != null)
+            {
+                NameLabel.Text += CurrentCustomer.Name;
+                NameLabel.IsVisible = true;
+            }
+
+            if (CurrentCustomer.Phone != String.Empty && CurrentCustomer.Phone != null)
+            {
+                PhoneLabel.Text += CurrentCustomer.Phone;
+                PhoneLabel.IsVisible = true;
+            }
+
+            if (CurrentCustomer.Email != String.Empty && CurrentCustomer.Email != null)
+            {
+                EmailLabel.Text += CurrentCustomer.Email;
+                EmailLabel.IsVisible = true;
+            }
         }
 
         void Edit_Clicked(object sender, EventArgs e)

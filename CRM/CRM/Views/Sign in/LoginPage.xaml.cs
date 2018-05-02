@@ -53,6 +53,7 @@ namespace CRM.Views
                     currentUser = JsonConvert.DeserializeObject<User>(json);
 
                     App.IsUserLoggedIn = true;
+                    App.CurrentUserId = currentUser.Id;
                     LoggedInUserToolbarItem.Text = currentUser.FullName;
 
                     MessageLabel.Text = "";

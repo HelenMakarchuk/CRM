@@ -47,6 +47,13 @@ namespace WebAPI.Controllers
             return Ok(customer);
         }
 
+        // GET: api/Customers/$count
+        [HttpGet("$count")]
+        public long GetCustomersAmount()
+        {
+            return _context.Customer.Count();
+        }
+
         // PUT: api/Customers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] Customer customer)

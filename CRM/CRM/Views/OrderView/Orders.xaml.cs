@@ -9,7 +9,7 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Orders : ContentPage
     {
-        protected OrderListViewModel viewModel;
+        protected OrderListViewModel _vm = new OrderListViewModel();
 
         public Orders()
         {
@@ -22,14 +22,13 @@ namespace CRM.Views
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
 
-                viewModel = new OrderListViewModel();
-                BindingContext = viewModel;
+                BindingContext = _vm;
 
                 if (Device.RuntimePlatform == Device.Android)
                 {
                     OrderList.IsPullToRefreshEnabled = true;
-                    OrderList.RefreshCommand = viewModel.RefreshCommand;
-                    OrderList.SetBinding(ListView.IsRefreshingProperty, nameof(viewModel.IsRefreshing));
+                    OrderList.RefreshCommand = _vm.RefreshCommand;
+                    OrderList.SetBinding(ListView.IsRefreshingProperty, nameof(_vm.IsRefreshing));
                 }
                 else if (Device.RuntimePlatform == Device.UWP)
                 {
@@ -63,7 +62,7 @@ namespace CRM.Views
         async protected override void OnAppearing()
         {
             if (App.IsUserLoggedIn)
-                await viewModel.RefreshList();
+                await _vm.RefreshList();
 
             base.OnAppearing();
         }

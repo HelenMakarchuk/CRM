@@ -17,53 +17,58 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Entry
-                x:Name="NumberEntry"
+            <Label
+                x:Name="NumberLabel"
                 Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Number"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="StatusEntry"
-                Margin="10,10,10,0"
+                Text="Number: " />
+            <Label
+                x:Name="StatusLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Status"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="DeliveryAddressEntry"
-                Margin="10,10,10,0"
+                Text="Status: " />
+            <Label
+                x:Name="DeliveryAddressLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="DeliveryAddress"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="CommentEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="Delivery address: " />
+            <Label
+                x:Name="CommentLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Comment"
-                PlaceholderColor="#bababa" />
-            <DatePicker
-                x:Name="CreatedOnPicker"
-                Margin="10,10,10,0"
-                TextColor="Black" />
-            <DatePicker
-                x:Name="DeliveryDatePicker"
-                Margin="10,10,10,0"
-                TextColor="Black" />
-            <Picker
-                x:Name="OwnerPicker"
-                Title="Owner"
-                Margin="10,10,10,0"
-                ItemDisplayBinding="{Binding FullName}" />
-            <Picker
-                x:Name="DeliveryDriverPicker"
-                Title="DeliveryDriver"
-                Margin="10,10,10,0"
-                ItemDisplayBinding="{Binding FullName}" />
-            <Picker
-                x:Name="ReceiverPicker"
-                Title="Receiver"
-                Margin="10,10,10,0"
-                ItemDisplayBinding="{Binding Name}" />
+                IsVisible="False"
+                Text="Comment: " />
+            <Label
+                x:Name="CreatedOnLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Created on: " />
+            <Label
+                x:Name="DeliveryDateLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Delivery date: " />
+            <Label
+                x:Name="OwnerLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Owner: " />
+            <Label
+                x:Name="DeliveryDriverLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Delivery driver: " />
+            <Label
+                x:Name="ReceiverLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Receiver: " />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

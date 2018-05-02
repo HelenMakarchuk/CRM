@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Order]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Number] NVARCHAR(10) NULL, 
+    [Number] VARCHAR(40) NULL, 
     [CreatedOn] DATETIME NOT NULL, 
     [Status] TINYINT NOT NULL, 
     [OwnerId] INT NOT NULL, 

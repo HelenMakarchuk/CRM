@@ -3,7 +3,7 @@
     x:Class="CRM.Views.NewOrderPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="New user">
+    Title="New order">
     <ContentPage.ToolbarItems>
         <ToolbarItem
             x:Name="SaveToolbarItem"
@@ -15,15 +15,9 @@
         <StackLayout>
             <Entry
                 x:Name="DeliveryAddressEntry"
-                Margin="10,10,10,0"
+                Margin="10,20,10,0"
                 FontSize="16"
                 Placeholder="DeliveryAddress"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="CommentEntry"
-                Margin="10,10,10,0"
-                FontSize="16"
-                Placeholder="Comment"
                 PlaceholderColor="#bababa" />
             <DatePicker
                 x:Name="DeliveryDatePicker"
@@ -39,6 +33,12 @@
                 Title="Receiver"
                 Margin="10,10,10,0"
                 ItemDisplayBinding="{Binding Name}" />
+            <Entry
+                x:Name="CommentEntry"
+                Margin="10,20,10,0"
+                FontSize="16"
+                Placeholder="Comment"
+                PlaceholderColor="#bababa" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

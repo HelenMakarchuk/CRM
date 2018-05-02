@@ -17,23 +17,24 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Entry
-                x:Name="NameEntry"
+            <Label
+                x:Name="NameLabel"
                 Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Name"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="PhoneEntry"
+                IsVisible="False"
+                Text="Name: " />
+            <Label
+                x:Name="PhoneLabel"
                 Margin="10,10,10,0"
                 FontSize="16"
-                Placeholder="Phone"
-                PlaceholderColor="#bababa" />
-            <Picker
-                x:Name="HeadPicker"
-                Title="Head"
+                IsVisible="False"
+                Text="Phone: " />
+            <Label
+                x:Name="HeadLabel"
                 Margin="10,10,10,0"
-                ItemDisplayBinding="{Binding FullName}" />
+                FontSize="16"
+                IsVisible="False"
+                Text="Head: " />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

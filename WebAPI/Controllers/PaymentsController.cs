@@ -47,6 +47,22 @@ namespace WebAPI.Controllers
             return Ok(payment);
         }
 
+        // GET: api/Payments/$count
+        [HttpGet("$count")]
+        public long GetPaymentsAmount()
+        {
+            return _context.Payment.Count();
+        }
+
+        // GET: api/Payments/$orderId={orderId}
+        [HttpGet("$orderId={orderId}")]
+        public List<int> GetOrderPayments([FromRoute] int orderId)
+        {
+            var paymentIds = _context.Payment.Where(p => p.OrderId == orderId).Select(p => p.Id).ToList();
+
+            return paymentIds;
+        }
+
         // PUT: api/Payments/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPayment([FromRoute] int id, [FromBody] Payment payment)

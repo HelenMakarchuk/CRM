@@ -13,18 +13,25 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <Picker
+                x:Name="OrderPicker"
+                Title="Select an order number"
+                Margin="10,10,10,0"
+                ItemDisplayBinding="{Binding Number}" />
             <Entry
                 x:Name="SumEntry"
                 Margin="10,20,10,0"
                 FontSize="16"
                 Placeholder="Sum"
                 PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="StatusEntry"
-                Margin="10,10,10,0"
-                FontSize="16"
-                Placeholder="Status"
-                PlaceholderColor="#bababa" />
+            <Picker
+                x:Name="StatusPicker"
+                Title="Status"
+                Margin="10,10,10,0" />
+            <Picker
+                x:Name="MethodPicker"
+                Title="Method"
+                Margin="10,10,10,0" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

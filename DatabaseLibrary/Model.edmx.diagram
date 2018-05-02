@@ -5,14 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="395896b34c114677a499235b8d357757" Name="Diagram1">
-        <EntityTypeShape EntityType="CRM_DBModel.Customer" Width="1.5" PointX="5.125" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_DBModel.Department" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_DBModel.Order" Width="1.5" PointX="7.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_DBModel.Payment" Width="1.5" PointX="9.5" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_DBModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="CRM_DBModel.FK_Department_ToHead" ManuallyRouted="false" />
-        <AssociationConnector Association="CRM_DBModel.FK_Users_Departments" ManuallyRouted="false" />
-        <AssociationConnector Association="CRM_DBModel.FK_Payment_ToOrder" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CRM_DBModel.Customer" Width="1.5" PointX="10.375" PointY="1.125" />
+        <EntityTypeShape EntityType="CRM_DBModel.Department" Width="1.5" PointX="1.125" PointY="1.125" />
+        <EntityTypeShape EntityType="CRM_DBModel.Payment" Width="1.5" PointX="8.375" PointY="1" />
+        <EntityTypeShape EntityType="CRM_DBModel.User" Width="1.5" PointX="3.375" PointY="0.5" />
+        <AssociationConnector Association="CRM_DBModel.FK_Department_ToHead" />
+        <AssociationConnector Association="CRM_DBModel.FK_Users_Departments" />
+        <EntityTypeShape EntityType="CRM_DBModel.Order" Width="1.5" PointX="6.125" PointY="0.75" />
+        <AssociationConnector Association="CRM_DBModel.FK_Payment_ToOrder" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

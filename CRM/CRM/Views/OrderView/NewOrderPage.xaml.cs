@@ -10,7 +10,9 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Formatting;
-using CRM.Data;
+using System.Threading.Tasks;
+using static CRM.Data.PickerData;
+using System.Text;
 
 namespace CRM.Views
 {
@@ -97,8 +99,91 @@ namespace CRM.Views
             }
         }
 
+        async void SetNumber(Order order, int id)
+        {
+            try
+            {
+                order.Id = id;
+                order.Number = $"ORD_{id + 1}";
+
+                var json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var uri = new Uri($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}/{id}");
+                var client = new HttpClient();
+
+                HttpResponseMessage response = await client.PutAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await DisplayAlert("Create operation", $"Order \"{order.Number}\" was created.", "OK");
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Set number operation", $"Order wasn't updated. Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Set number operation", $"Order wasn't updated. {ex.Message}", "OK");
+            }
+        }
+
         async void Save_Clicked(object sender, EventArgs e)
         {
+            try
+            {
+                #region New order assembling
+
+                Order order = new Order();
+                order.CreatedOn = DateTime.Now;
+                order.DeliveryDate = DeliveryDatePicker.Date;
+                order.OwnerId = App.CurrentUserId;
+                order.Status = (byte)OrderStatuses.New;
+
+                if (DeliveryAddressEntry.Text != string.Empty)
+                    order.DeliveryAddress = DeliveryAddressEntry.Text;
+
+                if (CommentEntry.Text != string.Empty)
+                    order.Comment = CommentEntry.Text;
+
+                ////if (DeliveryDriverPicker.SelectedIndex == 0) { user want to leave delivery driver empty (null) } 
+                if (DeliveryDriverPicker.SelectedIndex != 0 && DeliveryDriverPicker.SelectedItem is User selectedDeliveryDriver)
+                {
+                    order.DeliveryDriverId = selectedDeliveryDriver.Id;
+                }
+
+                ////if (ReceiverPicker.SelectedIndex == 0) { user want to leave receiver empty (null) } 
+                if (ReceiverPicker.SelectedIndex != 0 && ReceiverPicker.SelectedItem is Customer selectedReceiver)
+                {
+                    order.ReceiverId = selectedReceiver.Id;
+                }
+
+                #endregion
+
+                string json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json);
+
+                var client = new HttpClient();
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await client.PostAsync($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}", content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+                    SetNumber(order, int.Parse(responseJson));
+                }
+                else
+                {
+                    await DisplayAlert("Create operation", $"Order wasn't created. Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Create operation", $"An error occured while creating order. {ex.Message}", "OK");
+            }
         }
     }
 }

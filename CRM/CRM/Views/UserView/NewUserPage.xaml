@@ -57,7 +57,8 @@
             <Picker
                 x:Name="DepartmentPicker"
                 Title="Department"
-                Margin="10,10,10,0" />
+                Margin="10,10,10,0"
+                ItemDisplayBinding="{Binding Name}" />
             <DatePicker
                 x:Name="BirthDatePicker"
                 Margin="10,10,10,0"

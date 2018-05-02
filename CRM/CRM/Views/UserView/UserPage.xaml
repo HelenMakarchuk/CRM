@@ -17,56 +17,60 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Entry
-                x:Name="FullNameEntry"
+            <Label
+                x:Name="FullNameLabel"
                 Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="FullName"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="EmailEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="FullName: " />
+            <Label
+                x:Name="EmailLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Email"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="PhoneEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="Email: " />
+            <Label
+                x:Name="PhoneLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Phone"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="PositionEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="Phone: " />
+            <Label
+                x:Name="PositionLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Position"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="LoginEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="Position: " />
+            <Label
+                x:Name="LoginLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Login"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="PasswordEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="Login: " />
+            <Label
+                x:Name="PasswordLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                IsPassword="True"
-                Placeholder="Password"
-                PlaceholderColor="#bababa" />
-            <Picker
-                x:Name="GenderPicker"
-                Title="Gender"
-                Margin="10,10,10,0" />
-            <Picker
-                x:Name="DepartmentPicker"
-                Title="Department"
-                Margin="10,10,10,0"
-                ItemDisplayBinding="{Binding Name}" />
-            <DatePicker
-                x:Name="BirthDatePicker"
-                Margin="10,10,10,0"
-                TextColor="Black" />
+                IsVisible="False"
+                Text="Password: " />
+            <Label
+                x:Name="GenderLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Gender: " />
+            <Label
+                x:Name="DepartmentLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Department: " />
+            <Label
+                x:Name="BirthDateLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                IsVisible="False"
+                Text="Birth date: " />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

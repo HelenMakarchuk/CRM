@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @* META *@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @* CSS *@
+    <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+    <link rel='stylesheet prefetch' href='https://unpkg.com/ng-table/bundles/ng-table.min.css'>
+    <link rel="stylesheet" href="~/css/CrmMenuItemPage.css">
+
+    @* JS *@
+    <script src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js'></script>
+    <script src='https://unpkg.com/ng-table/bundles/ng-table.min.js'></script>
+    
+    <script>
+        var data = @Html.Raw(Json.Serialize(ViewData["Data"]));
+        var cols = @Html.Raw(Json.Serialize(ViewData["Columns"]));
+    </script>
+
+    <script type="text/javascript" src="~/js/CrmMenuItemPage.js"></script>
+</head>
+
+<body translate="no">
+    <div ng-app="App" class="container-fluid">
+        <div class="col-md-6" ng-controller="dynamicCrmController as crm">
+            <h3>@ViewData["Message"]</h3>
+            <table ng-table-dynamic="crm.tableParams with crm.cols" class="table table-condensed table-bordered table-striped">
+                <tr ng-repeat="row in $data">
+                    <td ng-repeat="col in $columns">{{row[col.field]}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

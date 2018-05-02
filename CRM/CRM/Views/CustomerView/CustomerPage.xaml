@@ -17,24 +17,24 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Entry
-                x:Name="NameEntry"
+            <Label
+                x:Name="NameLabel"
                 Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Name"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="PhoneEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="Name: " />
+            <Label
+                x:Name="PhoneLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Phone"
-                PlaceholderColor="#bababa" />
-            <Entry
-                x:Name="EmailEntry"
-                Margin="10,10,10,0"
+                IsVisible="False"
+                Text="Phone: " />
+            <Label
+                x:Name="EmailLabel"
+                Margin="10,20,10,0"
                 FontSize="16"
-                Placeholder="Email"
-                PlaceholderColor="#bababa" />
+                IsVisible="False"
+                Text="Email: " />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

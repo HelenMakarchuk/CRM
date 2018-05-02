@@ -1,7 +1,6 @@
 ﻿using CRM.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 
 using Xamarin.Forms;
@@ -28,8 +27,18 @@ namespace CRM.Views
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
             DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
 
-            NameEntry.Text = CurrentDepartment.Name;
-            PhoneEntry.Text = CurrentDepartment.Phone;
+            if (CurrentDepartment.Name != String.Empty && CurrentDepartment.Name != null)
+            {
+                NameLabel.Text += CurrentDepartment.Name;
+                NameLabel.IsVisible = true;
+            }
+
+            if (CurrentDepartment.Phone != String.Empty && CurrentDepartment.Phone != null)
+            {
+                PhoneLabel.Text += CurrentDepartment.Phone;
+                PhoneLabel.IsVisible = true;
+            }
+
             SetDepartmentHead();
         }
 
@@ -55,22 +64,21 @@ namespace CRM.Views
                     try
                     {
                         User head = JsonConvert.DeserializeObject<User>(json);
-                        HeadPicker.ItemsSource = new List<User>() { head };
-                        HeadPicker.SelectedItem = head;
 
-                        if (head.FullName == String.Empty || head.FullName == null)
-                            HeadPicker.Title = "";
+                        if (head.FullName != String.Empty && head.FullName != null)
+                        {
+                            HeadLabel.Text += head.FullName;
+                            HeadLabel.IsVisible = true;
+                        }
                     }
                     catch (Exception ex)
                     {
                         await DisplayAlert("Error", ex.Message, "OK");
-                        HeadPicker.ItemsSource = new List<User>();
                     }
                 }
                 else
                 {
                     await DisplayAlert("response.StatusCode", response.StatusCode.ToString(), "OK");
-                    HeadPicker.ItemsSource = new List<User>();
                 }
             }
         }

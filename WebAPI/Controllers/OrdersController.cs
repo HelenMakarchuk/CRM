@@ -47,6 +47,27 @@ namespace WebAPI.Controllers
             return Ok(order);
         }
 
+        // GET: api/Orders/$count
+        [HttpGet("$count")]
+        public long GetOrdersAmount()
+        {
+            return _context.Order.Count();
+        }
+
+        //// GET: api/Orders/$max(Number)
+        //[HttpGet("$max(Number)")]
+        //public async Task<IActionResult> GetMaxNumberOrder()
+        //{
+        //    var order = await _context.Order.OrderByDescending(o => long.Parse(o.Number)).FirstOrDefaultAsync();
+
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(order);
+        //}
+
         // PUT: api/Orders/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrder([FromRoute] int id, [FromBody] Order order)
@@ -94,7 +115,8 @@ namespace WebAPI.Controllers
             _context.Order.Add(order);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            //return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            return Ok(order.Id);
         }
 
         // DELETE: api/Orders/5

@@ -2,7 +2,8 @@
 <ContentPage
     x:Class="CRM.Views.Orders"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:CRM.Models.Converters;assembly=CRM">
     <ContentPage.ToolbarItems>
         <ToolbarItem
             x:Name="AddToolbarItem"
@@ -10,6 +11,11 @@
             Order="Primary"
             Priority="0" />
     </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:OrderStatusConverter x:Key="OrderStatusConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout>
         <StackLayout x:Name="MessageStackLayout" Padding="10,5,0,5">
             <Label
@@ -43,11 +49,11 @@
                             <Label
                                 Margin="10,0,10,0"
                                 FontSize="Medium"
-                                Text="{Binding Number}" />
+                                Text="{Binding Status, Converter={StaticResource OrderStatusConverter}}" />
                             <Label
                                 Margin="10,0,10,0"
                                 FontSize="Small"
-                                Text="{Binding Status}" />
+                                Text="{Binding Number}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

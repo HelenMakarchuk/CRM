@@ -14,6 +14,7 @@ namespace CRM
         }
 
         public static bool IsUserLoggedIn = false;
+        public static int CurrentUserId { get; set; }
 
         protected override void OnStart ()
         {

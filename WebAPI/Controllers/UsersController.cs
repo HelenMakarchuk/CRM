@@ -46,6 +46,7 @@ namespace WebAPI.Controllers
 
             return Ok(user);
         }
+
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)
@@ -63,6 +64,13 @@ namespace WebAPI.Controllers
             }
 
             return Ok(user);
+        }
+
+        // GET: api/Users/$count
+        [HttpGet("$count")]
+        public long GetUsersAmount()
+        {
+            return _context.User.Count();
         }
 
         // PUT: api/Users/5

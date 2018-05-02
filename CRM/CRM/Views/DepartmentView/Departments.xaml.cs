@@ -9,7 +9,7 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Departments : ContentPage
     {
-        protected DepartmentListViewModel viewModel;
+        protected DepartmentListViewModel _vm = new DepartmentListViewModel();
 
         public Departments()
         {
@@ -22,14 +22,13 @@ namespace CRM.Views
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
 
-                viewModel = new DepartmentListViewModel();
-                BindingContext = viewModel;
+                BindingContext = _vm;
 
                 if (Device.RuntimePlatform == Device.Android)
                 {
                     DepartmentList.IsPullToRefreshEnabled = true;
-                    DepartmentList.RefreshCommand = viewModel.RefreshCommand;
-                    DepartmentList.SetBinding(ListView.IsRefreshingProperty, nameof(viewModel.IsRefreshing));
+                    DepartmentList.RefreshCommand = _vm.RefreshCommand;
+                    DepartmentList.SetBinding(ListView.IsRefreshingProperty, nameof(_vm.IsRefreshing));
                 }
                 else if (Device.RuntimePlatform == Device.UWP)
                 {
@@ -63,7 +62,7 @@ namespace CRM.Views
         async protected override void OnAppearing()
         {
             if (App.IsUserLoggedIn)
-                await viewModel.RefreshList();
+                await _vm.RefreshList();
 
             base.OnAppearing();
         }

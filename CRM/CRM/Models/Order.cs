@@ -23,10 +23,6 @@ namespace CRM.Models
         public string Comment { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
 
-        public virtual Customer Customer { get; set; }
-        public virtual User DeliveryDriver { get; set; }
-        public virtual User Owner { get; set; }
-        
         public virtual ICollection<Payment> Payments { get; set; }
     }
 }

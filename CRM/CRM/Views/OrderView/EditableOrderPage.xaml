@@ -12,12 +12,10 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Entry
-                x:Name="StatusEntry"
-                Margin="10,10,10,0"
-                FontSize="16"
-                Placeholder="Status"
-                PlaceholderColor="#bababa" />
+            <Picker
+                x:Name="StatusPicker"
+                Title="Select a status"
+                Margin="10,10,10,0" />
             <Entry
                 x:Name="DeliveryAddressEntry"
                 Margin="10,10,10,0"
@@ -34,11 +32,6 @@
                 x:Name="DeliveryDatePicker"
                 Margin="10,10,10,0"
                 TextColor="Black" />
-            <Picker
-                x:Name="OwnerPicker"
-                Title="Owner"
-                Margin="10,10,10,0"
-                ItemDisplayBinding="{Binding FullName}" />
             <Picker
                 x:Name="DeliveryDriverPicker"
                 Title="DeliveryDriver"
