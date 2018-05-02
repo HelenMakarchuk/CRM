@@ -54,6 +54,15 @@ namespace WebAPI.Controllers
             return _context.Department.Count();
         }
 
+        // GET: api/Departments/$HeadId={headId}
+        [HttpGet("$HeadId={headId}")]
+        public IActionResult GetUserDepartments([FromRoute] int headId)
+        {
+            var departmentNames = _context.Department.Where(d => d.HeadId == headId).Select(d => d.Name).ToList();
+
+            return Ok(departmentNames);
+        }
+
         // PUT: api/Departments/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDepartment([FromRoute] int id, [FromBody] Department department)

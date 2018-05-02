@@ -54,19 +54,37 @@ namespace WebAPI.Controllers
             return _context.Order.Count();
         }
 
-        //// GET: api/Orders/$max(Number)
-        //[HttpGet("$max(Number)")]
-        //public async Task<IActionResult> GetMaxNumberOrder()
-        //{
-        //    var order = await _context.Order.OrderByDescending(o => long.Parse(o.Number)).FirstOrDefaultAsync();
+        // GET: api/Orders/$max(Number)
+        [HttpGet("$max(Number)")]
+        public async Task<IActionResult> GetMaxNumberOrder()
+        {
+            var order = await _context.Order.OrderByDescending(o => long.Parse(o.Number)).FirstOrDefaultAsync();
 
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (order == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(order);
-        //}
+            return Ok(order);
+        }
+
+        // GET: api/Orders/$(OwnerId={ownerId})OR(DeliveryDriverId={deliveryDriverId})
+        [HttpGet("$(OwnerId={ownerId})OR(DeliveryDriverId={deliveryDriverId})")]
+        public IActionResult GetUserOrders([FromRoute] int ownerId, [FromRoute] int deliveryDriverId)
+        {
+            var orderNumbers = _context.Order.Where(o => (o.OwnerId == ownerId || o.DeliveryDriverId == deliveryDriverId)).Select(o => o.Number).ToList();
+
+            return Ok(orderNumbers);
+        }
+
+        // GET: api/Orders/$ReceiverId={receiverId}
+        [HttpGet("$ReceiverId={receiverId}")]
+        public IActionResult GetCustomerOrders([FromRoute] int receiverId)
+        {
+            var orderNumbers = _context.Order.Where(o => o.ReceiverId == receiverId).Select(o => o.Number).ToList();
+
+            return Ok(orderNumbers);
+        }
 
         // PUT: api/Orders/5
         [HttpPut("{id}")]
