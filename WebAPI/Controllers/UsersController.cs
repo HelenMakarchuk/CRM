@@ -73,6 +73,15 @@ namespace WebAPI.Controllers
             return _context.User.Count();
         }
 
+        // GET: api/Users/$DepartmentId={departmentId}
+        [HttpGet("$DepartmentId={departmentId}")]
+        public IActionResult GetDepartmentUsers([FromRoute] int departmentId)
+        {
+            var userNames = _context.User.Where(u => u.DepartmentId == departmentId).Select(u => u.FullName).ToList();
+
+            return Ok(userNames);
+        }
+
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)

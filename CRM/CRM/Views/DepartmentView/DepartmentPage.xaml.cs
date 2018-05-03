@@ -1,6 +1,7 @@
 ﻿using CRM.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 using Xamarin.Forms;
@@ -95,11 +96,12 @@ namespace CRM.Views
             }
         }
 
-        async void Delete_Clicked(object sender, EventArgs e)
+        /// <summary>
+        /// Current department deleting
+        /// </summary>
+        async void Delete()
         {
-            var userResponse = await DisplayAlert("Are you sure?", "An item will be deleted", "Yes", "No");
-
-            if (userResponse)
+            try
             {
                 var uri = new Uri($"{Constants.WebAPIUrl}/api/{Department.PluralDbTableName}/{CurrentDepartment.Id}");
 
@@ -114,6 +116,57 @@ namespace CRM.Views
                 else
                 {
                     await DisplayAlert("Delete operation", $"Department wasn't deleted. Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Delete operation", $"Department wasn't deleted. {ex.Message}", "OK");
+            }
+        }
+
+        async void Delete_Clicked(object sender, EventArgs e)
+        {
+            var userResponse = await DisplayAlert("Are you sure?", "An item will be deleted", "Yes", "No");
+
+            if (userResponse)
+            {
+                try
+                {
+                    var request = new HttpRequestMessage
+                    {
+                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/$DepartmentId={CurrentDepartment.Id}"),
+                        Method = HttpMethod.Get,
+                        Headers = { { "Accept", "application/json" } }
+                    };
+
+                    var client = new HttpClient();
+                    HttpResponseMessage response = await client.SendAsync(request);
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        HttpContent content = response.Content;
+                        string json = await content.ReadAsStringAsync();
+
+                        List<string> userNames = JsonConvert.DeserializeObject<List<string>>(json);
+
+                        if (userNames.Count > 0)
+                        {
+                            await DisplayAlert("Deleting is not allowed", $"The customer is linked to orders: {String.Join(", ", userNames)}", "OK");
+                            return;
+                        }
+
+                        Delete();
+                    }
+                    else
+                    {
+                        await DisplayAlert("Retrieve related orders operation", $"Response status: {response.StatusCode}", "OK");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Retrieve related orders operation", $"An error occured while retrieving related orders. {ex.Message}", "OK");
+                    return;
                 }
             }
         }
