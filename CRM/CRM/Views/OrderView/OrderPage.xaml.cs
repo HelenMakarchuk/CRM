@@ -281,7 +281,11 @@ namespace CRM.Views
                         string json = await content.ReadAsStringAsync();
 
                         List<int> paymentIds = JsonConvert.DeserializeObject<List<int>>(json);
-                        DeletePayments(paymentIds);
+
+                        if (paymentIds.Count > 0)
+                            DeletePayments(paymentIds);
+                        else
+                            Delete();
                     }
                     else
                     {

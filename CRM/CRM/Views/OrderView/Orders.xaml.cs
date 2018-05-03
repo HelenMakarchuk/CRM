@@ -1,6 +1,9 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
+using CRM.Models.Converters;
 using CRM.ViewModels;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,6 +13,7 @@ namespace CRM.Views
     public partial class Orders : ContentPage
     {
         protected OrderListViewModel _vm = new OrderListViewModel();
+        OrderStatusConverter orderStatusConverter = new OrderStatusConverter();
 
         public Orders()
         {
@@ -56,6 +60,25 @@ namespace CRM.Views
             if (App.IsUserLoggedIn)
             {
                 await Navigation.PushAsync(new NewOrderPage());
+            }
+        }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                OrderList.ItemsSource = _vm.OrderList;
+            }
+
+            else
+            {
+                OrderList.ItemsSource = _vm.OrderList
+                    .Where(x =>
+                        (x.Number.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || x.DeliveryAddress.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || x.Comment.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || orderStatusConverter.Convert(x.Status).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
+                    .ToList();
             }
         }
 

@@ -1,7 +1,9 @@
 ﻿using CRM.Data;
 using CRM.Models;
+using CRM.Models.Converters;
 using CRM.ViewModels;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,6 +13,8 @@ namespace CRM.Views
     public partial class Payments : ContentPage
     {
         protected PaymentListViewModel _vm = new PaymentListViewModel();
+        PaymentStatusConverter paymentStatusConverter = new PaymentStatusConverter();
+        PaymentMethodConverter paymentMethodConverter = new PaymentMethodConverter();
 
         public Payments()
         {
@@ -57,6 +61,24 @@ namespace CRM.Views
             if (App.IsUserLoggedIn)
             {
                 await Navigation.PushAsync(new NewPaymentPage());
+            }
+        }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                PaymentList.ItemsSource = _vm.PaymentList;
+            }
+
+            else
+            {
+                PaymentList.ItemsSource = _vm.PaymentList
+                    .Where(x =>
+                        (x.Status != null && paymentStatusConverter.Convert((byte)x.Status).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
+                        || (x.Method != null && paymentMethodConverter.Convert((byte)x.Method).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
+                        || x.Sum.ToString().StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
             }
         }
 

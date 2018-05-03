@@ -1,6 +1,7 @@
 ﻿using CRM.Models;
 using CRM.ViewModels;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -56,6 +57,25 @@ namespace CRM.Views
             if (App.IsUserLoggedIn)
             {
                 await Navigation.PushAsync(new NewUserPage());
+            }
+        }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                UserList.ItemsSource = _vm.UserList;
+            }
+
+            else
+            {
+                UserList.ItemsSource = _vm.UserList
+                    .Where(x =>
+                        (x.FullName.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || x.Position.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || x.Phone.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || x.Email.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
+                    .ToList();
             }
         }
 
