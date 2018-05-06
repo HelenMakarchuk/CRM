@@ -10,8 +10,11 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout x:Name="DashboardStackLayout" Padding="10">
-                <Label Text="Reports and announcements will be here." />
+            <StackLayout
+                x:Name="WelcomeStackLayout"
+                Padding="10"
+                IsVisible="False">
+                <Label x:Name="WelcomeLabel" Text="Welcome, " />
             </StackLayout>
             <StackLayout x:Name="SignInStackLayout">
                 <StackLayout x:Name="photoStackLayout">

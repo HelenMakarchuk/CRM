@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\BiReportsView\BiReports.xaml.cs">
+      <DependentUpon>BiReports.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CustomerView\NewCustomerPage.xaml.cs">
       <DependentUpon>NewCustomerPage.xaml</DependentUpon>
     </Compile>
@@ -56,6 +59,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\BiReportsView\BiReports.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\CustomerView\EditableCustomerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

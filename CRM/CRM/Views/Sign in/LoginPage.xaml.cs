@@ -27,8 +27,6 @@ namespace CRM.Views
             UserPhoto.HeightRequest = Device.RuntimePlatform == Device.UWP ? 200 : 110;
 
             this.Title = "Sign in";
-            DashboardStackLayout.IsVisible = false;
-            SignInStackLayout.IsVisible = true;
         }
 
         public async void OnLoginButtonClicked(object sender, EventArgs e)
@@ -61,7 +59,8 @@ namespace CRM.Views
 
                     this.Title = "";
                     SignInStackLayout.IsVisible = false;
-                    DashboardStackLayout.IsVisible = true;
+                    WelcomeLabel.Text += currentUser.FullName + " !";
+                    WelcomeStackLayout.IsVisible = true;
                 }
                 catch (Exception ex)
                 {

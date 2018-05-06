@@ -22,6 +22,7 @@ namespace CRM.Views
 
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
+                MainSearchBar.IsVisible = true;
 
                 BindingContext = _vm;
 
@@ -45,6 +46,7 @@ namespace CRM.Views
 
                 MessageStackLayout.IsVisible = true;
                 RefreshStackLayout.IsVisible = false;
+                MainSearchBar.IsVisible = false;
             }
 
             UserList.ItemSelected += (sender, e) => {

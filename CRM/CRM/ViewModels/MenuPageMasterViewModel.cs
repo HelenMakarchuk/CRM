@@ -34,34 +34,41 @@ namespace CRM.ViewModels
                 },
                 new Item {
                     Id = 2,
+                    Title = "BI Reports",
+                    Description = "BI dashboard",
+                    ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/bi_report.png" : "bi_report.png",
+                    TargetType = typeof(BiReports)
+                },
+                new Item {
+                    Id = 3,
                     Title = "Departments",
                     Description = "Company departments",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/user_group.png" : "user_group.png",
                     TargetType = typeof(Departments)
                 },
                 new Item {
-                    Id = 3,
+                    Id = 4,
                     Title = "Orders",
                     Description = "Customer orders",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/sales_order.png" : "sales_order.png",
                     TargetType = typeof(Orders)
                 },
                 new Item {
-                    Id = 4,
+                    Id = 5,
                     Title = "Users",
                     Description = "Employees",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/employee.png" : "employee.png",
                     TargetType = typeof(Users)
                 },
                 new Item {
-                    Id = 5,
+                    Id = 6,
                     Title = "Customers",
                     Description = "Customers",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/customer.png" : "customer.png",
                     TargetType = typeof(Customers)
                 },
                     new Item {
-                    Id = 6,
+                    Id = 7,
                     Title = "Payments",
                     Description = "Payments",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/payment.png" : "payment.png",

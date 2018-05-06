@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CRM.Views.BiReports"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="MessageStackLayout" Padding="10,5,0,5">
+                <Label
+                    x:Name="MessageLabel"
+                    FontSize="14"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="You must to sign in before viewing this page"
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
+            <WebView
+                x:Name="ReportWebView"
+                HorizontalOptions="FillAndExpand"
+                IsVisible="False"
+                Source="https://app.powerbi.com/view?r=eyJrIjoiNzE2Y2YwM2YtNTY1NC00MGFjLWFkYTQtMjRhYjcwYTBlNjM4IiwidCI6ImYxOTgwMDYyLTI5MjEtNDI2ZS1iMzgyLWJhMDM1OWZiZWU1NiIsImMiOjl9"
+                VerticalOptions="FillAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
