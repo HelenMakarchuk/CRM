@@ -58,14 +58,6 @@ namespace CRM.Views
             };
         }
 
-        async void Add_Clicked(object sender, EventArgs e)
-        {
-            if (App.IsUserLoggedIn)
-            {
-                await Navigation.PushAsync(new NewPaymentPage());
-            }
-        }
-
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.NewTextValue))

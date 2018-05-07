@@ -4,13 +4,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:CRM.Models.Converters;assembly=CRM">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            x:Name="AddToolbarItem"
-            Clicked="Add_Clicked"
-            Order="Primary"
-            Priority="0" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:PaymentStatusConverter x:Key="PaymentStatusConverter" />
