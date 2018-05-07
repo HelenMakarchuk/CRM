@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace CRM.Data
@@ -14,8 +15,10 @@ namespace CRM.Data
         public enum OrderStatuses {
             New,
             Assigned,
-            Cancelled,
+            [Display(Name = "In process")]
+            InProcess,
             Completed,
+            Cancelled
         };
 
         public enum PaymentStatuses

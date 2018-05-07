@@ -69,6 +69,10 @@
                 FontSize="16"
                 IsVisible="False"
                 Text="Receiver: " />
+            <Button
+                x:Name="PaymentInfo"
+                Clicked="PaymentInfo_Clicked"
+                Text="Payment information" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

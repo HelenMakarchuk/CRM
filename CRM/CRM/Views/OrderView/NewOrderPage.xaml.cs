@@ -130,6 +130,47 @@ namespace CRM.Views
             }
         }
 
+        async void CreatePayment(Order order, int orderId)
+        {
+            try
+            {
+                #region New payment assembling
+
+                Payment payment = new Payment();
+
+                if (SumEntry.Text != String.Empty && SumEntry.Text != null && Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i))
+                {
+                    payment.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
+                }
+
+                payment.Status = (byte)PaymentStatuses.Unpaid;
+                payment.OrderId = orderId;
+
+                #endregion
+
+                string json = JsonConvert.SerializeObject(payment);
+                var content = new StringContent(json);
+
+                var client = new HttpClient();
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await client.PostAsync($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}", content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    SetNumber(order, orderId);
+                }
+                else
+                {
+                    await DisplayAlert("Create operation", $"Payment wasn't created. Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Create operation", $"An error occured while creating payment. {ex.Message}", "OK");
+            }
+        }
+
         async void Save_Clicked(object sender, EventArgs e)
         {
             try
@@ -152,6 +193,7 @@ namespace CRM.Views
                 if (DeliveryDriverPicker.SelectedIndex != 0 && DeliveryDriverPicker.SelectedItem is User selectedDeliveryDriver)
                 {
                     order.DeliveryDriverId = selectedDeliveryDriver.Id;
+                    order.Status = (byte)OrderStatuses.Assigned;
                 }
 
                 ////if (ReceiverPicker.SelectedIndex == 0) { user want to leave receiver empty (null) } 
@@ -173,7 +215,7 @@ namespace CRM.Views
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     string responseJson = await response.Content.ReadAsStringAsync();
-                    SetNumber(order, int.Parse(responseJson));
+                    CreatePayment(order, int.Parse(responseJson));
                 }
                 else
                 {

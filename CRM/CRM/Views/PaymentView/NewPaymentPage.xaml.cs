@@ -16,6 +16,9 @@ using CRM.Models.Converters;
 
 namespace CRM.Views
 {
+    /// <summary>
+    /// Deprecated
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewPaymentPage : ContentPage
     {

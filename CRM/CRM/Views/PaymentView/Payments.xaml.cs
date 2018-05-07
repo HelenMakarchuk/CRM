@@ -22,8 +22,6 @@ namespace CRM.Views
 
             if (App.IsUserLoggedIn)
             {
-                AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
-
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
                 MainSearchBar.IsVisible = true;

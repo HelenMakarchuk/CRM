@@ -257,9 +257,83 @@ namespace CRM.Views
             }
         }
 
+        async void OpenPaymentPage(int id)
+        {
+            try
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/{id}"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
+
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
+
+                    Payment payment = JsonConvert.DeserializeObject<Payment>(json);
+                    Navigation.PushAsync(new PaymentPage(payment));
+                }
+                else
+                {
+                    await DisplayAlert("Payment information", $"Response status: {response.StatusCode}", "OK");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Payment information", $"An error occured while retrieving related payments. {ex.Message}", "OK");
+                return;
+            }
+        }
+
+        async void PaymentInfo_Clicked()
+        {
+            try
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$orderId={CurrentOrder.Id}"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
+
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
+
+                    List<int> paymentIds = JsonConvert.DeserializeObject<List<int>>(json);
+
+                    if (paymentIds.Count > 0)
+                        OpenPaymentPage(paymentIds[0]);
+                    else
+                        await DisplayAlert("Payment information", $"No one payment was linked to this order", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Payment information", $"Response status: {response.StatusCode}", "OK");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Payment information", $"An error occured while retrieving related payments. {ex.Message}", "OK");
+                return;
+            }
+        }
+
         async void Delete_Clicked(object sender, EventArgs e)
         {
-            var userResponse = await DisplayAlert("Are you sure?", "The order will be deleted and all related payments will be deleted too.", "Yes", "No");
+            var userResponse = await DisplayAlert("Are you sure?", "The order will be deleted and related payment will be deleted too.", "Yes", "No");
 
             if (userResponse)
             {
