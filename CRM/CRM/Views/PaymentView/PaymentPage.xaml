@@ -9,11 +9,6 @@
             Clicked="Edit_Clicked"
             Order="Primary"
             Priority="2" />
-        <ToolbarItem
-            x:Name="DeleteToolbarItem"
-            Clicked="Delete_Clicked"
-            Order="Primary"
-            Priority="1" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>

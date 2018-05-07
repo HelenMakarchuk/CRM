@@ -28,7 +28,6 @@ namespace CRM.Views
             CurrentPayment = payment;
 
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
-            DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
 
             if (CurrentPayment.Sum != null)
             {
@@ -97,29 +96,6 @@ namespace CRM.Views
             catch (Exception ex)
             {
                 DisplayAlert("Update operation", $"Payment wasn't updated. {ex.Message}", "OK");
-            }
-        }
-
-        async void Delete_Clicked(object sender, EventArgs e)
-        {
-            var userResponse = await DisplayAlert("Are you sure?", "An item will be deleted", "Yes", "No");
-
-            if (userResponse)
-            {
-                var uri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/{CurrentPayment.Id}");
-
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.DeleteAsync(uri);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    await DisplayAlert("Delete operation", "Payment was deleted", "OK");
-                    await Navigation.PopAsync();
-                }
-                else
-                {
-                    await DisplayAlert("Delete operation", $"Payment wasn't deleted. Response status: {response.StatusCode}", "OK");
-                }
             }
         }
     }
