@@ -9,5 +9,6 @@
     [DeliveryAddress] TEXT NULL, 
     [ReceiverId] INT NULL, 
     [Comment] TEXT NULL, 
-    [DeliveryDate] DATETIME NULL
+    [DeliveryDate] DATETIME NULL, 
+    [ModifiedOn] DATETIME NOT NULL
 )

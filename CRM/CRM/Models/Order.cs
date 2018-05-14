@@ -14,7 +14,8 @@ namespace CRM.Models
 
         public int Id { get; set; }
         public string Number { get; set; }
-        public System.DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
         public byte Status { get; set; }
         public int OwnerId { get; set; }
         public Nullable<int> DeliveryDriverId { get; set; }

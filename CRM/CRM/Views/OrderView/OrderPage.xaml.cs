@@ -211,7 +211,6 @@ namespace CRM.Views
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    await DisplayAlert("Delete operation", "Order was deleted", "OK");
                     await Navigation.PopAsync();
                 }
                 else

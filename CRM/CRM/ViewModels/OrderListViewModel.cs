@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using CRM.Data;
 using CRM.Models;
@@ -69,7 +70,7 @@ namespace CRM.ViewModels
         async Task<List<Order>> PopulateList()
         {
             _orderList = await DataLayer.Instance.GetDataAsync<Order>().ConfigureAwait(false);
-            return _orderList;
+            return _orderList.OrderByDescending(o => o.ModifiedOn).ToList();
         }
 
         public async Task RefreshList()

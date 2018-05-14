@@ -179,6 +179,7 @@ namespace CRM.Views
 
                 Order order = new Order();
                 order.CreatedOn = DateTime.Now;
+                order.ModifiedOn = DateTime.Now;
                 order.DeliveryDate = DeliveryDatePicker.Date;
                 order.OwnerId = App.CurrentUserId;
                 order.Status = (byte)OrderStatuses.New;
@@ -189,14 +190,14 @@ namespace CRM.Views
                 if (CommentEntry.Text != string.Empty)
                     order.Comment = CommentEntry.Text;
 
-                ////if (DeliveryDriverPicker.SelectedIndex == 0) { user want to leave delivery driver empty (null) } 
+                //if (DeliveryDriverPicker.SelectedIndex == 0) { user want to leave delivery driver empty (null) } 
                 if (DeliveryDriverPicker.SelectedIndex != 0 && DeliveryDriverPicker.SelectedItem is User selectedDeliveryDriver)
                 {
                     order.DeliveryDriverId = selectedDeliveryDriver.Id;
                     order.Status = (byte)OrderStatuses.Assigned;
                 }
 
-                ////if (ReceiverPicker.SelectedIndex == 0) { user want to leave receiver empty (null) } 
+                //if (ReceiverPicker.SelectedIndex == 0) { user want to leave receiver empty (null) } 
                 if (ReceiverPicker.SelectedIndex != 0 && ReceiverPicker.SelectedItem is Customer selectedReceiver)
                 {
                     order.ReceiverId = selectedReceiver.Id;

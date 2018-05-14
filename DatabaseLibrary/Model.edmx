@@ -27,7 +27,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="varchar" MaxLength="40" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="tinyint" Nullable="false" />
@@ -37,6 +37,7 @@
           <Property Name="ReceiverId" Type="int" />
           <Property Name="Comment" Type="text" />
           <Property Name="DeliveryDate" Type="datetime" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -228,6 +229,7 @@
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Payments" Relationship="CRM_DBModel.FK_Payment_ToOrder" FromRole="Order" ToRole="Payment" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK_Payment_ToOrder">
           <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="0..1" />
@@ -297,6 +299,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="CRM_DBModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />

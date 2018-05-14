@@ -30,6 +30,7 @@ namespace ORM
         public Nullable<int> ReceiverId { get; set; }
         public string Comment { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public System.DateTime ModifiedOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments { get; set; }

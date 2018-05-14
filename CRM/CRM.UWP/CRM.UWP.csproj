@@ -119,6 +119,7 @@
     <AndroidResource Include="Assets\user_group.png" />
     <AndroidResource Include="Assets\user_login.png" />
     <AndroidResource Include="Assets\xamarin_logo.png" />
+    <AndroidResource Include="Assets\bi_report.png" />
     <Content Include="Assets\login_door.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />

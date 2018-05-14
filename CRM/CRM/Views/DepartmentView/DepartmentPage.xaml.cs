@@ -151,7 +151,6 @@ namespace CRM.Views
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    await DisplayAlert("Delete operation", "Department was deleted", "OK");
                     await Navigation.PopAsync();
                 }
                 else

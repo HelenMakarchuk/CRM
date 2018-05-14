@@ -142,6 +142,7 @@ namespace CRM.Views.OrderView
                 order.Id = CurrentOrder.Id;
 
                 order.CreatedOn = CurrentOrder.CreatedOn;
+                order.ModifiedOn = DateTime.Now;
                 order.OwnerId = CurrentOrder.OwnerId;
                 order.Number = CurrentOrder.Number;
                 order.DeliveryDate = DeliveryDatePicker.Date;
