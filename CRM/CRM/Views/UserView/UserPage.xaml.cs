@@ -215,7 +215,7 @@ namespace CRM.Views
                 {
                     var request = new HttpRequestMessage
                     {
-                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}/$(OwnerId={CurrentUser.Id})OR(DeliveryDriverId={CurrentUser.Id})"),
+                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}/$OwnerId={CurrentUser.Id}||$DeliveryDriverId={CurrentUser.Id}"),
                         Method = HttpMethod.Get,
                         Headers = { { "Accept", "application/json" } }
                     };

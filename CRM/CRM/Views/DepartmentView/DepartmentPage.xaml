@@ -35,6 +35,10 @@
                 FontSize="16"
                 IsVisible="False"
                 Text="Head: " />
+            <Button
+                x:Name="UsersButton"
+                Clicked="UsersButton_Clicked"
+                Text="Users" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

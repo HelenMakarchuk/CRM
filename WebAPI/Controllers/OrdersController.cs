@@ -68,8 +68,8 @@ namespace WebAPI.Controllers
             return Ok(order);
         }
 
-        // GET: api/Orders/$(OwnerId={ownerId})OR(DeliveryDriverId={deliveryDriverId})
-        [HttpGet("$(OwnerId={ownerId})OR(DeliveryDriverId={deliveryDriverId})")]
+        // GET: api/Orders/$OwnerId={ownerId}||$DeliveryDriverId={deliveryDriverId}
+        [HttpGet("$OwnerId={ownerId}||$DeliveryDriverId={deliveryDriverId}")]
         public IActionResult GetUserOrders([FromRoute] int ownerId, [FromRoute] int deliveryDriverId)
         {
             var orderNumbers = _context.Order.Where(o => (o.OwnerId == ownerId || o.DeliveryDriverId == deliveryDriverId)).Select(o => o.Number).ToList();

@@ -54,8 +54,8 @@ namespace WebAPI.Controllers
             return _context.Payment.Count();
         }
 
-        // GET: api/Payments/$orderId={orderId}
-        [HttpGet("$orderId={orderId}")]
+        // GET: api/Payments/$OrderId={orderId}
+        [HttpGet("$OrderId={orderId}")]
         public List<int> GetOrderPayments([FromRoute] int orderId)
         {
             var paymentIds = _context.Payment.Where(p => p.OrderId == orderId).Select(p => p.Id).ToList();

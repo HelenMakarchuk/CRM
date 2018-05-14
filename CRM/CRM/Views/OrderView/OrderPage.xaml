@@ -70,8 +70,8 @@
                 IsVisible="False"
                 Text="Receiver: " />
             <Button
-                x:Name="PaymentInfo"
-                Clicked="PaymentInfo_Clicked"
+                x:Name="PaymentInfoButton"
+                Clicked="PaymentInfoButton_Clicked"
                 Text="Payment information" />
         </StackLayout>
     </ContentPage.Content>

@@ -84,6 +84,47 @@ namespace CRM.Views
             }
         }
 
+        async void UsersButton_Clicked()
+        {
+            try
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/$DepartmentId={CurrentDepartment.Id}"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
+
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
+
+                    List<User> users = JsonConvert.DeserializeObject<List<User>>(json);
+
+                    if (users.Count > 0)
+                    {
+                        Navigation.PushAsync(new DepartmentUsers(CurrentDepartment));
+                    }
+                    else
+                    {
+                        await DisplayAlert("Retrieving users operation", $"The department is linked to no one user", "OK");
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Retrieving users operation", $"Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Retrieving users operation", $"An error occured while retrieving department users. {ex.Message}", "OK");
+            }
+        }
+
         void Edit_Clicked(object sender, EventArgs e)
         {
             try
@@ -134,7 +175,10 @@ namespace CRM.Views
                 {
                     var request = new HttpRequestMessage
                     {
-                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/$DepartmentId={CurrentDepartment.Id}"),
+                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}" +
+                                $"/$DepartmentId={CurrentDepartment.Id}" +
+                                $"/$select=FullName"),
+
                         Method = HttpMethod.Get,
                         Headers = { { "Accept", "application/json" } }
                     };
@@ -151,7 +195,7 @@ namespace CRM.Views
 
                         if (userNames.Count > 0)
                         {
-                            await DisplayAlert("Deleting is not allowed", $"The customer is linked to orders: {String.Join(", ", userNames)}", "OK");
+                            await DisplayAlert("Deleting is not allowed", $"The department is linked to users: {String.Join(", ", userNames)}", "OK");
                             return;
                         }
 
@@ -159,13 +203,13 @@ namespace CRM.Views
                     }
                     else
                     {
-                        await DisplayAlert("Retrieve related orders operation", $"Response status: {response.StatusCode}", "OK");
+                        await DisplayAlert("Retrieve related users operation", $"Response status: {response.StatusCode}", "OK");
                         return;
                     }
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlert("Retrieve related orders operation", $"An error occured while retrieving related orders. {ex.Message}", "OK");
+                    await DisplayAlert("Retrieve related users operation", $"An error occured while retrieving related users. {ex.Message}", "OK");
                     return;
                 }
             }

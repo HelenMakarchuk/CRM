@@ -26,7 +26,19 @@ namespace CRM.Views
             BindingContext = this;
         }
 
-        protected async void FillDepartmentPicker()
+        public NewUserPage(Department department)
+        {
+            InitializeComponent();
+
+            SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
+
+            GenderPicker.ItemsSource = PickerData.genders.Values.ToList();
+            FillDepartmentPicker(department);
+
+            BindingContext = this;
+        }
+
+        protected async void FillDepartmentPicker(Department department = null)
         {
             var request = new HttpRequestMessage
             {
@@ -52,6 +64,9 @@ namespace CRM.Views
                     departments.Insert(0, new Department() { Name = "Empty value" });
 
                     DepartmentPicker.ItemsSource = departments;
+
+                    if (department != null)
+                        DepartmentPicker.SelectedItem = departments.Where(d => d.Id == department.Id).SingleOrDefault();
                 }
                 catch (Exception)
                 {

@@ -292,13 +292,13 @@ namespace CRM.Views
             }
         }
 
-        async void PaymentInfo_Clicked()
+        async void PaymentInfoButton_Clicked()
         {
             try
             {
                 var request = new HttpRequestMessage
                 {
-                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$orderId={CurrentOrder.Id}"),
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$OrderId={CurrentOrder.Id}"),
                     Method = HttpMethod.Get,
                     Headers = { { "Accept", "application/json" } }
                 };
@@ -341,7 +341,7 @@ namespace CRM.Views
                 {
                     var request = new HttpRequestMessage
                     {
-                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$orderId={CurrentOrder.Id}"),
+                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$OrderId={CurrentOrder.Id}"),
                         Method = HttpMethod.Get,
                         Headers = { { "Accept", "application/json" } }
                     };

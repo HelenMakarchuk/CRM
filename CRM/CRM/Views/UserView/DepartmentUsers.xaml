@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CRM.Views.DepartmentUsers"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="AddToolbarItem"
+            Clicked="Add_Clicked"
+            Order="Primary"
+            Priority="0" />
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <SearchBar x:Name="MainSearchBar" TextChanged="SearchBar_TextChanged" />
+        <StackLayout x:Name="MessageStackLayout" Padding="10,5,0,5">
+            <Label
+                x:Name="MessageLabel"
+                FontSize="14"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="You must to sign in before viewing this page"
+                VerticalTextAlignment="Center" />
+        </StackLayout>
+        <StackLayout x:Name="RefreshStackLayout">
+            <ActivityIndicator
+                x:Name="RefreshActivityIndicator"
+                Margin="4"
+                HeightRequest="25"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                WidthRequest="25" />
+        </StackLayout>
+        <ListView
+            x:Name="UserList"
+            ItemsSource="{Binding UserList}"
+            RowHeight="49">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout
+                            Margin="0"
+                            Padding="0"
+                            Spacing="0">
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Medium"
+                                Text="{Binding FullName}" />
+                            <Label
+                                Margin="10,0,10,0"
+                                FontSize="Small"
+                                Text="{Binding Position}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

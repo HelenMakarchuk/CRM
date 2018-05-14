@@ -28,8 +28,8 @@ namespace WebAPI.Controllers
             return _context.User;
         }
 
-        // GET: api/Users/login/password
-        [HttpGet("{login}/{password}")]
+        // GET: api/Users/$Login={login}&$Password={password}
+        [HttpGet("$Login={login}&$Password={password}")]
         public async Task<IActionResult> GetUser([FromRoute] string login, [FromRoute] string password)
         {
             if (!ModelState.IsValid)
@@ -76,6 +76,15 @@ namespace WebAPI.Controllers
         // GET: api/Users/$DepartmentId={departmentId}
         [HttpGet("$DepartmentId={departmentId}")]
         public IActionResult GetDepartmentUsers([FromRoute] int departmentId)
+        {
+            var users = _context.User.Where(u => u.DepartmentId == departmentId).ToList();
+
+            return Ok(users);
+        }
+
+        // GET: api/Users/$DepartmentId={departmentId}/$select=FullName
+        [HttpGet("$DepartmentId={departmentId}/$select=FullName")]
+        public IActionResult GetDepartmentUserNames([FromRoute] int departmentId)
         {
             var userNames = _context.User.Where(u => u.DepartmentId == departmentId).Select(u => u.FullName).ToList();
 

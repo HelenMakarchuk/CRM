@@ -33,7 +33,7 @@ namespace CRM.Views
         {
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/{LoginEntry.Text}/{PasswordEntry.Text}"),
+                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/$Login={LoginEntry.Text}&$Password={PasswordEntry.Text}"),
                 Method = HttpMethod.Get,
                 Headers = { { "Accept", "application/json" } }
             };

@@ -64,7 +64,7 @@ namespace CRM.Views.OrderView
                 try
                 {
                     List<User> users = JsonConvert.DeserializeObject<List<User>>(json);
-                    users = users.Select(u => { u.FullName = (u.FullName ?? ""); return u; }).ToList();
+                    users = users.Where(u => u.Position == "Delivery Driver").Select(u => { u.FullName = (u.FullName ?? ""); return u; }).ToList();
 
                     //Add empty value opportunity
                     users.Insert(0, new User() { FullName = "Empty value" });

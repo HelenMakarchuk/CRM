@@ -62,6 +62,9 @@
     <Compile Update="Views\UserView\NewUserPage.xaml.cs">
       <DependentUpon>NewUserPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\UserView\DepartmentUsers.xaml.cs">
+      <DependentUpon>DepartmentUsers.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
