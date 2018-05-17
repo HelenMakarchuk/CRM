@@ -11,8 +11,8 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
-using static CRM.Data.PickerData;
 using System.Text;
+using CRM.Data;
 
 namespace CRM.Views
 {
@@ -130,51 +130,25 @@ namespace CRM.Views
             }
         }
 
-        async void CreatePayment(Order order, int orderId)
-        {
-            try
-            {
-                #region New payment assembling
-
-                Payment payment = new Payment();
-
-                if (SumEntry.Text != String.Empty && SumEntry.Text != null && Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i))
-                {
-                    payment.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
-                }
-
-                payment.Status = (byte)PaymentStatuses.Unpaid;
-                payment.OrderId = orderId;
-
-                #endregion
-
-                string json = JsonConvert.SerializeObject(payment);
-                var content = new StringContent(json);
-
-                var client = new HttpClient();
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-                var response = await client.PostAsync($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}", content);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.Created)
-                {
-                    SetNumber(order, orderId);
-                }
-                else
-                {
-                    await DisplayAlert("Create operation", $"Payment wasn't created. Response status: {response.StatusCode}", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Create operation", $"An error occured while creating payment. {ex.Message}", "OK");
-            }
-        }
-
         async void Save_Clicked(object sender, EventArgs e)
         {
             try
             {
+                #region Checks
+
+                if (SumEntry.Text == string.Empty || SumEntry.Text == null)
+                {
+                    await DisplayAlert("Create operation", "Sum must be set", "OK");
+                    return;
+                }
+                else if (!(Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i)))
+                {
+                    await DisplayAlert("Create operation", "Sum: incorrect value", "OK");
+                    return;
+                }
+
+                #endregion
+
                 #region New order assembling
 
                 Order order = new Order();
@@ -182,7 +156,9 @@ namespace CRM.Views
                 order.ModifiedOn = DateTime.Now;
                 order.DeliveryDate = DeliveryDatePicker.Date;
                 order.OwnerId = App.CurrentUserId;
-                order.Status = (byte)OrderStatuses.New;
+                order.DeliveryStatus = (byte)OrderPickerData.DeliveryStatus.NotAssigned;
+                order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Unpaid;
+                order.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
 
                 if (DeliveryAddressEntry.Text != string.Empty)
                     order.DeliveryAddress = DeliveryAddressEntry.Text;
@@ -194,7 +170,7 @@ namespace CRM.Views
                 if (DeliveryDriverPicker.SelectedIndex != 0 && DeliveryDriverPicker.SelectedItem is User selectedDeliveryDriver)
                 {
                     order.DeliveryDriverId = selectedDeliveryDriver.Id;
-                    order.Status = (byte)OrderStatuses.Assigned;
+                    order.DeliveryStatus = (byte)OrderPickerData.DeliveryStatus.Assigned;
                 }
 
                 //if (ReceiverPicker.SelectedIndex == 0) { user want to leave receiver empty (null) } 
@@ -216,7 +192,7 @@ namespace CRM.Views
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     string responseJson = await response.Content.ReadAsStringAsync();
-                    CreatePayment(order, int.Parse(responseJson));
+                    SetNumber(order, int.Parse(responseJson));
                 }
                 else
                 {

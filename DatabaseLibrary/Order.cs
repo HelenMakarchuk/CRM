@@ -23,7 +23,7 @@ namespace ORM
         public int Id { get; set; }
         public string Number { get; set; }
         public System.DateTime CreatedOn { get; set; }
-        public byte Status { get; set; }
+        public byte DeliveryStatus { get; set; }
         public int OwnerId { get; set; }
         public Nullable<int> DeliveryDriverId { get; set; }
         public string DeliveryAddress { get; set; }
@@ -31,6 +31,8 @@ namespace ORM
         public string Comment { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public System.DateTime ModifiedOn { get; set; }
+        public Nullable<decimal> Sum { get; set; }
+        public byte PaymentStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments { get; set; }

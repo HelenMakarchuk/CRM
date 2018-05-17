@@ -12,9 +12,15 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <Entry
+                x:Name="SumEntry"
+                Margin="10,10,10,0"
+                FontSize="16"
+                Placeholder="Sum"
+                PlaceholderColor="#bababa" />
             <Picker
-                x:Name="StatusPicker"
-                Title="Select a status"
+                x:Name="DeliveryStatusPicker"
+                Title="Select a delivery status"
                 Margin="10,10,10,0" />
             <Entry
                 x:Name="DeliveryAddressEntry"

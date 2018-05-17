@@ -5,8 +5,8 @@ using System.Net.Http;
 using CRM.Models.Converters;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using static CRM.Data.PickerData;
 using Newtonsoft.Json;
+using CRM.Data;
 
 namespace CRM.Views
 {
@@ -27,8 +27,6 @@ namespace CRM.Views
 
             CurrentPayment = payment;
 
-            EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
-
             if (CurrentPayment.Sum != null)
             {
                 SumLabel.Text += CurrentPayment.Sum.ToString();
@@ -43,7 +41,7 @@ namespace CRM.Views
 
             if (CurrentPayment.Method != null)
             {
-                MethodLabel.Text += ((PaymentMethods)CurrentPayment.Method).ToString();
+                MethodLabel.Text += ((PaymentPickerData.Method)CurrentPayment.Method).ToString();
                 MethodLabel.IsVisible = true;
             }
 
@@ -84,18 +82,6 @@ namespace CRM.Views
                 {
                     OrderNumberLabel.Text += response.StatusCode.ToString();
                 }
-            }
-        }
-
-        void Edit_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                Navigation.PushAsync(new EditablePaymentPage(CurrentPayment));
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert("Update operation", $"Payment wasn't updated. {ex.Message}", "OK");
             }
         }
     }

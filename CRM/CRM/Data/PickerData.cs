@@ -5,29 +5,44 @@ using System.Text;
 
 namespace CRM.Data
 {
-    public class PickerData
+    public class UserPickerData
     {
         public static Dictionary<string, string> genders = new Dictionary<string, string>() {
             { "M", "Male" },
             { "F", "Female" },
         };
+    }
 
-        public enum OrderStatuses {
-            New,
+    public class OrderPickerData
+    {
+        public enum DeliveryStatus
+        {
+            [Display(Name = "Not assigned")]
+            NotAssigned,
             Assigned,
             [Display(Name = "In process")]
             InProcess,
             Completed,
-            Cancelled
+            Cancelled,
         };
 
-        public enum PaymentStatuses
+        public enum PaymentStatus
         {
             Paid,
             Unpaid,
         };
+    }
 
-        public enum PaymentMethods
+    public class PaymentPickerData
+    {
+        public enum Status
+        {
+            Paid,
+            [Display(Name = "Unpaid (error occured)")]
+            Unpaid,
+        };
+
+        public enum Method
         {
             Cash,
             Card,

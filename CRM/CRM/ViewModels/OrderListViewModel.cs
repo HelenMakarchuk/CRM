@@ -11,6 +11,8 @@ namespace CRM.ViewModels
 {
     public class OrderListViewModel : INotifyPropertyChanged
     {
+        public User user = null;
+
         #region Properties
 
         //To let the user know that we are working on something
@@ -52,8 +54,9 @@ namespace CRM.ViewModels
 
         #endregion
 
-        public OrderListViewModel()
+        public OrderListViewModel(User user = null)
         {
+            this.user = user;
             _orderList = new List<Order>();
             _refreshCommand = new Command(async () => await RefreshList());
 
@@ -70,6 +73,10 @@ namespace CRM.ViewModels
         async Task<List<Order>> PopulateList()
         {
             _orderList = await DataLayer.Instance.GetDataAsync<Order>().ConfigureAwait(false);
+
+            if (user != null)
+                _orderList = _orderList.Where(o => o.DeliveryDriverId == user.Id || o.OwnerId == user.Id).ToList();
+
             return _orderList.OrderByDescending(o => o.ModifiedOn).ToList();
         }
 

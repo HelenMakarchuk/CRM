@@ -73,8 +73,8 @@ namespace CRM.Views
             {
                 DepartmentList.ItemsSource = _vm.DepartmentList
                     .Where(x => 
-                        (x.Name.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase) 
-                        || x.Phone.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
+                        ((x.Name ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase) 
+                        || (x.Phone ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
                     .ToList();
             }
         }

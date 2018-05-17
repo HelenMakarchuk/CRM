@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using CRM.Data;
 using CRM.Models;
@@ -10,6 +11,8 @@ namespace CRM.ViewModels
 {
     public class PaymentListViewModel : INotifyPropertyChanged
     {
+        public Order order = null;
+
         #region Properties
 
         //To let the user know that we are working on something
@@ -51,8 +54,9 @@ namespace CRM.ViewModels
 
         #endregion
 
-        public PaymentListViewModel()
+        public PaymentListViewModel(Order order = null)
         {
+            this.order = order;
             _paymentList = new List<Payment>();
             _refreshCommand = new Command(async () => await RefreshList());
 
@@ -69,6 +73,10 @@ namespace CRM.ViewModels
         async Task<List<Payment>> PopulateList()
         {
             _paymentList = await DataLayer.Instance.GetDataAsync<Payment>().ConfigureAwait(false);
+
+            if (order != null)
+                _paymentList = _paymentList.Where(p => p.OrderId == order.Id).ToList();
+
             return _paymentList;
         }
 

@@ -31,6 +31,11 @@ namespace CRM.Views
             EditToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/data_edit.png" : "data_edit.png";
             DeleteToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/garbage_closed.png" : "garbage_closed.png";
 
+            if (CurrentUser.Position == "Delivery Driver")
+                AssignedOrdersButton.IsVisible = true;
+            else if (CurrentUser.Position == "Manager")
+                CreatedOrdersButton.IsVisible = true;
+
             if (CurrentUser.FullName != String.Empty && CurrentUser.FullName != null)
             {
                 FullNameLabel.Text += CurrentUser.FullName;
@@ -67,9 +72,9 @@ namespace CRM.Views
                 PasswordLabel.IsVisible = true;
             }
 
-            if (PickerData.genders.ContainsKey(user.Gender ?? ""))
+            if (UserPickerData.genders.ContainsKey(user.Gender ?? ""))
             {
-                GenderLabel.Text += PickerData.genders[user.Gender];
+                GenderLabel.Text += UserPickerData.genders[user.Gender];
                 GenderLabel.IsVisible = true;
             }
 
@@ -80,6 +85,11 @@ namespace CRM.Views
             }
 
             SetUserDepartment();
+        }
+
+        async void OrdersButton_Clicked()
+        {
+            await Navigation.PushAsync(new Orders(CurrentUser));
         }
 
         protected async void SetUserDepartment()

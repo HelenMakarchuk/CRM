@@ -13,7 +13,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:OrderStatusConverter x:Key="OrderStatusConverter" />
+            <converters:OrderDeliveryStatusConverter x:Key="OrderDeliveryStatusConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
@@ -50,7 +50,7 @@
                             <Label
                                 Margin="10,0,10,0"
                                 FontSize="Medium"
-                                Text="{Binding Status, Converter={StaticResource OrderStatusConverter}}" />
+                                Text="{Binding Status, Converter={StaticResource OrderDeliveryStatusConverter}}" />
                             <Label
                                 Margin="10,0,10,0"
                                 FontSize="Small"

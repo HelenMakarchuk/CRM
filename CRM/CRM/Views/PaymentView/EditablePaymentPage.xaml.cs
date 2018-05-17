@@ -36,13 +36,13 @@ namespace CRM.Views.PaymentView
             SumEntry.Text = CurrentPayment.Sum.ToString();
 
             //StatusEntry.Text = CurrentPayment.Status;
-            StatusPicker.ItemsSource = Enum.GetValues(typeof(PickerData.PaymentStatuses)).Cast<PickerData.PaymentStatuses>().Select(x => x.ToString()).ToList();
+            StatusPicker.ItemsSource = Enum.GetValues(typeof(PaymentPickerData.Status)).Cast<PaymentPickerData.Status>().Select(x => x.ToString()).ToList();
 
             if (CurrentPayment.Status != null)
                 StatusPicker.SelectedItem = paymentStatusConverter.Convert((byte)CurrentPayment.Status);
 
             //MethodEntry.Text = CurrentPayment.Method;
-            MethodPicker.ItemsSource = Enum.GetValues(typeof(PickerData.PaymentMethods)).Cast<PickerData.PaymentMethods>().Select(x => x.ToString()).ToList();
+            MethodPicker.ItemsSource = Enum.GetValues(typeof(PaymentPickerData.Method)).Cast<PaymentPickerData.Method>().Select(x => x.ToString()).ToList();
 
             if (CurrentPayment.Method != null)
                 MethodPicker.SelectedItem = paymentMethodConverter.Convert((byte)CurrentPayment.Method);

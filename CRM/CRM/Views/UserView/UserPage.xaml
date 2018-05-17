@@ -71,6 +71,16 @@
                 FontSize="16"
                 IsVisible="False"
                 Text="Birth date: " />
+            <Button
+                x:Name="AssignedOrdersButton"
+                Clicked="OrdersButton_Clicked"
+                IsVisible="False"
+                Text="Assigned orders" />
+            <Button
+                x:Name="CreatedOrdersButton"
+                Clicked="OrdersButton_Clicked"
+                IsVisible="False"
+                Text="Created orders" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

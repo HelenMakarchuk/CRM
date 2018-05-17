@@ -5,16 +5,16 @@ using CRM.Data;
 
 namespace CRM.Models.Converters
 {
-    public class PaymentStatusConverter : IValueConverter
+    public class OrderDeliveryStatusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
             {
                 //get enum value by index
-                return ((PaymentPickerData.Status)((byte)value));
+                return ((OrderPickerData.DeliveryStatus)((byte)value));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.Message;
             }
@@ -25,7 +25,7 @@ namespace CRM.Models.Converters
             try
             {
                 //get enum value by index
-                return ((PaymentPickerData.Status)value).ToString();
+                return ((OrderPickerData.DeliveryStatus)value).ToString();
             }
             catch (Exception ex)
             {
@@ -37,10 +37,10 @@ namespace CRM.Models.Converters
         {
             try
             {
-                PaymentPickerData.Status paymentStatus = (PaymentPickerData.Status)Enum.Parse(typeof(PaymentPickerData.Status), (string)value);
+                OrderPickerData.DeliveryStatus orderStatus = (OrderPickerData.DeliveryStatus)Enum.Parse(typeof(OrderPickerData.DeliveryStatus), (string)value);
 
                 //get enum index by value
-                return (int)paymentStatus;
+                return (int)orderStatus;
             }
             catch (Exception)
             {
@@ -52,10 +52,10 @@ namespace CRM.Models.Converters
         {
             try
             {
-                PaymentPickerData.Status paymentStatus = (PaymentPickerData.Status)Enum.Parse(typeof(PaymentPickerData.Status), value);
+                OrderPickerData.DeliveryStatus orderStatus = (OrderPickerData.DeliveryStatus)Enum.Parse(typeof(OrderPickerData.DeliveryStatus), value);
 
                 //get enum index by value
-                return (int)paymentStatus;
+                return (int)orderStatus;
             }
             catch (Exception)
             {

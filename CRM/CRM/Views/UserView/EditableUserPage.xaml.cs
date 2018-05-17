@@ -37,8 +37,8 @@ namespace CRM.Views.UserView
             LoginEntry.Text = CurrentUser.Login;
             PasswordEntry.Text = CurrentUser.Password;
 
-            GenderPicker.ItemsSource = PickerData.genders.Values.ToList();
-            GenderPicker.SelectedItem = PickerData.genders.ContainsKey(user.Gender ?? "") ? PickerData.genders[user.Gender] : null;
+            GenderPicker.ItemsSource = UserPickerData.genders.Values.ToList();
+            GenderPicker.SelectedItem = UserPickerData.genders.ContainsKey(user.Gender ?? "") ? UserPickerData.genders[user.Gender] : null;
 
             BirthDatePicker.Date = user.BirthDate ?? DateTime.MinValue;
 

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
-using static CRM.Data.PickerData;
+using CRM.Data;
 
 namespace CRM.Models.Converters
 {
-    public class OrderStatusConverter : IValueConverter
+    public class OrderPaymentStatusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
             {
                 //get enum value by index
-                return ((OrderStatuses)((byte)value));
+                return ((OrderPickerData.PaymentStatus)((byte)value));
             }
             catch (Exception ex)
             {
@@ -25,7 +25,7 @@ namespace CRM.Models.Converters
             try
             {
                 //get enum value by index
-                return ((OrderStatuses)value).ToString();
+                return ((OrderPickerData.PaymentStatus)value).ToString();
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace CRM.Models.Converters
         {
             try
             {
-                OrderStatuses orderStatus = (OrderStatuses)Enum.Parse(typeof(OrderStatuses), (string)value);
+                OrderPickerData.PaymentStatus orderStatus = (OrderPickerData.PaymentStatus)Enum.Parse(typeof(OrderPickerData.PaymentStatus), (string)value);
 
                 //get enum index by value
                 return (int)orderStatus;
@@ -52,7 +52,7 @@ namespace CRM.Models.Converters
         {
             try
             {
-                OrderStatuses orderStatus = (OrderStatuses)Enum.Parse(typeof(OrderStatuses), value);
+                OrderPickerData.PaymentStatus orderStatus = (OrderPickerData.PaymentStatus)Enum.Parse(typeof(OrderPickerData.PaymentStatus), value);
 
                 //get enum index by value
                 return (int)orderStatus;

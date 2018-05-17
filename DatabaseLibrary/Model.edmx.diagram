@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="CRM_DBModel.User" Width="1.5" PointX="3.375" PointY="0.5" />
         <AssociationConnector Association="CRM_DBModel.FK_Department_ToHead" />
         <AssociationConnector Association="CRM_DBModel.FK_Users_Departments" />
-        <EntityTypeShape EntityType="CRM_DBModel.Order" Width="1.5" PointX="6.125" PointY="0.75" />
+        <EntityTypeShape EntityType="CRM_DBModel.Order" Width="1.5" PointX="6" PointY="0.5" />
         <AssociationConnector Association="CRM_DBModel.FK_Payment_ToOrder" />
       </Diagram>
     </edmx:Diagrams>

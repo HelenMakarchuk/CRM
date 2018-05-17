@@ -27,8 +27,8 @@ namespace ORM
     
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 }

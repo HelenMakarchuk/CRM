@@ -17,7 +17,7 @@ namespace CRM.Views.OrderView
 	public partial class EditableOrderPage : ContentPage
 	{
         Order CurrentOrder { get; set; }
-        OrderStatusConverter orderStatusConverter = new OrderStatusConverter();
+        OrderDeliveryStatusConverter orderStatusConverter = new OrderDeliveryStatusConverter();
 
         public EditableOrderPage()
         {
@@ -31,12 +31,13 @@ namespace CRM.Views.OrderView
             CurrentOrder = order;
 
             SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
-
-            StatusPicker.ItemsSource = Enum.GetValues(typeof(PickerData.OrderStatuses)).Cast<PickerData.OrderStatuses>().Select(x => x.ToString()).ToList();
-            StatusPicker.SelectedItem = orderStatusConverter.Convert(CurrentOrder.Status);
+            
+            DeliveryStatusPicker.ItemsSource = Enum.GetValues(typeof(OrderPickerData.DeliveryStatus)).Cast<OrderPickerData.DeliveryStatus>().Select(x => x.ToString()).ToList();
+            DeliveryStatusPicker.SelectedItem = orderStatusConverter.Convert(CurrentOrder.DeliveryStatus);
 
             DeliveryAddressEntry.Text = CurrentOrder.DeliveryAddress;
             CommentEntry.Text = CurrentOrder.Comment;
+            SumEntry.Text = CurrentOrder.Sum.ToString();
 
             DeliveryDatePicker.Date = order.DeliveryDate ?? DateTime.MinValue;
 
@@ -132,21 +133,103 @@ namespace CRM.Views.OrderView
             }
         }
 
+        async void UpdateOrder(Order order)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var uri = new Uri($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}/{CurrentOrder.Id}");
+                var client = new HttpClient();
+
+                HttpResponseMessage response = await client.PutAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if (Navigation.NavigationStack.Count > 0)
+                    {
+                        int currentPageIndex = Navigation.NavigationStack.Count - 1;
+                        Navigation.RemovePage(Navigation.NavigationStack[currentPageIndex - 1]);
+                        await Navigation.PushAsync(new OrderPage(order));
+                        Navigation.RemovePage(Navigation.NavigationStack[currentPageIndex - 1]);
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Update operation", $"Order wasn't updated. Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Update operation", $"Order wasn't updated. {ex.Message}", "OK");
+            }
+        }
+
+        async void SetPaymentStatus(Order order)
+        {
+            try
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$OrderId={CurrentOrder.Id}/$sum"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
+
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
+
+                    Decimal paymentSum = JsonConvert.DeserializeObject<Decimal>(json);
+
+                    if (paymentSum >= order.Sum)
+                        order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Paid;
+                    else
+                        order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Unpaid;
+
+                    UpdateOrder(order);
+                }
+                else
+                {
+                    await DisplayAlert("Payment status setting operation", $"Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Payment status setting operation", $"An error occured while payment status setting. {ex.Message}", "OK");
+            }
+        }
+
         async void Save_Clicked(object sender, EventArgs e)
         {
             try
             {
+                #region Checks
+
+                if (SumEntry.Text == string.Empty || SumEntry.Text == null)
+                {
+                    await DisplayAlert("Update operation", "Sum must be set", "OK");
+                    return;
+                }
+                else if (!(Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i)))
+                {
+                    await DisplayAlert("Update operation", "Sum: incorrect value", "OK");
+                    return;
+                }
+
+                #endregion
+
                 #region Updated order assembling
 
-                Order order = new Order();
-                order.Id = CurrentOrder.Id;
-
-                order.CreatedOn = CurrentOrder.CreatedOn;
+                Order order = CurrentOrder;
                 order.ModifiedOn = DateTime.Now;
-                order.OwnerId = CurrentOrder.OwnerId;
-                order.Number = CurrentOrder.Number;
                 order.DeliveryDate = DeliveryDatePicker.Date;
-                order.Status = (byte)orderStatusConverter.ConvertBack(StatusPicker.SelectedItem.ToString());
+                order.DeliveryStatus = (byte)orderStatusConverter.ConvertBack(DeliveryStatusPicker.SelectedItem.ToString());
                 order.DeliveryAddress = DeliveryAddressEntry.Text;
                 order.Comment = CommentEntry.Text;
 
@@ -170,36 +253,19 @@ namespace CRM.Views.OrderView
                     order.ReceiverId = null;
                 }
 
-                #endregion
+                order.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
 
-                var json = JsonConvert.SerializeObject(order);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var uri = new Uri($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}/{CurrentOrder.Id}");
-                var client = new HttpClient();
-
-                HttpResponseMessage response = await client.PutAsync(uri, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    await DisplayAlert("Update operation", "Order was updated", "OK");
-
-                    if (Navigation.NavigationStack.Count > 0)
-                    {
-                        int currentPageIndex = Navigation.NavigationStack.Count - 1;
-                        Navigation.RemovePage(Navigation.NavigationStack[currentPageIndex - 1]);
-                        await Navigation.PushAsync(new OrderPage(order));
-                        Navigation.RemovePage(Navigation.NavigationStack[currentPageIndex - 1]);
-                    }
-                }
+                //if updated sum doesn't equal previous sum
+                if (order.Sum != CurrentOrder.Sum)
+                    SetPaymentStatus(order);
                 else
-                {
-                    await DisplayAlert("Update operation", $"Order wasn't updated. Response status: {response.StatusCode}", "OK");
-                }
+                    UpdateOrder(order);
+
+                #endregion
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Update operation", $"Order wasn't updated. {ex.Message}", "OK");
+                await DisplayAlert("Updated order assembling operation", $"{ex.Message}", "OK");
             }
         }
     }

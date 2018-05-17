@@ -30,7 +30,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="varchar" MaxLength="40" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="Status" Type="tinyint" Nullable="false" />
+          <Property Name="DeliveryStatus" Type="tinyint" Nullable="false" />
           <Property Name="OwnerId" Type="int" Nullable="false" />
           <Property Name="DeliveryDriverId" Type="int" />
           <Property Name="DeliveryAddress" Type="text" />
@@ -38,6 +38,8 @@
           <Property Name="Comment" Type="text" />
           <Property Name="DeliveryDate" Type="datetime" />
           <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="Sum" Type="money" />
+          <Property Name="PaymentStatus" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -218,18 +220,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="Byte" Nullable="false" />
+          <Property Name="DeliveryStatus" Type="Byte" Nullable="false" />
           <Property Name="OwnerId" Type="Int32" Nullable="false" />
           <Property Name="DeliveryDriverId" Type="Int32" />
           <Property Name="DeliveryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ReceiverId" Type="Int32" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Payments" Relationship="CRM_DBModel.FK_Payment_ToOrder" FromRole="Order" ToRole="Payment" />
           <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Sum" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PaymentStatus" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Payments" Relationship="CRM_DBModel.FK_Payment_ToOrder" FromRole="Order" ToRole="Payment" />
         </EntityType>
         <Association Name="FK_Payment_ToOrder">
           <End Type="CRM_DBModel.Order" Role="Order" Multiplicity="0..1" />
@@ -299,6 +303,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="CRM_DBModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
@@ -306,7 +312,7 @@
                 <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
                 <ScalarProperty Name="DeliveryDriverId" ColumnName="DeliveryDriverId" />
                 <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DeliveryStatus" ColumnName="DeliveryStatus" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

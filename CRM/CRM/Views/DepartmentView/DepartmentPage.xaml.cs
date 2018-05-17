@@ -107,7 +107,7 @@ namespace CRM.Views
 
                     if (users.Count > 0)
                     {
-                        Navigation.PushAsync(new DepartmentUsers(CurrentDepartment));
+                        await Navigation.PushAsync(new DepartmentUsers(CurrentDepartment));
                     }
                     else
                     {

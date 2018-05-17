@@ -3,13 +3,6 @@
     x:Class="CRM.Views.PaymentPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            x:Name="EditToolbarItem"
-            Clicked="Edit_Clicked"
-            Order="Primary"
-            Priority="2" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Label

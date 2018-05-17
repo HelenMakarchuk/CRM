@@ -1,4 +1,5 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
 using CRM.Models.Converters;
 using CRM.Views.OrderView;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace CRM.Views
     public partial class OrderPage : ContentPage
     {
         Order CurrentOrder { get; set; }
-        OrderStatusConverter orderStatusConverter = new OrderStatusConverter();
+        OrderDeliveryStatusConverter orderStatusConverter = new OrderDeliveryStatusConverter();
 
         public OrderPage()
         {
@@ -34,29 +35,31 @@ namespace CRM.Views
 
             NumberLabel.Text += CurrentOrder.Number;
 
-            StatusLabel.Text += orderStatusConverter.Convert(CurrentOrder.Status);
+            DeliveryStatusLabel.Text += orderStatusConverter.Convert(CurrentOrder.DeliveryStatus);
+            PaymentStatusLabel.Text += ((OrderPickerData.PaymentStatus)CurrentOrder.PaymentStatus).ToString();
+            SumLabel.Text += CurrentOrder.Sum;
 
             if (CurrentOrder.DeliveryAddress != String.Empty && CurrentOrder.DeliveryAddress != null)
             {
-                DeliveryAddressLabel.Text = CurrentOrder.DeliveryAddress;
+                DeliveryAddressLabel.Text += CurrentOrder.DeliveryAddress;
                 DeliveryAddressLabel.IsVisible = true;
             }
 
             if (CurrentOrder.Comment != String.Empty && CurrentOrder.Comment != null)
             {
-                CommentLabel.Text = CurrentOrder.Comment;
+                CommentLabel.Text += CurrentOrder.Comment;
                 CommentLabel.IsVisible = true;
             }
 
             if (CurrentOrder.CreatedOn != null)
             {
-                CreatedOnLabel.Text = ((DateTime)CurrentOrder.CreatedOn).ToString("d MMMM yyyy", new CultureInfo("en-US"));
+                CreatedOnLabel.Text += ((DateTime)CurrentOrder.CreatedOn).ToString("d MMMM yyyy", new CultureInfo("en-US"));
                 CreatedOnLabel.IsVisible = true;
             }
 
             if (CurrentOrder.DeliveryDate != null)
             {
-                DeliveryDateLabel.Text = ((DateTime)CurrentOrder.DeliveryDate).ToString("d MMMM yyyy", new CultureInfo("en-US"));
+                DeliveryDateLabel.Text += ((DateTime)CurrentOrder.DeliveryDate).ToString("d MMMM yyyy", new CultureInfo("en-US"));
                 DeliveryDateLabel.IsVisible = true;
             }
 
@@ -256,78 +259,9 @@ namespace CRM.Views
             }
         }
 
-        async void OpenPaymentPage(int id)
-        {
-            try
-            {
-                var request = new HttpRequestMessage
-                {
-                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/{id}"),
-                    Method = HttpMethod.Get,
-                    Headers = { { "Accept", "application/json" } }
-                };
-
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    HttpContent content = response.Content;
-                    string json = await content.ReadAsStringAsync();
-
-                    Payment payment = JsonConvert.DeserializeObject<Payment>(json);
-                    Navigation.PushAsync(new PaymentPage(payment));
-                }
-                else
-                {
-                    await DisplayAlert("Payment information", $"Response status: {response.StatusCode}", "OK");
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Payment information", $"An error occured while retrieving related payments. {ex.Message}", "OK");
-                return;
-            }
-        }
-
         async void PaymentInfoButton_Clicked()
         {
-            try
-            {
-                var request = new HttpRequestMessage
-                {
-                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$OrderId={CurrentOrder.Id}"),
-                    Method = HttpMethod.Get,
-                    Headers = { { "Accept", "application/json" } }
-                };
-
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    HttpContent content = response.Content;
-                    string json = await content.ReadAsStringAsync();
-
-                    List<int> paymentIds = JsonConvert.DeserializeObject<List<int>>(json);
-
-                    if (paymentIds.Count > 0)
-                        OpenPaymentPage(paymentIds[0]);
-                    else
-                        await DisplayAlert("Payment information", $"No one payment was linked to this order", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("Payment information", $"Response status: {response.StatusCode}", "OK");
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Payment information", $"An error occured while retrieving related payments. {ex.Message}", "OK");
-                return;
-            }
+            await Navigation.PushAsync(new Payments(CurrentOrder));
         }
 
         async void Delete_Clicked(object sender, EventArgs e)
@@ -340,7 +274,7 @@ namespace CRM.Views
                 {
                     var request = new HttpRequestMessage
                     {
-                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$OrderId={CurrentOrder.Id}"),
+                        RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$OrderId={CurrentOrder.Id}/$select=Id"),
                         Method = HttpMethod.Get,
                         Headers = { { "Accept", "application/json" } }
                     };

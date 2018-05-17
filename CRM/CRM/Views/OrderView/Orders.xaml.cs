@@ -12,13 +12,13 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Orders : ContentPage
     {
-        protected OrderListViewModel _vm = new OrderListViewModel();
-        OrderStatusConverter orderStatusConverter = new OrderStatusConverter();
+        protected OrderListViewModel _vm;
+        OrderDeliveryStatusConverter orderStatusConverter = new OrderDeliveryStatusConverter();
 
         public Orders()
         {
             InitializeComponent();
-
+            
             if (App.IsUserLoggedIn)
             {
                 AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
@@ -27,6 +27,7 @@ namespace CRM.Views
                 RefreshStackLayout.IsVisible = true;
                 MainSearchBar.IsVisible = true;
 
+                _vm = new OrderListViewModel();
                 BindingContext = _vm;
 
                 if (Device.RuntimePlatform == Device.Android)
@@ -57,6 +58,35 @@ namespace CRM.Views
             };
         }
 
+        public Orders(User user)
+        {
+            InitializeComponent();
+
+            AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
+
+            MessageStackLayout.IsVisible = false;
+            RefreshStackLayout.IsVisible = true;
+            MainSearchBar.IsVisible = true;
+
+            _vm = new OrderListViewModel(user);
+            BindingContext = _vm;
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                OrderList.IsPullToRefreshEnabled = true;
+                OrderList.RefreshCommand = _vm.RefreshCommand;
+                OrderList.SetBinding(ListView.IsRefreshingProperty, nameof(_vm.IsRefreshing));
+            }
+            else if (Device.RuntimePlatform == Device.UWP)
+            {
+                OrderList.RowHeight = OrderList.RowHeight * 2;
+            }
+
+            OrderList.ItemSelected += (sender, e) => {
+                Navigation.PushAsync(new OrderPage(((ListView)sender).SelectedItem as Order));
+            };
+        }
+
         async void Add_Clicked(object sender, EventArgs e)
         {
             if (App.IsUserLoggedIn)
@@ -76,10 +106,10 @@ namespace CRM.Views
             {
                 OrderList.ItemsSource = _vm.OrderList
                     .Where(x =>
-                        (x.Number.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
-                        || x.DeliveryAddress.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
-                        || x.Comment.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
-                        || orderStatusConverter.Convert(x.Status).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
+                        ((x.Number ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || (x.DeliveryAddress ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || (x.Comment ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || orderStatusConverter.Convert(x.DeliveryStatus).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
                     .ToList();
             }
         }

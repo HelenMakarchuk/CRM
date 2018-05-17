@@ -12,7 +12,7 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Payments : ContentPage
     {
-        protected PaymentListViewModel _vm = new PaymentListViewModel();
+        protected PaymentListViewModel _vm;
         PaymentStatusConverter paymentStatusConverter = new PaymentStatusConverter();
         PaymentMethodConverter paymentMethodConverter = new PaymentMethodConverter();
 
@@ -22,10 +22,13 @@ namespace CRM.Views
 
             if (App.IsUserLoggedIn)
             {
+                AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
+
                 MessageStackLayout.IsVisible = false;
                 RefreshStackLayout.IsVisible = true;
                 MainSearchBar.IsVisible = true;
 
+                _vm = new PaymentListViewModel();
                 BindingContext = _vm;
 
                 if (Device.RuntimePlatform == Device.Android)
@@ -56,6 +59,33 @@ namespace CRM.Views
             };
         }
 
+        public Payments(Order order)
+        {
+            InitializeComponent();
+
+            MessageStackLayout.IsVisible = false;
+            RefreshStackLayout.IsVisible = true;
+            MainSearchBar.IsVisible = true;
+
+            _vm = new PaymentListViewModel(order);
+            BindingContext = _vm;
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                PaymentList.IsPullToRefreshEnabled = true;
+                PaymentList.RefreshCommand = _vm.RefreshCommand;
+                PaymentList.SetBinding(ListView.IsRefreshingProperty, nameof(_vm.IsRefreshing));
+            }
+            else if (Device.RuntimePlatform == Device.UWP)
+            {
+                PaymentList.RowHeight = PaymentList.RowHeight * 2;
+            }
+
+            PaymentList.ItemSelected += (sender, e) => {
+                Navigation.PushAsync(new PaymentPage(((ListView)sender).SelectedItem as Payment));
+            };
+        }
+
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.NewTextValue))
@@ -71,6 +101,14 @@ namespace CRM.Views
                         || (x.Method != null && paymentMethodConverter.Convert((byte)x.Method).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
                         || x.Sum.ToString().StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
                     .ToList();
+            }
+        }
+
+        async void Add_Clicked(object sender, EventArgs e)
+        {
+            if (App.IsUserLoggedIn)
+            {
+                await Navigation.PushAsync(new NewPaymentPage());
             }
         }
 

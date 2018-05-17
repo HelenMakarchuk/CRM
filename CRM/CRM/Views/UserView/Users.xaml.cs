@@ -68,15 +68,14 @@ namespace CRM.Views
             {
                 UserList.ItemsSource = _vm.UserList;
             }
-
             else
             {
                 UserList.ItemsSource = _vm.UserList
                     .Where(x =>
-                        (x.FullName.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
-                        || x.Position.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
-                        || x.Phone.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
-                        || x.Email.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
+                        (x.FullName ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || (x.Position ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || (x.Phone ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
+                        || (x.Email ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
                     .ToList();
             }
         }

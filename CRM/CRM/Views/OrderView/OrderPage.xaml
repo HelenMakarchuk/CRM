@@ -23,10 +23,20 @@
                 FontSize="16"
                 Text="Number: " />
             <Label
-                x:Name="StatusLabel"
+                x:Name="SumLabel"
                 Margin="10,20,10,0"
                 FontSize="16"
-                Text="Status: " />
+                Text="Sum: " />
+            <Label
+                x:Name="DeliveryStatusLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                Text="Delivery status: " />
+            <Label
+                x:Name="PaymentStatusLabel"
+                Margin="10,20,10,0"
+                FontSize="16"
+                Text="Payment status: " />
             <Label
                 x:Name="DeliveryAddressLabel"
                 Margin="10,20,10,0"

@@ -11,8 +11,8 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Formatting;
 using CRM.Data;
-using static CRM.Data.PickerData;
 using CRM.Models.Converters;
+using System.Text;
 
 namespace CRM.Views
 {
@@ -22,6 +22,7 @@ namespace CRM.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewPaymentPage : ContentPage
     {
+        OrderPaymentStatusConverter orderPaymentStatusConverter = new OrderPaymentStatusConverter();
         PaymentStatusConverter paymentStatusConverter = new PaymentStatusConverter();
         PaymentMethodConverter paymentMethodConverter = new PaymentMethodConverter();
 
@@ -31,8 +32,8 @@ namespace CRM.Views
 
             SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
 
-            StatusPicker.ItemsSource = Enum.GetValues(typeof(PickerData.PaymentStatuses));
-            MethodPicker.ItemsSource = Enum.GetValues(typeof(PickerData.PaymentMethods));
+            StatusPicker.ItemsSource = Enum.GetValues(typeof(PaymentPickerData.Status));
+            MethodPicker.ItemsSource = Enum.GetValues(typeof(PaymentPickerData.Method));
             FillOrderNumberPicker();
 
             BindingContext = this;
@@ -78,6 +79,80 @@ namespace CRM.Views
             }
         }
 
+        async void UpdateOrder(Order order)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(order);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var uri = new Uri($"{Constants.WebAPIUrl}/api/{Order.PluralDbTableName}/{order.Id}");
+                var client = new HttpClient();
+
+                HttpResponseMessage response = await client.PutAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Update order operation", $"Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Update order operation", $"An error occured while order status updating. {ex.Message}", "OK");
+            }
+        }
+
+        async void UpdateOrderPaymentStatus(Order order)
+        {
+            try
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{Payment.PluralDbTableName}/$OrderId={order.Id}/$sum"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
+
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
+
+                    Decimal paymentSum = JsonConvert.DeserializeObject<Decimal>(json);
+
+                    if (paymentSum >= order.Sum && orderPaymentStatusConverter.Convert(order.PaymentStatus) != "Paid")
+                    {
+                        order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Paid;
+                        UpdateOrder(order);
+                    }
+                    else if (paymentSum < order.Sum && orderPaymentStatusConverter.Convert(order.PaymentStatus) != "Unpaid")
+                    {
+                        order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Unpaid;
+                        UpdateOrder(order);
+                    }
+                    else
+                    {
+                        await Navigation.PopAsync();
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Order payment status setting operation", $"Response status: {response.StatusCode}", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Order payment status setting operation", $"An error occured while order payment status setting. {ex.Message}", "OK");
+            }
+        }
+
         async void Save_Clicked(object sender, EventArgs e)
         {
             try
@@ -90,19 +165,38 @@ namespace CRM.Views
                     return;
                 }
 
+                if (MethodPicker.SelectedItem == null)
+                {
+                    await DisplayAlert("Create operation", "Method must be set", "OK");
+                    return;
+                }
+
+                if (OrderPicker.SelectedItem == null)
+                {
+                    await DisplayAlert("Create operation", "Order must be set", "OK");
+                    return;
+                }
+
+                if (SumEntry.Text == string.Empty || SumEntry.Text == null)
+                {
+                    await DisplayAlert("Create operation", "Sum must be set", "OK");
+                    return;
+                }
+                else if (!(Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i)))
+                {
+                    await DisplayAlert("Create operation", "Sum: incorrect value", "OK");
+                    return;
+                }
+
                 #endregion
 
                 #region New payment assembling
 
                 Payment payment = new Payment();
-
-                if (SumEntry.Text != String.Empty && SumEntry.Text != null && Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i))
-                {
-                    payment.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
-                }
+                payment.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
 
                 int statusIndex = paymentStatusConverter.ConvertBack(StatusPicker.SelectedItem.ToString());
-                if (Enum.IsDefined(typeof(PickerData.PaymentStatuses), statusIndex))
+                if (Enum.IsDefined(typeof(PaymentPickerData.Status), statusIndex))
                 {
                     payment.Status = (byte)statusIndex;
                 }
@@ -112,16 +206,14 @@ namespace CRM.Views
                 {
                     int methodIndex = paymentMethodConverter.ConvertBack(methodValue);
 
-                    if (Enum.IsDefined(typeof(PickerData.PaymentMethods), methodIndex))
+                    if (Enum.IsDefined(typeof(PaymentPickerData.Method), methodIndex))
                     {
                         payment.Method = (byte)methodIndex;
                     }
                 }
 
-                if (OrderPicker.SelectedItem is Order selectedOrder)
-                {
-                    payment.OrderId = selectedOrder.Id;
-                }
+                var selectedOrder = (Order)OrderPicker.SelectedItem;
+                payment.OrderId = selectedOrder.Id;
 
                 #endregion
 
@@ -137,8 +229,7 @@ namespace CRM.Views
                 {
                     //var newPaymentUri = response.Headers.Location;
 
-                    await DisplayAlert("Create operation", $"Payment was created.", "OK");
-                    await Navigation.PopAsync();
+                    UpdateOrderPaymentStatus(selectedOrder);
                 }
                 else
                 {

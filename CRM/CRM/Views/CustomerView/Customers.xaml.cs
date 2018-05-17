@@ -73,9 +73,9 @@ namespace CRM.Views
             {
                 CustomerList.ItemsSource = _vm.CustomerList
                     .Where(x => 
-                        (x.Name.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase) 
-                        || x.Phone.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase) 
-                        || x.Email.StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
+                        ((x.Name ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase) 
+                        || (x.Phone ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase) 
+                        || (x.Email ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
                     .ToList();
             }
         }

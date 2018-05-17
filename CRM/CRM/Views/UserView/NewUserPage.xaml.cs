@@ -20,7 +20,7 @@ namespace CRM.Views
 
             SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
 
-            GenderPicker.ItemsSource = PickerData.genders.Values.ToList();
+            GenderPicker.ItemsSource = UserPickerData.genders.Values.ToList();
             FillDepartmentPicker();
 
             BindingContext = this;
@@ -32,7 +32,7 @@ namespace CRM.Views
 
             SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
 
-            GenderPicker.ItemsSource = PickerData.genders.Values.ToList();
+            GenderPicker.ItemsSource = UserPickerData.genders.Values.ToList();
             FillDepartmentPicker(department);
 
             BindingContext = this;
@@ -104,9 +104,9 @@ namespace CRM.Views
                 user.BirthDate = BirthDatePicker.Date;
 
                 var selectedGender = GenderPicker.SelectedItem?.ToString() ?? "";
-                if (PickerData.genders.ContainsValue(selectedGender))
+                if (UserPickerData.genders.ContainsValue(selectedGender))
                 {
-                    user.Gender = PickerData.genders.FirstOrDefault(x => x.Value == selectedGender).Key;
+                    user.Gender = UserPickerData.genders.FirstOrDefault(x => x.Value == selectedGender).Key;
                 }
 
                 //if (DepartmentPicker.SelectedIndex == 0) { user want to leave department empty (null) } 

@@ -16,13 +16,15 @@ namespace CRM.Models
         public string Number { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
-        public byte Status { get; set; }
+        public byte DeliveryStatus { get; set; }
         public int OwnerId { get; set; }
         public Nullable<int> DeliveryDriverId { get; set; }
         public string DeliveryAddress { get; set; }
         public Nullable<int> ReceiverId { get; set; }
         public string Comment { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public Nullable<decimal> Sum { get; set; }
+        public byte PaymentStatus { get; set; }
 
         public virtual ICollection<Payment> Payments { get; set; }
     }

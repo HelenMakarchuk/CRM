@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
-using static CRM.Data.PickerData;
+using CRM.Data;
 
 namespace CRM.Models.Converters
 {
@@ -12,7 +12,7 @@ namespace CRM.Models.Converters
             try
             {
                 //get enum value by index
-                return ((PaymentMethods)((byte)value));
+                return ((PaymentPickerData.Method)((byte)value));
             }
             catch(Exception ex)
             {
@@ -25,7 +25,7 @@ namespace CRM.Models.Converters
             try
             {
                 //get enum value by index
-                return ((PaymentMethods)value).ToString();
+                return ((PaymentPickerData.Method)value).ToString();
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace CRM.Models.Converters
         {
             try
             {
-                PaymentMethods paymentMethod = (PaymentMethods)Enum.Parse(typeof(PaymentMethods), (string)value);
+                PaymentPickerData.Method paymentMethod = (PaymentPickerData.Method)Enum.Parse(typeof(PaymentPickerData.Method), (string)value);
 
                 //get enum index by value
                 return (int)paymentMethod;
@@ -52,7 +52,7 @@ namespace CRM.Models.Converters
         {
             try
             {
-                PaymentMethods paymentMethod = (PaymentMethods)Enum.Parse(typeof(PaymentMethods), value);
+                PaymentPickerData.Method paymentMethod = (PaymentPickerData.Method)Enum.Parse(typeof(PaymentPickerData.Method), value);
 
                 //get enum index by value
                 return (int)paymentMethod;

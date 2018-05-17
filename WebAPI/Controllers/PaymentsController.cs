@@ -56,11 +56,29 @@ namespace WebAPI.Controllers
 
         // GET: api/Payments/$OrderId={orderId}
         [HttpGet("$OrderId={orderId}")]
-        public List<int> GetOrderPayments([FromRoute] int orderId)
+        public List<Payment> GetOrderPayments([FromRoute] int orderId)
+        {
+            var payments = _context.Payment.Where(p => p.OrderId == orderId).ToList();
+
+            return payments;
+        }
+
+        // GET: api/Payments/$OrderId={orderId}/$select=Id
+        [HttpGet("$OrderId={orderId}/$select=Id")]
+        public List<int> GetOrderPaymentIds([FromRoute] int orderId)
         {
             var paymentIds = _context.Payment.Where(p => p.OrderId == orderId).Select(p => p.Id).ToList();
 
             return paymentIds;
+        }
+
+        // GET: api/Payments/$OrderId={orderId}/$sum
+        [HttpGet("$OrderId={orderId}/$sum")]
+        public Decimal GetOrderPaymentsSum([FromRoute] int orderId)
+        {
+            var paymentsSum = _context.Payment.Where(p => p.OrderId == orderId && p.Status == 0).Sum(p => p.Sum) ?? 0;
+
+            return (Decimal)paymentsSum;
         }
 
         // PUT: api/Payments/5
