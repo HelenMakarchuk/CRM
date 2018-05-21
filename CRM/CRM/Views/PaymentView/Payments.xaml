@@ -13,7 +13,10 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:PaymentStatusConverter x:Key="PaymentStatusConverter" />
+            <converters:PaymentMethodConverter x:Key="PaymentMethodConverter" />
+            <converters:ImagePaymentStatusConverter x:Key="ImagePaymentStatusConverter" />
+            <converters:ImageHeightConverter x:Key="ImageHeightConverter" />
+            <converters:SumConverter x:Key="SumConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
@@ -38,24 +41,46 @@
         </StackLayout>
         <ListView
             x:Name="PaymentList"
+            HasUnevenRows="True"
             ItemsSource="{Binding PaymentList}"
-            RowHeight="49">
+            RowHeight="{Binding PaymentList, Converter={StaticResource ImageHeightConverter}}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout
-                            Margin="0"
-                            Padding="0"
-                            Spacing="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
                             <Label
-                                Margin="10,0,10,0"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="10,0,0,0"
                                 FontSize="Medium"
-                                Text="{Binding Status, Converter={StaticResource PaymentStatusConverter}}" />
+                                HorizontalOptions="Start"
+                                Text="{Binding Method, Converter={StaticResource PaymentMethodConverter}}"
+                                VerticalTextAlignment="Center" />
                             <Label
-                                Margin="10,0,10,0"
-                                FontSize="Small"
-                                Text="{Binding Sum}" />
-                        </StackLayout>
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="1,0,0,0"
+                                FontSize="Medium"
+                                HorizontalOptions="StartAndExpand"
+                                Text="{Binding Sum, Converter={StaticResource SumConverter}}"
+                                VerticalTextAlignment="Center" />
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="0,0,8,0"
+                                HeightRequest="{Binding Status, Converter={StaticResource ImageHeightConverter}}"
+                                HorizontalOptions="End"
+                                Source="{Binding Status, Converter={StaticResource ImagePaymentStatusConverter}}"
+                                VerticalOptions="Center" />
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

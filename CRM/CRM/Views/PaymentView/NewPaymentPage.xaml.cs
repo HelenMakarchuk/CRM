@@ -13,6 +13,7 @@ using System.Net.Http.Formatting;
 using CRM.Data;
 using CRM.Models.Converters;
 using System.Text;
+using System.Globalization;
 
 namespace CRM.Views
 {
@@ -25,6 +26,7 @@ namespace CRM.Views
         OrderPaymentStatusConverter orderPaymentStatusConverter = new OrderPaymentStatusConverter();
         PaymentStatusConverter paymentStatusConverter = new PaymentStatusConverter();
         PaymentMethodConverter paymentMethodConverter = new PaymentMethodConverter();
+        SumConverter sumConverter = new SumConverter();
 
         public NewPaymentPage()
         {
@@ -32,14 +34,27 @@ namespace CRM.Views
 
             SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
 
-            StatusPicker.ItemsSource = Enum.GetValues(typeof(PaymentPickerData.Status));
+            StatusPicker.ItemsSource = paymentStatusConverter.ConvertAll();
             MethodPicker.ItemsSource = Enum.GetValues(typeof(PaymentPickerData.Method));
             FillOrderNumberPicker();
 
             BindingContext = this;
         }
 
-        protected async void FillOrderNumberPicker()
+        public NewPaymentPage(Order order)
+        {
+            InitializeComponent();
+
+            SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
+
+            StatusPicker.ItemsSource = paymentStatusConverter.ConvertAll();
+            MethodPicker.ItemsSource = Enum.GetValues(typeof(PaymentPickerData.Method));
+            FillOrderNumberPicker(order);
+
+            BindingContext = this;
+        }
+
+        protected async void FillOrderNumberPicker(Order order = null)
         {
             try
             {
@@ -62,6 +77,9 @@ namespace CRM.Views
                     {
                         List<Order> orders = JsonConvert.DeserializeObject<List<Order>>(json);
                         OrderPicker.ItemsSource = orders;
+
+                        if (order != null)
+                            OrderPicker.SelectedItem = orders.Where(o => o.Id == order.Id).SingleOrDefault();
                     }
                     catch (Exception)
                     {
@@ -182,7 +200,7 @@ namespace CRM.Views
                     await DisplayAlert("Create operation", "Sum must be set", "OK");
                     return;
                 }
-                else if (!(Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i)))
+                else if (!sumConverter.TryConvertBack(SumEntry.Text))
                 {
                     await DisplayAlert("Create operation", "Sum: incorrect value", "OK");
                     return;
@@ -193,9 +211,9 @@ namespace CRM.Views
                 #region New payment assembling
 
                 Payment payment = new Payment();
-                payment.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
-
-                int statusIndex = paymentStatusConverter.ConvertBack(StatusPicker.SelectedItem.ToString());
+                payment.Sum = (Decimal)sumConverter.ConvertBack(SumEntry.Text);
+                
+                int statusIndex = (int)paymentStatusConverter.ConvertBack(StatusPicker.SelectedItem.ToString());
                 if (Enum.IsDefined(typeof(PaymentPickerData.Status), statusIndex))
                 {
                     payment.Status = (byte)statusIndex;
@@ -204,7 +222,7 @@ namespace CRM.Views
                 var methodValue = MethodPicker.SelectedItem?.ToString() ?? "";
                 if (methodValue != String.Empty && methodValue != null)
                 {
-                    int methodIndex = paymentMethodConverter.ConvertBack(methodValue);
+                    int methodIndex = (int)paymentMethodConverter.ConvertBack(methodValue);
 
                     if (Enum.IsDefined(typeof(PaymentPickerData.Method), methodIndex))
                     {

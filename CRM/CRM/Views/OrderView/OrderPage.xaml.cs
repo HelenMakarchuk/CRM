@@ -18,6 +18,7 @@ namespace CRM.Views
     {
         Order CurrentOrder { get; set; }
         OrderDeliveryStatusConverter orderStatusConverter = new OrderDeliveryStatusConverter();
+        SumConverter sumConverter = new SumConverter();
 
         public OrderPage()
         {
@@ -37,7 +38,7 @@ namespace CRM.Views
 
             DeliveryStatusLabel.Text += orderStatusConverter.Convert(CurrentOrder.DeliveryStatus);
             PaymentStatusLabel.Text += ((OrderPickerData.PaymentStatus)CurrentOrder.PaymentStatus).ToString();
-            SumLabel.Text += CurrentOrder.Sum;
+            SumLabel.Text += sumConverter.Convert(CurrentOrder.Sum.ToString());
 
             if (CurrentOrder.DeliveryAddress != String.Empty && CurrentOrder.DeliveryAddress != null)
             {

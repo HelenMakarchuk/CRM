@@ -109,7 +109,7 @@ namespace CRM.Views
                         ((x.Number ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
                         || (x.DeliveryAddress ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
                         || (x.Comment ?? "").StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)
-                        || orderStatusConverter.Convert(x.DeliveryStatus).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
+                        || orderStatusConverter.Convert(x.DeliveryStatus).ToString().StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase)))
                     .ToList();
             }
         }

@@ -2,17 +2,24 @@
 using System.Globalization;
 using Xamarin.Forms;
 using CRM.Data;
+using System.ComponentModel;
 
 namespace CRM.Models.Converters
 {
     public class OrderDeliveryStatusConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType = null, object parameter = null, CultureInfo culture = null)
         {
             try
             {
                 //get enum value by index
-                return ((OrderPickerData.DeliveryStatus)((byte)value));
+                var item = ((OrderPickerData.DeliveryStatus)((byte)value));
+
+                var field = item.GetType().GetField(item.ToString());
+                var attr = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                var result = attr.Length == 0 ? item.ToString() : (attr[0] as DescriptionAttribute).Description;
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -20,47 +27,46 @@ namespace CRM.Models.Converters
             }
         }
 
-        public string Convert(byte value)
+        public object ConvertBack(object value, Type targetType = null, object parameter = null, CultureInfo culture = null)
         {
             try
             {
-                //get enum value by index
-                return ((OrderPickerData.DeliveryStatus)value).ToString();
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
+                var type = typeof(OrderPickerData.DeliveryStatus);
+                OrderPickerData.DeliveryStatus status;
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            try
-            {
-                OrderPickerData.DeliveryStatus orderStatus = (OrderPickerData.DeliveryStatus)Enum.Parse(typeof(OrderPickerData.DeliveryStatus), (string)value);
+                foreach (var field in type.GetFields())
+                {
+                    var attribute = Attribute.GetCustomAttribute(field,
+                        typeof(DescriptionAttribute)) as DescriptionAttribute;
 
-                //get enum index by value
-                return (int)orderStatus;
+                    if (attribute != null)
+                    {
+                        if (attribute.Description == (string)value)
+                        {
+                            status = (OrderPickerData.DeliveryStatus)field.GetValue(null);
+
+                            //get enum index by value
+                            return (int)status;
+                        }
+                    }
+                    else
+                    {
+                        if (field.Name == (string)value)
+                        {
+                            status = (OrderPickerData.DeliveryStatus)field.GetValue(null);
+
+                            //get enum index by value
+                            return (int)status;
+                        }
+                    }
+                }
+
+                return -1;
             }
             catch (Exception)
             {
                 return -1;
             }
-        }
-
-        public int ConvertBack(string value)
-        {
-            try
-            {
-                OrderPickerData.DeliveryStatus orderStatus = (OrderPickerData.DeliveryStatus)Enum.Parse(typeof(OrderPickerData.DeliveryStatus), value);
-
-                //get enum index by value
-                return (int)orderStatus;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-        }
+        }    
     }
 }

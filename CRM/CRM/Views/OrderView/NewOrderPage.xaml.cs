@@ -13,12 +13,15 @@ using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Text;
 using CRM.Data;
+using CRM.Models.Converters;
 
 namespace CRM.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewOrderPage : ContentPage
     {
+        SumConverter sumConverter = new SumConverter();
+
         public NewOrderPage()
         {
             InitializeComponent();
@@ -141,7 +144,7 @@ namespace CRM.Views
                     await DisplayAlert("Create operation", "Sum must be set", "OK");
                     return;
                 }
-                else if (!(Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i)))
+                else if (!sumConverter.TryConvertBack(SumEntry.Text))
                 {
                     await DisplayAlert("Create operation", "Sum: incorrect value", "OK");
                     return;
@@ -158,7 +161,7 @@ namespace CRM.Views
                 order.OwnerId = App.CurrentUserId;
                 order.DeliveryStatus = (byte)OrderPickerData.DeliveryStatus.NotAssigned;
                 order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Unpaid;
-                order.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
+                order.Sum = (Decimal)sumConverter.ConvertBack(SumEntry.Text);
 
                 if (DeliveryAddressEntry.Text != string.Empty)
                     order.DeliveryAddress = DeliveryAddressEntry.Text;

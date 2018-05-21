@@ -15,6 +15,7 @@ namespace CRM.Views
     {
         Payment CurrentPayment { get; set; }
         PaymentStatusConverter paymentStatusConverter = new PaymentStatusConverter();
+        SumConverter sumConverter = new SumConverter();
 
         public PaymentPage()
         {
@@ -29,7 +30,7 @@ namespace CRM.Views
 
             if (CurrentPayment.Sum != null)
             {
-                SumLabel.Text += CurrentPayment.Sum.ToString();
+                SumLabel.Text += sumConverter.Convert(CurrentPayment.Sum.ToString());
                 SumLabel.IsVisible = true;
             }
 

@@ -2,30 +2,25 @@
 using System.Globalization;
 using Xamarin.Forms;
 using CRM.Data;
+using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace CRM.Models.Converters
 {
     public class PaymentStatusConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType = null, object parameter = null, CultureInfo culture = null)
         {
             try
             {
                 //get enum value by index
-                return ((PaymentPickerData.Status)((byte)value));
-            }
-            catch(Exception ex)
-            {
-                return ex.Message;
-            }
-        }
+                var item = ((PaymentPickerData.Status)((byte)value));
 
-        public string Convert(byte value)
-        {
-            try
-            {
-                //get enum value by index
-                return ((PaymentPickerData.Status)value).ToString();
+                var field = item.GetType().GetField(item.ToString());
+                var attr = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                var result = attr.Length == 0 ? item.ToString() : (attr[0] as DescriptionAttribute).Description;
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -33,29 +28,64 @@ namespace CRM.Models.Converters
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public List<string> ConvertAll()
         {
             try
             {
-                PaymentPickerData.Status paymentStatus = (PaymentPickerData.Status)Enum.Parse(typeof(PaymentPickerData.Status), (string)value);
+                var type = typeof(PaymentPickerData.Status);
+                var descriptions = new List<string>();
+                var values = Enum.GetValues(type);
 
-                //get enum index by value
-                return (int)paymentStatus;
+                foreach (var value in values)
+                {
+                    var field = value.GetType().GetField(value.ToString());
+                    var attr = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                    descriptions.Add(attr.Length == 0 ? value.ToString() : (attr[0] as DescriptionAttribute).Description);
+                }
+
+                return descriptions;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return -1;
+                return new List<string>() { ex.Message };
             }
         }
 
-        public int ConvertBack(string value)
+        public object ConvertBack(object value, Type targetType = null, object parameter = null, CultureInfo culture = null)
         {
             try
             {
-                PaymentPickerData.Status paymentStatus = (PaymentPickerData.Status)Enum.Parse(typeof(PaymentPickerData.Status), value);
+                var type = typeof(PaymentPickerData.Status);
+                PaymentPickerData.Status status;
 
-                //get enum index by value
-                return (int)paymentStatus;
+                foreach (var field in type.GetFields())
+                {
+                    var attribute = Attribute.GetCustomAttribute(field,
+                        typeof(DescriptionAttribute)) as DescriptionAttribute;
+
+                    if (attribute != null)
+                    {
+                        if (attribute.Description == (string)value)
+                        {
+                            status = (PaymentPickerData.Status)field.GetValue(null);
+
+                            //get enum index by value
+                            return (int)status;
+                        }
+                    }
+                    else
+                    {
+                        if (field.Name == (string)value)
+                        {
+                            status = (PaymentPickerData.Status)field.GetValue(null);
+
+                            //get enum index by value
+                            return (int)status;
+                        }
+                    }
+                }
+
+                return -1;
             }
             catch (Exception)
             {

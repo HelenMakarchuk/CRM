@@ -63,6 +63,8 @@ namespace CRM.Views
         {
             InitializeComponent();
 
+            AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
+
             MessageStackLayout.IsVisible = false;
             RefreshStackLayout.IsVisible = true;
             MainSearchBar.IsVisible = true;
@@ -97,8 +99,8 @@ namespace CRM.Views
             {
                 PaymentList.ItemsSource = _vm.PaymentList
                     .Where(x =>
-                        (x.Status != null && paymentStatusConverter.Convert((byte)x.Status).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
-                        || (x.Method != null && paymentMethodConverter.Convert((byte)x.Method).StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
+                        (x.Status != null && paymentStatusConverter.Convert((byte)x.Status).ToString().StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
+                        || (x.Method != null && paymentMethodConverter.Convert((byte)x.Method).ToString().StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
                         || x.Sum.ToString().StartsWith(e.NewTextValue, StringComparison.InvariantCultureIgnoreCase))
                     .ToList();
             }
@@ -108,7 +110,7 @@ namespace CRM.Views
         {
             if (App.IsUserLoggedIn)
             {
-                await Navigation.PushAsync(new NewPaymentPage());
+                await Navigation.PushAsync(new NewPaymentPage(_vm.order));
             }
         }
 

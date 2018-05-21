@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -17,10 +18,10 @@ namespace CRM.Data
     {
         public enum DeliveryStatus
         {
-            [Display(Name = "Not assigned")]
+            [Description("Not assigned")]
             NotAssigned,
             Assigned,
-            [Display(Name = "In process")]
+            [Description("In process")]
             InProcess,
             Completed,
             Cancelled,
@@ -38,7 +39,7 @@ namespace CRM.Data
         public enum Status
         {
             Paid,
-            [Display(Name = "Unpaid (error occured)")]
+            [Description("Unpaid (error occured)")]
             Unpaid,
         };
 

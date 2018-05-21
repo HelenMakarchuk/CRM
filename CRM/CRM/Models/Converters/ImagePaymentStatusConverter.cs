@@ -1,0 +1,21 @@
+﻿using System;
+using System.Globalization;
+using Xamarin.Forms;
+using CRM.Data;
+
+namespace CRM.Models.Converters
+{
+    public class ImagePaymentStatusConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //get image by payment status
+            return ImageData.GetPaymentStatusImage((byte)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+}

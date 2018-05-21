@@ -4,6 +4,7 @@ using CRM.Models.Converters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -18,6 +19,7 @@ namespace CRM.Views.OrderView
 	{
         Order CurrentOrder { get; set; }
         OrderDeliveryStatusConverter orderStatusConverter = new OrderDeliveryStatusConverter();
+        SumConverter sumConverter = new SumConverter();
 
         public EditableOrderPage()
         {
@@ -31,13 +33,23 @@ namespace CRM.Views.OrderView
             CurrentOrder = order;
 
             SaveToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/save.png" : "save.png";
-            
-            DeliveryStatusPicker.ItemsSource = Enum.GetValues(typeof(OrderPickerData.DeliveryStatus)).Cast<OrderPickerData.DeliveryStatus>().Select(x => x.ToString()).ToList();
+
+            List<string> deliveryStatuses = new List<string>();
+            foreach (OrderPickerData.DeliveryStatus status in Enum.GetValues(typeof(OrderPickerData.DeliveryStatus)))
+            {
+                var field = status.GetType().GetField(status.ToString());
+                var attr = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                var result = attr.Length == 0 ? status.ToString() : (attr[0] as DescriptionAttribute).Description;
+
+                deliveryStatuses.Add(result);
+            }
+
+            DeliveryStatusPicker.ItemsSource = deliveryStatuses;
             DeliveryStatusPicker.SelectedItem = orderStatusConverter.Convert(CurrentOrder.DeliveryStatus);
 
             DeliveryAddressEntry.Text = CurrentOrder.DeliveryAddress;
             CommentEntry.Text = CurrentOrder.Comment;
-            SumEntry.Text = CurrentOrder.Sum.ToString();
+            SumEntry.Text = sumConverter.Convert(CurrentOrder.Sum).ToString();
 
             DeliveryDatePicker.Date = order.DeliveryDate ?? DateTime.MinValue;
 
@@ -216,7 +228,7 @@ namespace CRM.Views.OrderView
                     await DisplayAlert("Update operation", "Sum must be set", "OK");
                     return;
                 }
-                else if (!(Decimal.TryParse(SumEntry.Text.Replace(".", ","), out var i)))
+                else if (!sumConverter.TryConvertBack(SumEntry.Text))
                 {
                     await DisplayAlert("Update operation", "Sum: incorrect value", "OK");
                     return;
@@ -229,7 +241,7 @@ namespace CRM.Views.OrderView
                 Order order = CurrentOrder;
                 order.ModifiedOn = DateTime.Now;
                 order.DeliveryDate = DeliveryDatePicker.Date;
-                order.DeliveryStatus = (byte)orderStatusConverter.ConvertBack(DeliveryStatusPicker.SelectedItem.ToString());
+                order.DeliveryStatus = (byte)orderStatusConverter.ConvertBack(DeliveryStatusPicker.SelectedItem);
                 order.DeliveryAddress = DeliveryAddressEntry.Text;
                 order.Comment = CommentEntry.Text;
 
@@ -253,7 +265,7 @@ namespace CRM.Views.OrderView
                     order.ReceiverId = null;
                 }
 
-                order.Sum = Decimal.Parse(SumEntry.Text.Replace(".", ","));
+                order.Sum = (Decimal)sumConverter.ConvertBack(SumEntry.Text);
 
                 //if updated sum doesn't equal previous sum
                 if (order.Sum != CurrentOrder.Sum)
