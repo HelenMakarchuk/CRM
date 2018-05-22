@@ -9,6 +9,6 @@ Mobile app:
 - Mobile platform requirements: Android 4.0.3 - Android 8.0
 
 Desktop app:
-- OS requirements: Windows 10
+- OS requirements: Windows 10 (Build 16299)
 
 This application is my introduction to the Xamarin framework, so feel free to use the information from my profile to send a bug, issue or advice.
