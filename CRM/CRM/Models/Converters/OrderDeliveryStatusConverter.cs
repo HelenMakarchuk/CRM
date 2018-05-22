@@ -46,7 +46,7 @@ namespace CRM.Models.Converters
                             status = (OrderPickerData.DeliveryStatus)field.GetValue(null);
 
                             //get enum index by value
-                            return (int)status;
+                            return (byte)status;
                         }
                     }
                     else
@@ -56,16 +56,16 @@ namespace CRM.Models.Converters
                             status = (OrderPickerData.DeliveryStatus)field.GetValue(null);
 
                             //get enum index by value
-                            return (int)status;
+                            return (byte)status;
                         }
                     }
                 }
 
-                return -1;
+                return "not found";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return -1;
+                return ex.Message;
             }
         }    
     }

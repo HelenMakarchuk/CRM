@@ -241,7 +241,19 @@ namespace CRM.Views.OrderView
                 Order order = CurrentOrder;
                 order.ModifiedOn = DateTime.Now;
                 order.DeliveryDate = DeliveryDatePicker.Date;
-                order.DeliveryStatus = (byte)orderStatusConverter.ConvertBack(DeliveryStatusPicker.SelectedItem);
+
+                var newDeliveryStatus = orderStatusConverter.ConvertBack(DeliveryStatusPicker.SelectedItem);
+
+                if (Byte.TryParse(newDeliveryStatus.ToString(), out var b))
+                {
+                    order.DeliveryStatus = (byte)newDeliveryStatus;
+                }
+                else
+                {
+                    await DisplayAlert("Delivery status error", newDeliveryStatus.ToString(), "OK");
+                    return;
+                }
+
                 order.DeliveryAddress = DeliveryAddressEntry.Text;
                 order.Comment = CommentEntry.Text;
 

@@ -21,11 +21,6 @@ namespace UnitTests
                 Headers = { { "Accept", "application/json" } }
             };
 
-            //var request = new HttpRequestMessage();
-            //request.RequestUri = new Uri($"{Constants.WebAPIUrl}/api/Customers");
-            //request.Method = HttpMethod.Get;
-            //request.Headers.Add("Accept", "application/json");
-
             var client = new HttpClient();
             HttpResponseMessage response = await client.SendAsync(request);
 
@@ -57,51 +52,7 @@ namespace UnitTests
 
             var json = JsonConvert.DeserializeObject<List<String>>(contentString);
 
-            //int y = 1;
-
             return json;
-
-
-
-            //return new List<string>() { contentString, "dsfsdf", "dfs" };
-
-
-
-
-
-
-
-
-
-
-
-
-            //var response = await GetAsync(uri);
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var content = await response.Content.ReadAsStringAsync();
-            //    var Items = JsonConvert.DeserializeObject<List<T>>(content);
-
-            //    return Items;
-            //}
-
-            //throw new Exception(response.ReasonPhrase);
-
-            //var pluralDbTableName = typeof(T).GetProperty("PluralDbTableName").GetValue(null);
-            //var uri = new Uri($"{Constants.WebAPIUrl}/api/{pluralDbTableName}");
-
-            //var response = await GetAsync(uri);
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var content = await response.Content.ReadAsStringAsync();
-            //    var Items = JsonConvert.DeserializeObject<List<T>>(content);
-
-            //    return Items;
-            //}
-
-            //throw new Exception(response.ReasonPhrase);
         }
 
         public async Task<T> GetItem<T>(Guid Id)
@@ -109,12 +60,14 @@ namespace UnitTests
             var pluralDbTableName = typeof(T).GetProperty("PluralDbTableName").GetValue(null);
             var uri = new Uri($"{Constants.WebAPIUrl}/api/{pluralDbTableName}/{Id}");
             var response = await GetAsync(uri);
+
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var Item = JsonConvert.DeserializeObject<T>(content);
                 return Item;
             }
+
             throw new Exception(response.ReasonPhrase);
         }
 
@@ -126,10 +79,12 @@ namespace UnitTests
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage response = null;
             response = await PostAsync(uri, content);
+
             if (response.IsSuccessStatusCode)
             {
                 return;
             }
+
             throw new Exception(response.ReasonPhrase);
         }
     }
