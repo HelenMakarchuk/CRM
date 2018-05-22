@@ -77,16 +77,13 @@
     <EmbeddedResource Update="Views\OrderView\EditableOrderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PaymentView\EditablePaymentPage.xaml">
+    <EmbeddedResource Update="Views\LoginView\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Sign in\LoginPage.xaml">
+    <EmbeddedResource Update="Views\MenuView\MenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Menu\MenuPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Menu\MenuPageMaster.xaml">
+    <EmbeddedResource Update="Views\MenuView\MenuPageMaster.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\UserView\EditableUserPage.xaml">

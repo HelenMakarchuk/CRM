@@ -16,7 +16,7 @@ using System.Net;
 using System.IO;
 using CRM.ViewModels;
 
-namespace CRM.Views
+namespace CRM.Views.MenuView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuPageMaster : ContentPage

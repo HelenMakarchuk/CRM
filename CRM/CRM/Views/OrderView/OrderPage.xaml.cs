@@ -2,6 +2,7 @@
 using CRM.Models;
 using CRM.Models.Converters;
 using CRM.Views.OrderView;
+using CRM.Views.PaymentView;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.OrderView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OrderPage : ContentPage

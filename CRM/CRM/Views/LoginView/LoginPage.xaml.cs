@@ -1,4 +1,5 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
 using CRM.ViewModels;
 using Newtonsoft.Json;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.LoginView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage

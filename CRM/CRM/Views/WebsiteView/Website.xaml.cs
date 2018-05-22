@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.WebsiteView
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Website : ContentPage

@@ -1,6 +1,6 @@
 ﻿using CRM.Data;
 using CRM.Models;
-using CRM.Views.UserView;
+using CRM.Views.OrderView;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.UserView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserPage : ContentPage

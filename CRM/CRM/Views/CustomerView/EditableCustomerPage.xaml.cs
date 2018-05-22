@@ -1,4 +1,5 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -10,8 +11,8 @@ using Xamarin.Forms.Xaml;
 namespace CRM.Views.CustomerView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EditableCustomerPage : ContentPage
-	{
+	  public partial class EditableCustomerPage : ContentPage
+	  {
         Customer CurrentCustomer { get; set; }
 
         public EditableCustomerPage()

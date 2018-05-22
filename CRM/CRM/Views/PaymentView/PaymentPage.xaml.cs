@@ -8,7 +8,7 @@ using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 using CRM.Data;
 
-namespace CRM.Views
+namespace CRM.Views.PaymentView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PaymentPage : ContentPage

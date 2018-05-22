@@ -5,7 +5,7 @@ using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.DepartmentView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Departments : ContentPage

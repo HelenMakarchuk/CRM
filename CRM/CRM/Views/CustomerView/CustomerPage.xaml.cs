@@ -1,5 +1,5 @@
-﻿using CRM.Models;
-using CRM.Views.CustomerView;
+﻿using CRM.Data;
+using CRM.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.CustomerView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CustomerPage : ContentPage

@@ -2,6 +2,7 @@
 using CRM.Views;
 using CRM.ViewModels;
 using Xamarin.Forms;
+using CRM.Views.MenuView;
 
 namespace CRM
 {

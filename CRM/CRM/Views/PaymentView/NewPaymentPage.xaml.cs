@@ -15,7 +15,7 @@ using CRM.Models.Converters;
 using System.Text;
 using System.Globalization;
 
-namespace CRM.Views
+namespace CRM.Views.PaymentView
 {
     /// <summary>
     /// Deprecated

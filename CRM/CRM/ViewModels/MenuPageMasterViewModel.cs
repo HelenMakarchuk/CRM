@@ -1,5 +1,13 @@
 ﻿using CRM.Models;
 using CRM.Views;
+using CRM.Views.BiReportsView;
+using CRM.Views.CustomerView;
+using CRM.Views.DepartmentView;
+using CRM.Views.LoginView;
+using CRM.Views.OrderView;
+using CRM.Views.PaymentView;
+using CRM.Views.UserView;
+using CRM.Views.WebsiteView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

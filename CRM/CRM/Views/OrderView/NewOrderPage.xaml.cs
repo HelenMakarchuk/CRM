@@ -15,7 +15,7 @@ using System.Text;
 using CRM.Data;
 using CRM.Models.Converters;
 
-namespace CRM.Views
+namespace CRM.Views.OrderView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewOrderPage : ContentPage

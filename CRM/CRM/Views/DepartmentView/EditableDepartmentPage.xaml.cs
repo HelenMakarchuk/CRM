@@ -1,4 +1,5 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.DepartmentView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditableDepartmentPage : ContentPage

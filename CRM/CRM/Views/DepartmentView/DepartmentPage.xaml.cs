@@ -1,4 +1,6 @@
-﻿using CRM.Models;
+﻿using CRM.Data;
+using CRM.Models;
+using CRM.Views.UserView;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.DepartmentView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DepartmentPage : ContentPage

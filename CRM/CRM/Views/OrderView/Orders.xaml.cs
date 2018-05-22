@@ -7,7 +7,7 @@ using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.OrderView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Orders : ContentPage

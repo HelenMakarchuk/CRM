@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.CustomerView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewCustomerPage : ContentPage

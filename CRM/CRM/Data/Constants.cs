@@ -1,4 +1,4 @@
-﻿namespace CRM.Models
+﻿namespace CRM.Data
 {
     public static class Constants
     {

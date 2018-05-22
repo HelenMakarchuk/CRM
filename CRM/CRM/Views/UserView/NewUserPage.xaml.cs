@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CRM.Views
+namespace CRM.Views.UserView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewUserPage : ContentPage
