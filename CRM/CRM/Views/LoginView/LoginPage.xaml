@@ -39,12 +39,20 @@
                         Placeholder="Password"
                         PlaceholderColor="#bababa" />
                     <Button
-                        x:Name="LoginButton"
+                        x:Name="SignInButton"
                         Margin="10,2,10,0"
                         BackgroundColor="#3897f0"
-                        Clicked="OnLoginButtonClicked"
+                        Clicked="OnSignInButtonClicked"
                         HeightRequest="46"
                         Text="Sign in"
+                        TextColor="White" />
+                    <Button
+                        x:Name="SignUpButton"
+                        Margin="10,2,10,0"
+                        BackgroundColor="#3897f0"
+                        Clicked="OnSignUpButtonClicked"
+                        HeightRequest="46"
+                        Text="Sign up"
                         TextColor="White" />
                 </StackLayout>
                 <StackLayout

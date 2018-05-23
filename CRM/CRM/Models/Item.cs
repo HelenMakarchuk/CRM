@@ -1,6 +1,5 @@
 ﻿using System;
-
-using CRM.Views;
+using CRM.Views.WebsiteView;
 
 namespace CRM.Models
 {

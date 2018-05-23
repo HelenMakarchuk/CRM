@@ -1,6 +1,7 @@
 ﻿using CRM.Data;
 using CRM.Models;
 using CRM.ViewModels;
+using CRM.Views.UserView;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace CRM.Views.LoginView
             this.Title = "Sign in";
         }
 
-        public async void OnLoginButtonClicked(object sender, EventArgs e)
+        public async void OnSignInButtonClicked(object sender, EventArgs e)
         {
             var request = new HttpRequestMessage
             {
@@ -78,6 +79,11 @@ namespace CRM.Views.LoginView
                 MessageStackLayout.IsVisible = true;
                 PasswordEntry.Text = string.Empty;
             }
+        }
+
+        public async void OnSignUpButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NewUserPage());
         }
     }
 }
