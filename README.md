@@ -9,7 +9,7 @@ Mobile app:
 - Mobile platform requirements: Android 4.0.3 - Android 8.0
 - Download: https://github.com/HelenMakarchuk/CRM/releases/tag/v1.0-beta.1
 
-Desktop app:
+UWP app:
 - OS requirements: Windows 10 (Build 16299)
 
 This application is my introduction to the Xamarin framework, so feel free to use the information from my profile to send a bug, issue or advice.
