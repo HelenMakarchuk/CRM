@@ -1,5 +1,6 @@
 ﻿using CRM.Data;
 using CRM.Models;
+using CRM.Views.OrderView;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -85,6 +86,11 @@ namespace CRM.Views.CustomerView
             {
                 await DisplayAlert("Delete operation", $"Customer wasn't deleted. {ex.Message}", "OK");
             }
+        }
+
+        void OrdersButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new Orders(CurrentCustomer));
         }
 
         async void Delete_Clicked(object sender, EventArgs e)

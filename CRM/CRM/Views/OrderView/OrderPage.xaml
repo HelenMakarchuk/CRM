@@ -81,8 +81,10 @@
                 Text="Receiver: " />
             <Button
                 x:Name="PaymentInfoButton"
+                BackgroundColor="#3897f0"
                 Clicked="PaymentInfoButton_Clicked"
-                Text="Payment information" />
+                Text="Payment information"
+                TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

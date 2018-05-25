@@ -12,6 +12,7 @@ namespace CRM.ViewModels
     public class OrderListViewModel : INotifyPropertyChanged
     {
         public User user = null;
+        public Customer customer = null;
 
         #region Properties
 
@@ -54,9 +55,11 @@ namespace CRM.ViewModels
 
         #endregion
 
-        public OrderListViewModel(User user = null)
+        public OrderListViewModel(User user = null, Customer customer = null)
         {
             this.user = user;
+            this.customer = customer;
+
             _orderList = new List<Order>();
             _refreshCommand = new Command(async () => await RefreshList());
 
@@ -76,6 +79,8 @@ namespace CRM.ViewModels
 
             if (user != null)
                 _orderList = _orderList.Where(o => o.DeliveryDriverId == user.Id || o.OwnerId == user.Id).ToList();
+            else if (customer != null)
+                _orderList = _orderList.Where(o => o.ReceiverId == customer.Id).ToList();
 
             return _orderList.OrderByDescending(o => o.ModifiedOn).ToList();
         }

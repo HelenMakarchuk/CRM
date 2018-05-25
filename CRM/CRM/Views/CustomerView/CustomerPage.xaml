@@ -35,6 +35,12 @@
                 FontSize="16"
                 IsVisible="False"
                 Text="Email: " />
+            <Button
+                x:Name="OrdersButton"
+                BackgroundColor="#3897f0"
+                Clicked="OrdersButton_Clicked"
+                Text="Orders"
+                TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

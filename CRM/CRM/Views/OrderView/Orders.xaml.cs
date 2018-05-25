@@ -87,6 +87,35 @@ namespace CRM.Views.OrderView
             };
         }
 
+        public Orders(Customer customer)
+        {
+            InitializeComponent();
+
+            AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
+
+            MessageStackLayout.IsVisible = false;
+            RefreshStackLayout.IsVisible = true;
+            MainSearchBar.IsVisible = true;
+
+            _vm = new OrderListViewModel(null, customer);
+            BindingContext = _vm;
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                OrderList.IsPullToRefreshEnabled = true;
+                OrderList.RefreshCommand = _vm.RefreshCommand;
+                OrderList.SetBinding(ListView.IsRefreshingProperty, nameof(_vm.IsRefreshing));
+            }
+            else if (Device.RuntimePlatform == Device.UWP)
+            {
+                OrderList.RowHeight = OrderList.RowHeight * 2;
+            }
+
+            OrderList.ItemSelected += (sender, e) => {
+                Navigation.PushAsync(new OrderPage(((ListView)sender).SelectedItem as Order));
+            };
+        }
+
         async void Add_Clicked(object sender, EventArgs e)
         {
             if (App.IsUserLoggedIn)

@@ -37,8 +37,11 @@
                 Text="Head: " />
             <Button
                 x:Name="UsersButton"
+                BackgroundColor="#3897f0"
                 Clicked="UsersButton_Clicked"
-                Text="Users" />
+                HeightRequest="46"
+                Text="Users"
+                TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

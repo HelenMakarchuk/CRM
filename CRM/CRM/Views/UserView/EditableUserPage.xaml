@@ -47,6 +47,7 @@
                 Margin="10,10,10,0"
                 FontSize="16"
                 IsPassword="True"
+                IsVisible="False"
                 Placeholder="Password"
                 PlaceholderColor="#bababa" />
             <Picker

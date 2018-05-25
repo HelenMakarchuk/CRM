@@ -66,12 +66,6 @@ namespace CRM.Views.UserView
                 LoginLabel.IsVisible = true;
             }
 
-            if (CurrentUser.Password != String.Empty && CurrentUser.Password != null)
-            {
-                PasswordLabel.Text += CurrentUser.Password;
-                PasswordLabel.IsVisible = true;
-            }
-
             if (UserPickerData.genders.ContainsKey(user.Gender ?? ""))
             {
                 GenderLabel.Text += UserPickerData.genders[user.Gender];

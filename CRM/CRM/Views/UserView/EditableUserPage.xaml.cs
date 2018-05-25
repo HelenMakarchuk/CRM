@@ -35,7 +35,12 @@ namespace CRM.Views.UserView
             PhoneEntry.Text = CurrentUser.Phone;
             PositionEntry.Text = CurrentUser.Position;
             LoginEntry.Text = CurrentUser.Login;
-            PasswordEntry.Text = CurrentUser.Password;
+
+            if (App.CurrentUserId == CurrentUser.Id)
+            {
+                PasswordEntry.Text = CurrentUser.Password;
+                PasswordEntry.IsVisible = true;
+            }
 
             GenderPicker.ItemsSource = UserPickerData.genders.Values.ToList();
             GenderPicker.SelectedItem = UserPickerData.genders.ContainsKey(user.Gender ?? "") ? UserPickerData.genders[user.Gender] : null;
