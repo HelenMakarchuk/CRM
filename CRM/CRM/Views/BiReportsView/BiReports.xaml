@@ -18,7 +18,7 @@
                 x:Name="ReportWebView"
                 HorizontalOptions="FillAndExpand"
                 IsVisible="False"
-                Source="https://app.powerbi.com/view?r=eyJrIjoiNzE2Y2YwM2YtNTY1NC00MGFjLWFkYTQtMjRhYjcwYTBlNjM4IiwidCI6ImYxOTgwMDYyLTI5MjEtNDI2ZS1iMzgyLWJhMDM1OWZiZWU1NiIsImMiOjl9"
+                Source="https://app.powerbi.com/view?r=eyJrIjoiZDg2NGQxZTItZjA2Zi00MDNlLWIzOTMtMzA1YzEwY2VlZDJjIiwidCI6ImYxOTgwMDYyLTI5MjEtNDI2ZS1iMzgyLWJhMDM1OWZiZWU1NiIsImMiOjl9"
                 VerticalOptions="FillAndExpand" />
         </StackLayout>
     </ContentPage.Content>
