@@ -87,9 +87,9 @@ namespace CRM.Views.UserView
             SetUserDepartment();
         }
 
-        async void OrdersButton_Clicked()
+        void OrdersButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Orders(CurrentUser));
+            Navigation.PushAsync(new Orders(CurrentUser));
         }
 
         protected async void SetUserDepartment()

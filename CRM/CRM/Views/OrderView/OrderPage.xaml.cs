@@ -261,9 +261,9 @@ namespace CRM.Views.OrderView
             }
         }
 
-        async void PaymentInfoButton_Clicked()
+        void PaymentInfoButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Payments(CurrentOrder));
+            Navigation.PushAsync(new Payments(CurrentOrder));
         }
 
         async void Delete_Clicked(object sender, EventArgs e)
