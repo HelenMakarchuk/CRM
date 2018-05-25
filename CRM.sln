@@ -11,7 +11,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Databa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{63A8432B-FDED-46D6-94CE-875758ACA067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM", "DatabaseLibrary\ORM.csproj", "{7230AA5E-9A80-4BB7-B59A-2755A6B583D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM", "ORM\ORM.csproj", "{7230AA5E-9A80-4BB7-B59A-2755A6B583D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalWebApplication", "ExternalWebApplication\ExternalWebApplication.csproj", "{502E31C4-F2E3-4C11-BFF7-527207CBD07E}"
 EndProject

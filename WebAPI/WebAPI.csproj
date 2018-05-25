@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseLibrary\ORM.csproj" />
+    <ProjectReference Include="..\ORM\ORM.csproj" />
   </ItemGroup>
 
 </Project>
