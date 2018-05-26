@@ -7,7 +7,7 @@ My Azure subscription is for students, so access to the database and the web API
 
 Mobile app:
 - Mobile platform requirements: Android 4.0.3 - Android 8.0
-- Download: https://github.com/HelenMakarchuk/CRM/releases/tag/v1.0-beta.1
+- Download: https://github.com/HelenMakarchuk/CRM/releases/tag/v1.0
 
 UWP app:
 - OS requirements: Windows 10 (Build 16299)
