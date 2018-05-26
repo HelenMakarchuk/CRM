@@ -100,14 +100,18 @@ namespace CRM.Views.UserView
             {
                 #region Updated user assembling
 
-                User user = new User();
-                user.Id = CurrentUser.Id;
+                User user = CurrentUser;
                 user.FullName = FullNameEntry.Text;
                 user.Email = EmailEntry.Text;
                 user.Phone = PhoneEntry.Text;
                 user.Position = PositionEntry.Text;
                 user.Login = LoginEntry.Text;
-                user.Password = PasswordEntry.Text;
+
+                if (App.CurrentUserId == CurrentUser.Id)
+                {
+                    user.Password = PasswordEntry.Text;
+                }
+                
                 user.Gender = GenderPicker.SelectedItem?.ToString().First().ToString();
                 user.BirthDate = BirthDatePicker.Date;
 

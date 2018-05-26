@@ -82,6 +82,15 @@ namespace WebAPI.Controllers
             return Ok(users);
         }
 
+        // GET: api/Users/Login={login}/$exists
+        [HttpGet("Login={login}/$exists")]
+        public IActionResult LoginExists([FromRoute] string login)
+        {
+            var amount = _context.User.Where(u => u.Login == login).Count();
+
+            return Ok(amount > 0);
+        }
+
         // GET: api/Users/$DepartmentId={departmentId}/$select=FullName
         [HttpGet("$DepartmentId={departmentId}/$select=FullName")]
         public IActionResult GetDepartmentUserNames([FromRoute] int departmentId)
