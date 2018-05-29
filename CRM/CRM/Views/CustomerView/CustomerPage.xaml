@@ -25,18 +25,19 @@
                 Text="Name: " />
             <Label
                 x:Name="PhoneLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Phone: " />
             <Label
                 x:Name="EmailLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Email: " />
             <Button
                 x:Name="OrdersButton"
+                Margin="10,10,10,0"
                 BackgroundColor="#3897f0"
                 Clicked="OrdersButton_Clicked"
                 Text="Orders"

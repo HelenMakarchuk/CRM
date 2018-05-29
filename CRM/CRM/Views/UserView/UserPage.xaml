@@ -25,48 +25,49 @@
                 Text="FullName: " />
             <Label
                 x:Name="EmailLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Email: " />
             <Label
                 x:Name="PhoneLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Phone: " />
             <Label
                 x:Name="PositionLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Position: " />
             <Label
                 x:Name="LoginLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Login: " />
             <Label
                 x:Name="GenderLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Gender: " />
             <Label
                 x:Name="DepartmentLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Department: " />
             <Label
                 x:Name="BirthDateLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Birth date: " />
             <Button
                 x:Name="AssignedOrdersButton"
+                Margin="10,10,10,0"
                 BackgroundColor="#3897f0"
                 Clicked="OrdersButton_Clicked"
                 IsVisible="False"
@@ -74,6 +75,7 @@
                 TextColor="White" />
             <Button
                 x:Name="CreatedOrdersButton"
+                Margin="10,10,10,0"
                 BackgroundColor="#3897f0"
                 Clicked="OrdersButton_Clicked"
                 IsVisible="False"

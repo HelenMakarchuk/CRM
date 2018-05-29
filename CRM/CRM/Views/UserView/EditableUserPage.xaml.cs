@@ -36,7 +36,7 @@ namespace CRM.Views.UserView
             PositionEntry.Text = CurrentUser.Position;
             LoginEntry.Text = CurrentUser.Login;
 
-            if (App.CurrentUserId == CurrentUser.Id)
+            if (App.LoggedInUser.Id == CurrentUser.Id)
             {
                 PasswordEntry.Text = CurrentUser.Password;
                 PasswordEntry.IsVisible = true;
@@ -107,7 +107,7 @@ namespace CRM.Views.UserView
                 user.Position = PositionEntry.Text;
                 user.Login = LoginEntry.Text;
 
-                if (App.CurrentUserId == CurrentUser.Id)
+                if (App.LoggedInUser.Id == CurrentUser.Id)
                 {
                     user.Password = PasswordEntry.Text;
                 }

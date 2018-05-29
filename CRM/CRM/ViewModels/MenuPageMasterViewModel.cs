@@ -1,5 +1,4 @@
 ﻿using CRM.Models;
-using CRM.Views;
 using CRM.Views.BiReportsView;
 using CRM.Views.CustomerView;
 using CRM.Views.DepartmentView;
@@ -8,12 +7,9 @@ using CRM.Views.OrderView;
 using CRM.Views.PaymentView;
 using CRM.Views.UserView;
 using CRM.Views.WebsiteView;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xamarin.Forms;
 
 namespace CRM.ViewModels
@@ -28,7 +24,7 @@ namespace CRM.ViewModels
             {
                 new Item {
                     Id = 0,
-                    Title = "Sign in",
+                    Name = "Sign in",
                     Description = "Sign in to CRM",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/login_door.png" : "login_door.png",
                     TargetType = typeof(LoginPage)
@@ -36,6 +32,7 @@ namespace CRM.ViewModels
                 new Item {
                     Id = 1,
                     Title = "Website",
+                    Name = "Website",
                     Description = "Company website",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/picture.png" : "picture.png",
                     TargetType = typeof(Website)
@@ -43,6 +40,7 @@ namespace CRM.ViewModels
                 new Item {
                     Id = 2,
                     Title = "BI Reports",
+                    Name = "BI Reports",
                     Description = "BI dashboard",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/bi_report.png" : "bi_report.png",
                     TargetType = typeof(BiReports)
@@ -50,6 +48,7 @@ namespace CRM.ViewModels
                 new Item {
                     Id = 3,
                     Title = "Departments",
+                    Name = "Departments",
                     Description = "Company departments",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/user_group.png" : "user_group.png",
                     TargetType = typeof(Departments)
@@ -57,6 +56,7 @@ namespace CRM.ViewModels
                 new Item {
                     Id = 4,
                     Title = "Orders",
+                    Name = "Orders",
                     Description = "Customer orders",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/sales_order.png" : "sales_order.png",
                     TargetType = typeof(Orders)
@@ -64,6 +64,7 @@ namespace CRM.ViewModels
                 new Item {
                     Id = 5,
                     Title = "Users",
+                    Name = "Users",
                     Description = "Employees",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/employee.png" : "employee.png",
                     TargetType = typeof(Users)
@@ -71,6 +72,7 @@ namespace CRM.ViewModels
                 new Item {
                     Id = 6,
                     Title = "Customers",
+                    Name = "Customers",
                     Description = "Customers",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/customer.png" : "customer.png",
                     TargetType = typeof(Customers)
@@ -78,6 +80,7 @@ namespace CRM.ViewModels
                     new Item {
                     Id = 7,
                     Title = "Payments",
+                    Name = "Payments",
                     Description = "Payments",
                     ImageSource = Device.RuntimePlatform == Device.UWP ? "Assets/payment.png" : "payment.png",
                     TargetType = typeof(Payments)

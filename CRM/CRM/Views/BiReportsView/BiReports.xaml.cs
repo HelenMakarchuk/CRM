@@ -16,7 +16,7 @@ namespace CRM.Views.BiReportsView
 		{
 			  InitializeComponent ();
 
-        if (App.IsUserLoggedIn)
+        if (App.LoggedInUser != null)
         {
             MessageStackLayout.IsVisible = false;
             ReportWebView.IsVisible = true;

@@ -158,7 +158,7 @@ namespace CRM.Views.OrderView
                 order.CreatedOn = DateTime.Now;
                 order.ModifiedOn = DateTime.Now;
                 order.DeliveryDate = DeliveryDatePicker.Date;
-                order.OwnerId = App.CurrentUserId;
+                order.OwnerId = App.LoggedInUser.Id;
                 order.DeliveryStatus = (byte)OrderPickerData.DeliveryStatus.NotAssigned;
                 order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Unpaid;
                 order.Sum = (Decimal)sumConverter.ConvertBack(SumEntry.Text);

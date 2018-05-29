@@ -37,6 +37,7 @@
                 Text="Head: " />
             <Button
                 x:Name="UsersButton"
+                Margin="10,10,10,0"
                 BackgroundColor="#3897f0"
                 Clicked="UsersButton_Clicked"
                 HeightRequest="46"

@@ -19,65 +19,72 @@ namespace CRM.Views.LoginView
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        User currentUser;
-
         public LoginPage()
         {
             InitializeComponent();
 
-            UserPhoto.Source = Device.RuntimePlatform == Device.UWP ? "Assets/user_login.png" : "user_login.png";
-            UserPhoto.HeightRequest = Device.RuntimePlatform == Device.UWP ? 200 : 110;
-
-            this.Title = "Sign in";
+            if (App.LoggedInUser == null)
+            {
+                UserPhoto.Source = Device.RuntimePlatform == Device.UWP ? "Assets/user_login.png" : "user_login.png";
+                UserPhoto.HeightRequest = Device.RuntimePlatform == Device.UWP ? 200 : 110;
+                ShowLoginPage();
+            }
+            else
+            {
+                ShowDashboard();
+            }
         }
 
         public async void OnSignInButtonClicked(object sender, EventArgs e)
         {
-            var request = new HttpRequestMessage
+            try
             {
-                RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/$Login={LoginEntry.Text}&$Password={PasswordEntry.Text}"),
-                Method = HttpMethod.Get,
-                Headers = { { "Accept", "application/json" } }
-            };
-
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                HttpContent content = response.Content;
-                string json = await content.ReadAsStringAsync();
-
-                try
+                var request = new HttpRequestMessage
                 {
-                    currentUser = JsonConvert.DeserializeObject<User>(json);
+                    RequestUri = new Uri($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}/$Login={LoginEntry.Text}&$Password={PasswordEntry.Text}"),
+                    Method = HttpMethod.Get,
+                    Headers = { { "Accept", "application/json" } }
+                };
 
-                    App.IsUserLoggedIn = true;
-                    App.CurrentUserId = currentUser.Id;
-                    LoggedInUserToolbarItem.Text = currentUser.FullName;
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
 
-                    MessageLabel.Text = "";
-                    MessageStackLayout.IsVisible = false;
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    HttpContent content = response.Content;
+                    string json = await content.ReadAsStringAsync();
 
-                    this.Title = "";
-                    SignInStackLayout.IsVisible = false;
-                    WelcomeLabel.Text += currentUser.FullName + " !";
-                    WelcomeStackLayout.IsVisible = true;
+                    App.LoggedInUser = JsonConvert.DeserializeObject<User>(json);
+                    ShowDashboard();
                 }
-                catch (Exception ex)
+                else
                 {
-                    App.IsUserLoggedIn = false;
-                    MessageLabel.Text = $"Login failed. {ex.Message}";
-                    MessageStackLayout.IsVisible = true;
-                    PasswordEntry.Text = string.Empty;
+                    ShowLoginPage($"Incorrect username or password. {response.StatusCode}");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                App.IsUserLoggedIn = false;
-                MessageLabel.Text = $"Login failed. Response status: {response.StatusCode}";
+                ShowLoginPage($"Incorrect username or password. {ex.Message}");
+            }
+        }
+
+        protected void ShowDashboard()
+        {
+            LoggedInUserToolbarItem.Text = App.LoggedInUser.FullName;
+            MessageStackLayout.IsVisible = false;
+            SignInStackLayout.IsVisible = false;
+            WelcomeLabel.Text += App.LoggedInUser.FullName + " !";
+            WelcomeStackLayout.IsVisible = true;
+        }
+
+        protected void ShowLoginPage(string msg = null)
+        {
+            PasswordEntry.Text = string.Empty;
+
+            if (msg != null)
+            {
+                MessageLabel.Text = msg;
                 MessageStackLayout.IsVisible = true;
-                PasswordEntry.Text = string.Empty;
             }
         }
 

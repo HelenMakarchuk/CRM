@@ -20,7 +20,7 @@ namespace CRM.Views.PaymentView
         {
             InitializeComponent();
 
-            if (App.IsUserLoggedIn)
+            if (App.LoggedInUser != null)
             {
                 AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
 
@@ -108,7 +108,7 @@ namespace CRM.Views.PaymentView
 
         async void Add_Clicked(object sender, EventArgs e)
         {
-            if (App.IsUserLoggedIn)
+            if (App.LoggedInUser != null)
             {
                 await Navigation.PushAsync(new NewPaymentPage(_vm.order));
             }
@@ -116,7 +116,7 @@ namespace CRM.Views.PaymentView
 
         async protected override void OnAppearing()
         {
-            if (App.IsUserLoggedIn)
+            if (App.LoggedInUser != null)
                 await _vm.RefreshList();
 
             base.OnAppearing();

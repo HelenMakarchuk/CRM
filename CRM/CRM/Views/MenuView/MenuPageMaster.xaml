@@ -26,7 +26,7 @@
                                 <Label
                                     Margin="4,5,0,0"
                                     FontSize="Large"
-                                    Text="{Binding Title}" />
+                                    Text="{Binding Name}" />
                                 <Label
                                     Margin="4,0,0,5"
                                     FontSize="Small"

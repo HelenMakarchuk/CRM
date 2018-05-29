@@ -13,19 +13,19 @@
                 Text="Sum: " />
             <Label
                 x:Name="StatusLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Status: " />
             <Label
                 x:Name="MethodLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Method: " />
             <Label
                 x:Name="OrderNumberLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Order number: " />

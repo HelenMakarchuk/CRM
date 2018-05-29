@@ -24,63 +24,64 @@
                 Text="Number: " />
             <Label
                 x:Name="SumLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 Text="Sum: " />
             <Label
                 x:Name="DeliveryStatusLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 Text="Delivery status: " />
             <Label
                 x:Name="PaymentStatusLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 Text="Payment status: " />
             <Label
                 x:Name="DeliveryAddressLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Delivery address: " />
             <Label
                 x:Name="CommentLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Comment: " />
             <Label
                 x:Name="CreatedOnLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Created on: " />
             <Label
                 x:Name="DeliveryDateLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Delivery date: " />
             <Label
                 x:Name="OwnerLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Owner: " />
             <Label
                 x:Name="DeliveryDriverLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Delivery driver: " />
             <Label
                 x:Name="ReceiverLabel"
-                Margin="10,20,10,0"
+                Margin="10,10,10,0"
                 FontSize="16"
                 IsVisible="False"
                 Text="Receiver: " />
             <Button
                 x:Name="PaymentInfoButton"
+                Margin="10,10,10,0"
                 BackgroundColor="#3897f0"
                 Clicked="PaymentInfoButton_Clicked"
                 Text="Payment information"

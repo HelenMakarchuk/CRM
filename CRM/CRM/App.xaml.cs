@@ -14,8 +14,7 @@ namespace CRM
             MainPage = new MenuPage();
         }
 
-        public static bool IsUserLoggedIn = false;
-        public static int CurrentUserId { get; set; }
+        public static User LoggedInUser { get; set; }
 
         protected override void OnStart ()
         {

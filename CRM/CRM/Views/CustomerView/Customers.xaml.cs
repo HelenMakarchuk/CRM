@@ -16,7 +16,7 @@ namespace CRM.Views.CustomerView
         {
             InitializeComponent();
 
-            if (App.IsUserLoggedIn)
+            if (App.LoggedInUser != null)
             {
                 AddToolbarItem.Icon = Device.RuntimePlatform == Device.UWP ? "Assets/add_new.png" : "add_new.png";
 
@@ -56,7 +56,7 @@ namespace CRM.Views.CustomerView
 
         async void Add_Clicked(object sender, EventArgs e)
         {
-            if (App.IsUserLoggedIn)
+            if (App.LoggedInUser != null)
             {
                 await Navigation.PushAsync(new NewCustomerPage());
             }
@@ -82,7 +82,7 @@ namespace CRM.Views.CustomerView
 
         async protected override void OnAppearing()
         {
-            if (App.IsUserLoggedIn)
+            if (App.LoggedInUser != null)
                 await _vm.RefreshList();
 
             base.OnAppearing();
