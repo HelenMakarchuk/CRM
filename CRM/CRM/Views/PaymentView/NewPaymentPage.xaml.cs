@@ -145,12 +145,12 @@ namespace CRM.Views.PaymentView
 
                     Decimal paymentSum = JsonConvert.DeserializeObject<Decimal>(json);
 
-                    if (paymentSum >= order.Sum && orderPaymentStatusConverter.Convert(order.PaymentStatus) != "Paid")
+                    if (paymentSum >= order.Sum && orderPaymentStatusConverter.Convert(order.PaymentStatus).ToString() != "Paid")
                     {
                         order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Paid;
                         UpdateOrder(order);
                     }
-                    else if (paymentSum < order.Sum && orderPaymentStatusConverter.Convert(order.PaymentStatus) != "Unpaid")
+                    else if (paymentSum < order.Sum && orderPaymentStatusConverter.Convert(order.PaymentStatus).ToString() != "Unpaid")
                     {
                         order.PaymentStatus = (byte)OrderPickerData.PaymentStatus.Unpaid;
                         UpdateOrder(order);
