@@ -13,4 +13,6 @@ UWP app:
 - OS requirements: Windows 10 (Build 16299)
 - Demonstration: https://youtu.be/3SKBaRfXYBQ
 
+Web app: http://crmwebapp20180603060339.azurewebsites.net
+
 This application is my introduction to the Xamarin framework, so feel free to use the information from my profile to send a bug, issue or advice.
