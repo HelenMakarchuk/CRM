@@ -5,6 +5,10 @@
     <UserSecretsId>c39c855e-ee41-49c7-856b-4ffbee9e4969</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>RELEASE;NETCOREAPP;NETCOREAPP2_0</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>

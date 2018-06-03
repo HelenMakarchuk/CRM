@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @* META *@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @* CSS *@
+    <link rel="stylesheet" href="~/css/CrmMenuItemPage.css">
+
+    @* JS *@
+    <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+
+    <style type="text/css">
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0px;
+        }
+    </style>
+
+    <script>
+        var msg = @Html.Raw(Json.Serialize(ViewData["Message"]));
+
+        $(function () {
+            $('#h3-title').toggle(msg == "You must to sign in before viewing this page");
+            $('#content').toggle(msg != "You must to sign in before viewing this page");
+        });
+    </script>
+
+</head>
+
+<body translate="no">
+    <h4 id="h3-title" class="data-list-msg" style="display:none; margin-top:5%">@ViewData["Message"]</h4>
+
+    <div id="content" style="margin-top: 2.5%;display:none">
+        <iframe width="100%" height="100%" frameborder="0" src="https://app.powerbi.com/view?r=eyJrIjoiZDg2NGQxZTItZjA2Zi00MDNlLWIzOTMtMzA1YzEwY2VlZDJjIiwidCI6ImYxOTgwMDYyLTI5MjEtNDI2ZS1iMzgyLWJhMDM1OWZiZWU1NiIsImMiOjl9" />
+    </div>
+</body>
+
+</html>

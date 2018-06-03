@@ -1,5 +1,6 @@
 ﻿using CRM.Data;
 using CRM.Models;
+using CRM.Views.LoginView;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -88,12 +89,18 @@ namespace CRM.Views.UserView
 
                 var response = await client.PostAsync($"{Constants.WebAPIUrl}/api/{User.PluralDbTableName}", content);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    //var newUserUri = response.Headers.Location;
-
+                    App.LoggedInUser = JsonConvert.DeserializeObject<User>(json);
                     await DisplayAlert("Create operation", $"User \"{FullNameEntry.Text}\" was created.", "OK");
-                    await Navigation.PopAsync();
+
+                    if (Navigation.NavigationStack.Count > 0)
+                    {
+                        int currentPageIndex = Navigation.NavigationStack.Count - 1;
+                        Navigation.RemovePage(Navigation.NavigationStack[currentPageIndex - 1]);
+                        await Navigation.PushAsync(new LoginPage());
+                        Navigation.RemovePage(Navigation.NavigationStack[currentPageIndex - 1]);
+                    }
                 }
                 else
                 {

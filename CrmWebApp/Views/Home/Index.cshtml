@@ -1,0 +1,71 @@
+﻿@model CRM.Models.User
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @* META *@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @* CSS *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet prefetch' href='~/lib/bootstrap/dist/css/bootstrap.min.css'>
+    <link rel='stylesheet prefetch' href='~/css/CrmLoginPage.css'>
+
+    @* JS *@
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js'></script>
+    <script src="~/js/CrmLoginPage.js"></script>
+</head>
+
+<body>
+    <script>
+        var loggedInUser = @Html.Raw(Json.Serialize(ViewData["LoggedInUser"]));
+        var error = @Html.Raw(Json.Serialize(ViewData["Error"]));
+    </script>
+
+    @using (Html.BeginForm())
+    {
+    <div class="container" ng-app="App">
+        <img src="~/images/login_door.png" class="img-responsive" id="login-door" style="display:none" />
+
+        <div class="row">
+            <div class="col-md-12">
+            </div>
+            <div ui-view></div>
+        </div>
+
+        <script type="text/ng-template" id="login.html">
+            <div class="col-md-12">
+                <h1 id="login-title">Sign in to CRM</h1>
+
+                <form ng-submit="formSubmit()" class="form">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="Login" name="Login" ng-model="username" placeholder="username" required="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="Password" name="Password" ng-model="password" placeholder="password" required="" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-login-page">Login</button>
+                            <div id="danger-div"><span class="text-danger">{{ error }}</span></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="home.html">
+            <div class="col-md-12">
+                <h3 style="margin-top: 8%; margin-bottom: 2%">Welcome, {{ fullName }}!</h3>
+                <div style="width: 8%"><button type="submit" class="btn btn-login-page">Sign out</button></div>
+            </div>
+        </script>
+    </div>
+    }
+</body>
+</html>

@@ -147,7 +147,7 @@ namespace WebAPI.Controllers
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return Ok(user);
         }
 
         // DELETE: api/Users/5
